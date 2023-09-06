@@ -85,6 +85,12 @@
     <Compile Include="Administrador\ABMsUbicaciones\frmABMProvincia.designer.cs">
       <DependentUpon>frmABMProvincia.cs</DependentUpon>
     </Compile>
+    <Compile Include="Administrador\frmAltaProducto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\frmAltaProducto.Designer.cs">
+      <DependentUpon>frmAltaProducto.cs</DependentUpon>
+    </Compile>
     <Compile Include="Administrador\frmUbicaciones.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmABMProvincia.resx">
       <DependentUpon>frmABMProvincia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrador\frmAltaProducto.resx">
+      <DependentUpon>frmAltaProducto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Administrador\frmUbicaciones.resx">
       <DependentUpon>frmUbicaciones.cs</DependentUpon>
