@@ -66,15 +66,25 @@ namespace CapaVistaUsuario
 
         private void ubicacionesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Administrador.frmUbicaciones fAux = new Administrador.frmUbicaciones();
-            fAux.MdiParent = this;
-            fAux.Show();
-            //Hmmm que delicia
+
         }
 
         private void gestionDeUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmUsuario fAux = new frmUsuario();
+            fAux.MdiParent = this;
+            fAux.Show();
+        }
+
+        private void mantenimientoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void altaProductosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            Administrador.frmAltaProducto fAux = new Administrador.frmAltaProducto();
             fAux.MdiParent = this;
             fAux.Show();
         }

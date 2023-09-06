@@ -50,6 +50,7 @@ namespace CapaVistaUsuario
             this.panel2 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.lblSesion = new System.Windows.Forms.Label();
+            this.altaProductosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -77,6 +78,7 @@ namespace CapaVistaUsuario
             this.mantenimientoToolStripMenuItem.Name = "mantenimientoToolStripMenuItem";
             this.mantenimientoToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
             this.mantenimientoToolStripMenuItem.Text = "Mantenimiento";
+            this.mantenimientoToolStripMenuItem.Click += new System.EventHandler(this.mantenimientoToolStripMenuItem_Click);
             // 
             // usuariosToolStripMenuItem
             // 
@@ -102,9 +104,11 @@ namespace CapaVistaUsuario
             // 
             // ubicacionesToolStripMenuItem
             // 
+            this.ubicacionesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.altaProductosToolStripMenuItem});
             this.ubicacionesToolStripMenuItem.Name = "ubicacionesToolStripMenuItem";
             this.ubicacionesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.ubicacionesToolStripMenuItem.Text = "Ubicaciones";
+            this.ubicacionesToolStripMenuItem.Text = "Productos";
             this.ubicacionesToolStripMenuItem.Click += new System.EventHandler(this.ubicacionesToolStripMenuItem_Click);
             // 
             // salirToolStripMenuItem
@@ -153,7 +157,7 @@ namespace CapaVistaUsuario
             this.bitacoraToolStripMenuItem,
             this.ventasToolStripMenuItem1});
             this.registroToolStripMenuItem.Name = "registroToolStripMenuItem";
-            this.registroToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.registroToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.registroToolStripMenuItem.Text = "Registros";
             // 
             // bitacoraToolStripMenuItem
@@ -171,14 +175,14 @@ namespace CapaVistaUsuario
             // gestionDeUsuariosToolStripMenuItem
             // 
             this.gestionDeUsuariosToolStripMenuItem.Name = "gestionDeUsuariosToolStripMenuItem";
-            this.gestionDeUsuariosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gestionDeUsuariosToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.gestionDeUsuariosToolStripMenuItem.Text = "Gestión de Usuarios";
             this.gestionDeUsuariosToolStripMenuItem.Click += new System.EventHandler(this.gestionDeUsuariosToolStripMenuItem_Click);
             // 
             // gestiónDePersonalToolStripMenuItem
             // 
             this.gestiónDePersonalToolStripMenuItem.Name = "gestiónDePersonalToolStripMenuItem";
-            this.gestiónDePersonalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gestiónDePersonalToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.gestiónDePersonalToolStripMenuItem.Text = "Gestión de Personal";
             this.gestiónDePersonalToolStripMenuItem.Click += new System.EventHandler(this.gestiónDePersonalToolStripMenuItem_Click);
             // 
@@ -240,6 +244,13 @@ namespace CapaVistaUsuario
             this.lblSesion.Text = "lblSesion";
             this.lblSesion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // altaProductosToolStripMenuItem
+            // 
+            this.altaProductosToolStripMenuItem.Name = "altaProductosToolStripMenuItem";
+            this.altaProductosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.altaProductosToolStripMenuItem.Text = "Alta Productos";
+            this.altaProductosToolStripMenuItem.Click += new System.EventHandler(this.altaProductosToolStripMenuItem_Click);
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -292,5 +303,6 @@ namespace CapaVistaUsuario
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label lblSesion;
+        private System.Windows.Forms.ToolStripMenuItem altaProductosToolStripMenuItem;
     }
 }
