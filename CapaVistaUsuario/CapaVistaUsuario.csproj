@@ -85,11 +85,17 @@
     <Compile Include="Administrador\ABMsUbicaciones\frmABMProvincia.designer.cs">
       <DependentUpon>frmABMProvincia.cs</DependentUpon>
     </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmAltaProveedores.cs">
+    <Compile Include="Administrador\frmAltaProveedores.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmAltaProveedores.Designer.cs">
+    <Compile Include="Administrador\frmAltaProveedores.Designer.cs">
       <DependentUpon>frmAltaProveedores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\frmBajaProveedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\frmBajaProveedores.Designer.cs">
+      <DependentUpon>frmBajaProveedores.cs</DependentUpon>
     </Compile>
     <Compile Include="Administrador\frmUbicaciones.cs">
       <SubType>Form</SubType>
@@ -142,8 +148,11 @@
     <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmABMProvincia.resx">
       <DependentUpon>frmABMProvincia.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmAltaProveedores.resx">
+    <EmbeddedResource Include="Administrador\frmAltaProveedores.resx">
       <DependentUpon>frmAltaProveedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrador\frmBajaProveedores.resx">
+      <DependentUpon>frmBajaProveedores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Administrador\frmUbicaciones.resx">
       <DependentUpon>frmUbicaciones.cs</DependentUpon>
