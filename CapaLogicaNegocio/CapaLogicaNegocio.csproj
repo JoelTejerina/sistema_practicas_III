@@ -51,6 +51,7 @@
     <Compile Include="Administrador\ABMsUbicaciones\Cls_LPartidos.cs" />
     <Compile Include="Administrador\ABMsUbicaciones\Cls_LProvincias.cs" />
     <Compile Include="Administrador\ABMsUbicaciones\ListaLocalidades.cs" />
+    <Compile Include="Administrador\AltaProductos\clsAltaProductoLN.cs" />
     <Compile Include="Administrador\CN_Usuarios.cs" />
     <Compile Include="Administrador\CN_Personas.cs" />
     <Compile Include="CL_clsBitacora.cs" />
