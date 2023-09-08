@@ -67,15 +67,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABMrecetas\frmAltaReceta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABMrecetas\frmAltaReceta.Designer.cs">
+      <DependentUpon>frmAltaReceta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\ABMsUbicaciones\frmABMLocalidad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\ABMsUbicaciones\frmABMLocalidad.designer.cs">
+      <DependentUpon>frmABMLocalidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\ABMsUbicaciones\frmABMPartido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\ABMsUbicaciones\frmABMPartido.designer.cs">
+      <DependentUpon>frmABMPartido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\ABMsUbicaciones\frmABMProvincia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\ABMsUbicaciones\frmABMProvincia.designer.cs">
+      <DependentUpon>frmABMProvincia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\frmUbicaciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\frmUbicaciones.designer.cs">
+      <DependentUpon>frmUbicaciones.cs</DependentUpon>
+    </Compile>
     <Compile Include="Administrador\CV_Botonera.cs" />
     <Compile Include="Administrador\CV_Utiles.cs" />
     <Compile Include="Administrador\CV_Notify.cs" />
     <Compile Include="Administrador\CV_Validar_Mail.cs" />
-    <Compile Include="Administrador\frmPedidos.cs">
+    <Compile Include="Administrador\frmUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Administrador\frmPedidos.Designer.cs">
-      <DependentUpon>frmPedidos.cs</DependentUpon>
+    <Compile Include="Administrador\frmUsuario.Designer.cs">
+      <DependentUpon>frmUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\frmPersonas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\frmPersonas.Designer.cs">
+      <DependentUpon>frmPersonas.cs</DependentUpon>
     </Compile>
     <Compile Include="frmPrincipal.cs">
       <SubType>Form</SubType>
@@ -97,8 +133,26 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Administrador\frmPedidos.resx">
-      <DependentUpon>frmPedidos.cs</DependentUpon>
+    <EmbeddedResource Include="ABMrecetas\frmAltaReceta.resx">
+      <DependentUpon>frmAltaReceta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmABMLocalidad.resx">
+      <DependentUpon>frmABMLocalidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmABMPartido.resx">
+      <DependentUpon>frmABMPartido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmABMProvincia.resx">
+      <DependentUpon>frmABMProvincia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrador\frmUbicaciones.resx">
+      <DependentUpon>frmUbicaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrador\frmUsuario.resx">
+      <DependentUpon>frmUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrador\frmPersonas.resx">
+      <DependentUpon>frmPersonas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPrincipal.resx">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
@@ -190,5 +244,6 @@
   <ItemGroup>
     <None Include="Resources\BackgroundProvincia.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
