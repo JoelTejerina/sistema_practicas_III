@@ -18,7 +18,7 @@ namespace CapaVistaUsuario.Administrador
     public partial class frmAltaProducto : Form
     {
         // Arreglar instancia despues del testeo
-        private clsAltaProductoTesteo productotesteo = new clsAltaProductoTesteo();
+        private clsAltaProductoLN productotesteo = new clsAltaProductoLN();
 
         public frmAltaProducto()
         {
@@ -54,7 +54,6 @@ namespace CapaVistaUsuario.Administrador
             productotesteo.CLNTipoCantidadB = comboBox3.Text;
             productotesteo.CLNCantidadA = Convert.ToInt32(textBox3.Text);
             productotesteo.CLNCantidadB = Convert.ToInt32(textBox4.Text);
-            productotesteo.PasarDatosLN();
         }
 
         #endregion

@@ -15,97 +15,8 @@ namespace CapaLogicaNegocio.Administrador.AltaProductos
     {
         //El codigo que se vera en esta clase es el que sera utilizado en el programa original. En el video de
         // muestra no se dicha clase debido a que requiere de haber terminado mi Base de Datos.
-        /*
+        
         private ImitacionBDAltaProducto InstanciaImitacionBDAltaProducto = new ImitacionBDAltaProducto();
-
-        #region ATRIBUTOS
-        private string nombreproducto;
-        private string categoria;
-        private string marca;
-        private string tipocantidada;
-        private string tipocantidadb;
-        private int cantidada;
-        private int cantidadb;
-        #endregion
-
-        #region PROPERTIES
-
-        public string CLNNombreProducto
-        {
-            get => nombreproducto;
-            set { nombreproducto = value; }
-        }
-
-        public string CLNCategoria
-        {
-            get => categoria;
-            set { categoria = value; }
-        }
-
-        public string CLNMarco
-        {
-            get => marca;
-            set { marca = value; }
-        }
-
-        public string CLNTipoCantidadA
-        {
-            get => tipocantidada;
-            set { tipocantidada = value; }
-        }
-
-        public string CLNTipoCantidadB
-        {
-            get => tipocantidadb;
-            set { tipocantidadb = value; }
-        }
-
-        public int CLNCantidadA
-        {
-            get => cantidada;
-            set { cantidada = value; }
-        }
-
-        public int CLNCantidadB
-        {
-            get => cantidadb;
-            set { cantidadb = value; }
-        }
-        #endregion
-
-
-        #region METODOS
-
-
-        public void InsertarPersona()
-        {
-            PasarDatos();
-            // InstanciaImitacionBDAltaProducto.InsertarProducto();
-            // Tuve que poner la linea de arriba en modo de comentario debido a que utiliza un metodo que
-            // requiere de tener su tabla terminada en la base de datos. Si no lo comentaba, no podria
-            // depurar el programa para testearlo. Disculpen las molestias.
-        }
-
-        private void PasarDatos()
-        {
-            InstanciaImitacionBDAltaProducto.NombreProducto = this.nombreproducto;
-            InstanciaImitacionBDAltaProducto.Categoria = this.categoria;
-            InstanciaImitacionBDAltaProducto.Marca = this.marca;
-            InstanciaImitacionBDAltaProducto.TipoCantidadA = this.tipocantidada;
-            InstanciaImitacionBDAltaProducto.TipoCantidadB = this.tipocantidadb;
-            InstanciaImitacionBDAltaProducto.CantidadA = Convert.ToInt32(this.cantidada);
-            InstanciaImitacionBDAltaProducto.CantidadB = Convert.ToInt32(this.cantidadb);
-        }
-
-        #endregion
-        */
-    }
-
-    public class clsAltaProductoTesteo
-    {
-        //Esta clase sirve SOLAMENTE de forma provicional hasta tener teminada mi Base de Datos. 
-        //Para depurar y testear el programa.
-        //Luego de eso, se elimina.
 
         #region ATRIBUTOS
         private string nombreproducto;
@@ -165,38 +76,28 @@ namespace CapaLogicaNegocio.Administrador.AltaProductos
 
         #region METODOS
 
-        public void PasarDatosLN()
+
+        public void InsertarPersona()
         {
-            Crear_Lista_Para_Testeo.ListaProducto.Add(new ImitacionBDAltaProducto()
-            {
-                NombreProducto = CLNNombreProducto,
+            PasarDatos();
+            // InstanciaImitacionBDAltaProducto.InsertarProducto();
+            // Tuve que poner la linea de arriba en modo de comentario debido a que utiliza un metodo que
+            // requiere de tener su tabla terminada en la base de datos. Si no lo comentaba, no podria
+            // depurar el programa para testearlo. Disculpen las molestias.
+        }
 
-                Categoria = CLNCategoria,
-
-                Marca = CLNMarca,
-
-                TipoCantidadA = CLNTipoCantidadA,
-
-                TipoCantidadB = CLNTipoCantidadB,
-
-                CantidadA = CLNCantidadA,
-
-                CantidadB = CLNCantidadB,
-
-            });
-
-            Console.WriteLine("Nombre del producto:" + nombreproducto);
-            Console.WriteLine("Categoria del producto:" + categoria);
+        private void PasarDatos()
+        {
+            InstanciaImitacionBDAltaProducto.NombreProducto = this.nombreproducto;
+            InstanciaImitacionBDAltaProducto.Categoria = this.categoria;
+            InstanciaImitacionBDAltaProducto.Marca = this.marca;
+            InstanciaImitacionBDAltaProducto.TipoCantidadA = this.tipocantidada;
+            InstanciaImitacionBDAltaProducto.TipoCantidadB = this.tipocantidadb;
+            InstanciaImitacionBDAltaProducto.CantidadA = Convert.ToInt32(this.cantidada);
+            InstanciaImitacionBDAltaProducto.CantidadB = Convert.ToInt32(this.cantidadb);
         }
 
         #endregion
-    }
-    public class Crear_Lista_Para_Testeo
-    {
-        // Esta clase se utilizara para depurar el programa sin que de errores hasta tener terminada
-        // mis bases de datos. Tambien sera utilizada para el video de ejemplificacion del programa
-        // al ser depurado.
-
-        public static List<ImitacionBDAltaProducto> ListaProducto = new List<ImitacionBDAltaProducto>();
+        
     }
 }

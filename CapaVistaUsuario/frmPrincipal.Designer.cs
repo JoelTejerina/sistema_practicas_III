@@ -35,6 +35,7 @@ namespace CapaVistaUsuario
             this.cambioDePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mantenimientoDeUsuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ubicacionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.altaProductosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.facturacionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ventasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +51,6 @@ namespace CapaVistaUsuario
             this.panel2 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.lblSesion = new System.Windows.Forms.Label();
-            this.altaProductosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -76,8 +76,8 @@ namespace CapaVistaUsuario
             this.usuariosToolStripMenuItem,
             this.ubicacionesToolStripMenuItem});
             this.mantenimientoToolStripMenuItem.Name = "mantenimientoToolStripMenuItem";
-            this.mantenimientoToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
-            this.mantenimientoToolStripMenuItem.Text = "Mantenimiento";
+            this.mantenimientoToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.mantenimientoToolStripMenuItem.Text = "Acceso";
             this.mantenimientoToolStripMenuItem.Click += new System.EventHandler(this.mantenimientoToolStripMenuItem_Click);
             // 
             // usuariosToolStripMenuItem
@@ -110,6 +110,13 @@ namespace CapaVistaUsuario
             this.ubicacionesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ubicacionesToolStripMenuItem.Text = "Productos";
             this.ubicacionesToolStripMenuItem.Click += new System.EventHandler(this.ubicacionesToolStripMenuItem_Click);
+            // 
+            // altaProductosToolStripMenuItem
+            // 
+            this.altaProductosToolStripMenuItem.Name = "altaProductosToolStripMenuItem";
+            this.altaProductosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.altaProductosToolStripMenuItem.Text = "Alta Productos";
+            this.altaProductosToolStripMenuItem.Click += new System.EventHandler(this.altaProductosToolStripMenuItem_Click);
             // 
             // salirToolStripMenuItem
             // 
@@ -243,13 +250,6 @@ namespace CapaVistaUsuario
             this.lblSesion.TabIndex = 9;
             this.lblSesion.Text = "lblSesion";
             this.lblSesion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // altaProductosToolStripMenuItem
-            // 
-            this.altaProductosToolStripMenuItem.Name = "altaProductosToolStripMenuItem";
-            this.altaProductosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.altaProductosToolStripMenuItem.Text = "Alta Productos";
-            this.altaProductosToolStripMenuItem.Click += new System.EventHandler(this.altaProductosToolStripMenuItem_Click);
             // 
             // frmPrincipal
             // 
