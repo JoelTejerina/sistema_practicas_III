@@ -42,7 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Administrador\CN_Pedidos.cs" />
+    <Compile Include="Administrador\ABMsUbicaciones\CLN_Partido.cs" />
+    <Compile Include="Administrador\ABMsUbicaciones\CLN_Provincia.cs" />
+    <Compile Include="Administrador\ABMsUbicaciones\Cls_CLocalidades.cs" />
+    <Compile Include="Administrador\ABMsUbicaciones\Cls_CPartidos.cs" />
+    <Compile Include="Administrador\ABMsUbicaciones\Cls_CProvincias.cs" />
+    <Compile Include="Administrador\ABMsUbicaciones\Cls_LLocalidades.cs" />
+    <Compile Include="Administrador\ABMsUbicaciones\Cls_LPartidos.cs" />
+    <Compile Include="Administrador\ABMsUbicaciones\Cls_LProvincias.cs" />
+    <Compile Include="Administrador\ABMsUbicaciones\ListaLocalidades.cs" />
+    <Compile Include="Administrador\CN_Usuarios.cs" />
+    <Compile Include="Administrador\CN_Personas.cs" />
     <Compile Include="CL_clsBitacora.cs" />
     <Compile Include="LlenarCombos\CN_LlenarCombos.cs" />
     <Compile Include="Loguin\clsLogicaLoguin.cs" />

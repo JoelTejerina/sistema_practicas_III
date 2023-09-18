@@ -10,7 +10,7 @@ using CapaAccesoDatos;
 
 namespace CapaDatos
 {
-    public class clsPermisos : CD_Conexion
+    public class clsPermisos : clsConexion
     {
         public bool Permisos(int IdUser)
         {

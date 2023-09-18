@@ -672,24 +672,3 @@ C:\Apps\tbox285\.group\.Instituto\proyectooo\Sistema_2023\PP3 - 2023\Sistema2023
 C:\Apps\tbox285\.group\.Instituto\proyectooo\Sistema_2023\PP3 - 2023\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.csproj.CopyComplete
 C:\Apps\tbox285\.group\.Instituto\proyectooo\Sistema_2023\PP3 - 2023\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.exe
 C:\Apps\tbox285\.group\.Instituto\proyectooo\Sistema_2023\PP3 - 2023\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.pdb
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.csproj.AssemblyReference.cache
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.csproj.SuggestedBindingRedirects.cache
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.frmPedidos.resources
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.frmPrincipal.resources
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Loguin.frmCambioPassword.resources
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.frmLoguin.resources
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Properties.Resources.resources
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.csproj.GenerateResource.cache
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.csproj.CoreCompileInputs.cache
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.exe
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.pdb
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\bin\Debug\CapaVistaUsuario.exe.config
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\bin\Debug\CapaVistaUsuario.exe
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\bin\Debug\CapaVistaUsuario.pdb
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\bin\Debug\CapaComun.dll
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\bin\Debug\CapaLogicaNegocio.dll
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\bin\Debug\CapaAccesoDatos.dll
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\bin\Debug\CapaComun.pdb
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\bin\Debug\CapaLogicaNegocio.pdb
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\bin\Debug\CapaAccesoDatos.pdb
-C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.csproj.CopyComplete

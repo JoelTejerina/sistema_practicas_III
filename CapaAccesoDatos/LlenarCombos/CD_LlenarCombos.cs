@@ -8,7 +8,7 @@ using System.Data.OleDb;
 */
 namespace CapaAccesoDatos
 {
-    public class CD_LlenarCombos : CD_Conexion
+    public class CD_LlenarCombos : clsConexion 
     {
 
         #region ATRIBUTOS

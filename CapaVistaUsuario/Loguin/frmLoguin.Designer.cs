@@ -263,6 +263,7 @@ namespace CapaVistaUsuario
             this.Name = "frmLoguin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.frmLoguin_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmLoguin_MouseDown);
             this.PnlUser.ResumeLayout(false);
             this.PnlUser.PerformLayout();
