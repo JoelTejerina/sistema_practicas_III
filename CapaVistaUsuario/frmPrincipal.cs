@@ -58,23 +58,15 @@ namespace CapaVistaUsuario
 
         private void gestiónDePersonalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmPersonas fAux = new frmPersonas();
+            frmPedidos fAux = new frmPedidos();
             //Loguin.frmCambioPassword fAux = new Loguin.frmCambioPassword();
             fAux.MdiParent = this;
             fAux.Show();
         }
 
-        private void ubicacionesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void pedidosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Administrador.frmUbicaciones fAux = new Administrador.frmUbicaciones();
-            fAux.MdiParent = this;
-            fAux.Show();
-            //Hmmm que delicia
-        }
-
-        private void gestionDeUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmUsuario fAux = new frmUsuario();
+            frmPedidos fAux = new frmPedidos();
             fAux.MdiParent = this;
             fAux.Show();
         }

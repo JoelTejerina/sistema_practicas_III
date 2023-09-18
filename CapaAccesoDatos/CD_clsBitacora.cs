@@ -11,26 +11,26 @@ namespace CapaAccesoDatos
     {
         public CD_clsBitacora(string evento, string detalle, string origen)
         {
-            string fecha = DateTime.Now.ToString("dd-MM-yyyy");
-            string hora = DateTime.Now.ToString("HH:mm");
-            int IdUsuario; 
-            string usuario;
+            //string fecha = DateTime.Now.ToString("dd-MM-yyyy");
+            //string hora = DateTime.Now.ToString("HH:mm");
+            //int IdUsuario; 
+            //string usuario;
 
-            if (UserCache.IdUsuario == 0)
-            {  IdUsuario = VerificCache.IdUsuario; }
-            else
-            {  IdUsuario = UserCache.IdUsuario; }
+            //if (UserCache.IdUsuario == 0)
+            //{  IdUsuario = VerificCache.IdUsuario; }
+            //else
+            //{  IdUsuario = UserCache.IdUsuario; }
 
-            if (UserCache.Apellido == null)
-            { usuario = VerificCache.Apellido + " " + VerificCache.Nombres; }
-            else
-            { usuario = UserCache.Apellido + " " + UserCache.Nombres; }
+            //if (UserCache.Apellido == null)
+            //{ usuario = VerificCache.Apellido + " " + VerificCache.Nombres; }
+            //else
+            //{ usuario = UserCache.Apellido + " " + UserCache.Nombres; }
 
-            string sSQL = "Insert into BITACORA (fecha, hora, IdUsuario, usuario, evento, detalle, origen) " +
-                "values (#" + fecha + "#, '" + hora + "', " +  IdUsuario + ", '" + usuario + "', '" + evento + "', '" + detalle + "', '" + origen +"')";
+            //string sSQL = "Insert into BITACORA (fecha, hora, IdUsuario, usuario, evento, detalle, origen) " +
+            //    "values (#" + fecha + "#, '" + hora + "', " +  IdUsuario + ", '" + usuario + "', '" + evento + "', '" + detalle + "', '" + origen +"')";
 
-            clsEjecutarComando Ejecutar = new clsEjecutarComando();
-            Ejecutar.Ejecutar(sSQL);
+            //clsEjecutarComando Ejecutar = new clsEjecutarComando();
+            //Ejecutar.Ejecutar(sSQL);
         }
     }
 }

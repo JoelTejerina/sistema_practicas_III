@@ -1,4 +1,0 @@
-CapaVistaUsuario\bin\Debug\Loguin.accdb
-
-Usuario por defecto: edu
-Contraseña: 123

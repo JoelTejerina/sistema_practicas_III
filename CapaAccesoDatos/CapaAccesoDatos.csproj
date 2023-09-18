@@ -45,11 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Administrador\CD_Localidades.cs" />
-    <Compile Include="Administrador\CD_Partidos.cs" />
-    <Compile Include="Administrador\CD_Provincias.cs" />
-    <Compile Include="Administrador\CD_Usuarios.cs" />
-    <Compile Include="Administrador\CD_Personas.cs" />
+    <Compile Include="Administrador\CD_Pedidos.cs" />
     <Compile Include="CD_clsBitacora.cs" />
     <Compile Include="clsEjecutarComando.cs" />
     <Compile Include="LlenarCombos\CD_LlenarCombos.cs" />

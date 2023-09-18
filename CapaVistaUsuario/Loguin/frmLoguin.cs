@@ -46,12 +46,6 @@ namespace CapaVistaUsuario
             
         }
 
-        private void frmLoguin_Load(object sender, EventArgs e)
-        {
-            btnCancelar.Select();
-            CN_LlenarCombos llenarCMB = new CN_LlenarCombos(cmbProv, "Provincias", "IdProvincia", "Provincia");
-        }
-
         private void txtUsuario_Enter(object sender, EventArgs e)
         {
             if (txtUsuario.Text == "USUARIO")
