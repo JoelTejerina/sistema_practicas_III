@@ -46,3 +46,9 @@ C:\Users\Titor Javier\Apps\tbox285\.group\.Instituto\proyectooo\SistemaLoguin_0.
 C:\Users\Titor Javier\Apps\tbox285\.group\.Instituto\proyectooo\SistemaLoguin_0.2.6_BETALANDIA_UPDATE_2\SistemaLoguin_0.2.6_BETALANDIA_UPDATE_2\SistemaLoguin_0.2.6\CapaComun\obj\Debug\CapaComun.csproj.CoreCompileInputs.cache
 C:\Users\Titor Javier\Apps\tbox285\.group\.Instituto\proyectooo\SistemaLoguin_0.2.6_BETALANDIA_UPDATE_2\SistemaLoguin_0.2.6_BETALANDIA_UPDATE_2\SistemaLoguin_0.2.6\CapaComun\obj\Debug\CapaComun.dll
 C:\Users\Titor Javier\Apps\tbox285\.group\.Instituto\proyectooo\SistemaLoguin_0.2.6_BETALANDIA_UPDATE_2\SistemaLoguin_0.2.6_BETALANDIA_UPDATE_2\SistemaLoguin_0.2.6\CapaComun\obj\Debug\CapaComun.pdb
+C:\Users\Titor Javier\source\repos\CapaComun\bin\Debug\CapaComun.dll
+C:\Users\Titor Javier\source\repos\CapaComun\bin\Debug\CapaComun.pdb
+C:\Users\Titor Javier\source\repos\CapaComun\obj\Debug\CapaComun.csproj.AssemblyReference.cache
+C:\Users\Titor Javier\source\repos\CapaComun\obj\Debug\CapaComun.csproj.CoreCompileInputs.cache
+C:\Users\Titor Javier\source\repos\CapaComun\obj\Debug\CapaComun.dll
+C:\Users\Titor Javier\source\repos\CapaComun\obj\Debug\CapaComun.pdb

@@ -67,6 +67,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABMrecetas\frmBuscarRecenta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABMrecetas\frmBuscarRecenta.Designer.cs">
+      <DependentUpon>frmBuscarRecenta.cs</DependentUpon>
+    </Compile>
     <Compile Include="ABMrecetas\frmAltaReceta.cs">
       <SubType>Form</SubType>
     </Compile>
