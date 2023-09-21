@@ -13,8 +13,7 @@ namespace CapaLogicaNegocio.Administrador.AltaProductos
 {
     public class clsAltaProductoLN
     {
-        //El codigo que se vera en esta clase es el que sera utilizado en el programa original. En el video de
-        // muestra no se dicha clase debido a que requiere de haber terminado mi Base de Datos.
+        //El codigo que se vera en esta clase es el que sera utilizado en el programa original.
         
         private ImitacionBDAltaProducto InstanciaImitacionBDAltaProducto = new ImitacionBDAltaProducto();
 

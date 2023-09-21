@@ -42,15 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Administrador\ABMsUbicaciones\CLN_Partido.cs" />
-    <Compile Include="Administrador\ABMsUbicaciones\CLN_Provincia.cs" />
-    <Compile Include="Administrador\ABMsUbicaciones\Cls_CLocalidades.cs" />
-    <Compile Include="Administrador\ABMsUbicaciones\Cls_CPartidos.cs" />
-    <Compile Include="Administrador\ABMsUbicaciones\Cls_CProvincias.cs" />
-    <Compile Include="Administrador\ABMsUbicaciones\Cls_LLocalidades.cs" />
-    <Compile Include="Administrador\ABMsUbicaciones\Cls_LPartidos.cs" />
-    <Compile Include="Administrador\ABMsUbicaciones\Cls_LProvincias.cs" />
-    <Compile Include="Administrador\ABMsUbicaciones\ListaLocalidades.cs" />
+    <Compile Include="Administrador\Prov\CLN_Partido.cs" />
+    <Compile Include="Administrador\Prov\CLN_Provincia.cs" />
+    <Compile Include="Administrador\Prov\Cls_CLocalidades.cs" />
+    <Compile Include="Administrador\Prov\Cls_CPartidos.cs" />
+    <Compile Include="Administrador\Prov\Cls_CProvincias.cs" />
+    <Compile Include="Administrador\Prov\Cls_LLocalidades.cs" />
+    <Compile Include="Administrador\Prov\Cls_LPartidos.cs" />
+    <Compile Include="Administrador\Prov\Cls_LProvincias.cs" />
+    <Compile Include="Administrador\Prov\ListaLocalidades.cs" />
     <Compile Include="Administrador\AltaProductos\clsAltaProductoLN.cs" />
     <Compile Include="Administrador\CN_Usuarios.cs" />
     <Compile Include="Administrador\CN_Personas.cs" />

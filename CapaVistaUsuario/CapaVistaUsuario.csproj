@@ -67,22 +67,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMLocalidad.cs">
+    <Compile Include="Administrador\Prov\frmABMLocalidad.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMLocalidad.designer.cs">
+    <Compile Include="Administrador\Prov\frmABMLocalidad.designer.cs">
       <DependentUpon>frmABMLocalidad.cs</DependentUpon>
     </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMPartido.cs">
+    <Compile Include="Administrador\Prov\frmABMPartido.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMPartido.designer.cs">
+    <Compile Include="Administrador\Prov\frmABMPartido.designer.cs">
       <DependentUpon>frmABMPartido.cs</DependentUpon>
     </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMProvincia.cs">
+    <Compile Include="Administrador\Prov\frmABMProvincia.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMProvincia.designer.cs">
+    <Compile Include="Administrador\Prov\frmABMProvincia.designer.cs">
       <DependentUpon>frmABMProvincia.cs</DependentUpon>
     </Compile>
     <Compile Include="Administrador\frmAltaProducto.cs">
@@ -134,13 +134,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmABMLocalidad.resx">
+    <EmbeddedResource Include="Administrador\Prov\frmABMLocalidad.resx">
       <DependentUpon>frmABMLocalidad.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmABMPartido.resx">
+    <EmbeddedResource Include="Administrador\Prov\frmABMPartido.resx">
       <DependentUpon>frmABMPartido.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmABMProvincia.resx">
+    <EmbeddedResource Include="Administrador\Prov\frmABMProvincia.resx">
       <DependentUpon>frmABMProvincia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Administrador\frmAltaProducto.resx">
