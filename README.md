@@ -48,14 +48,7 @@ Obtener los cambios del repositorio: ESTO DESDE UNA CONSOLA (simbolo del sistema
 git pull origin <nombreDeLaRama>
 
 
-Conectarse a la base de datos using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+Conectarse a la base de datos 
 
 namespace CapaAccesoDatos
 {
@@ -79,17 +72,6 @@ namespace CapaAccesoDatos
     }
 }
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
-using System.Data.OleDb;
-using CapaComun;
-using CapaAccesoDatos;
-
-namespace CapaDatos
 {
     public class clsPermisos : CD_Conexion
     {
