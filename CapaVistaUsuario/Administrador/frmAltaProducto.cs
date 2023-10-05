@@ -17,7 +17,7 @@ namespace CapaVistaUsuario.Administrador
 {
     public partial class frmAltaProducto : Form
     {
-        // Arreglar instancia despues del testeo
+
         private clsAltaProductoLN productotesteo = new clsAltaProductoLN();
 
         public frmAltaProducto()
@@ -34,7 +34,19 @@ namespace CapaVistaUsuario.Administrador
         private void button2_Click(object sender, EventArgs e)
         {
             //Boton de guardar. Se utilizara para dar de alta el producto.
-            PasarDatos();
+
+            try
+            {
+                PasarDatos();
+
+                Pers.InsertarPersona();
+                MostrarPersonas();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se guardaron los datos por: \n" + ex);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
