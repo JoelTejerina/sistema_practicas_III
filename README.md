@@ -46,3 +46,79 @@ git push origin <nombreDeLaRama>
 Obtener los cambios del repositorio: ESTO DESDE UNA CONSOLA (simbolo del sistema | ejemplo: C:\Users\Joel\nuestroProyectoClonado>git pull origin <nombreDeLaRama>)  
 
 git pull origin <nombreDeLaRama>
+
+
+Conectarse a la base de datos using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+namespace CapaAccesoDatos
+{
+    public class CD_Conexion
+    {
+        private SqlConnection Conexion = new SqlConnection("Server=(local);DataBase=KUVO_GSTM;Integrated Security=true");
+
+        public SqlConnection GetConexion()
+        {
+            if (Conexion.State == ConnectionState.Closed)
+                Conexion.Open();
+            return Conexion;
+        }
+
+        //public SqlConnection CerrarConexion()
+        //{
+        //    if (Conexion.State == ConnectionState.Open)
+        //        Conexion.Close();
+        //    return Conexion;
+        //}
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data;
+using System.Data.OleDb;
+using CapaComun;
+using CapaAccesoDatos;
+
+namespace CapaDatos
+{
+    public class clsPermisos : CD_Conexion
+    {
+        public bool Permisos(int IdUser)
+        {
+            string sSql = "SELECT DISTINCT P.idPermiso, P.funcionalidad " +
+              "FROM Permisos P " +
+              "INNER JOIN RolPermisos RP ON P.idPermiso = RP.idPermiso " +
+              "INNER JOIN UsuarioRoles UR ON RP.idRol = UR.idRol " +
+              "WHERE UR.idUsuario = " + IdUser;
+
+
+            DataTable DT = new DataTable();
+            clsEjecutarComando Ejecutar = new clsEjecutarComando();
+            DT= Ejecutar.Ejecutar(sSql);
+
+            if (DT.Rows.Count > 0)
+            {
+                foreach (DataRow row in DT.Rows)
+                {
+                    UserCache.PermisosUsuario.Add(Convert.ToInt32(row[0].ToString()), row[1].ToString());
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
+
