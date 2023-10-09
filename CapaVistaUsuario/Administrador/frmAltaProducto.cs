@@ -18,7 +18,7 @@ namespace CapaVistaUsuario.Administrador
     public partial class frmAltaProducto : Form
     {
 
-        private clsAltaProductoLN productotesteo = new clsAltaProductoLN();
+        CN_Personas Pers = new CN_Personas();
 
         public frmAltaProducto()
         {
@@ -37,16 +37,20 @@ namespace CapaVistaUsuario.Administrador
 
             try
             {
-                PasarDatos();
+                PasarDatos(false);
 
                 Pers.InsertarPersona();
                 MostrarPersonas();
 
+                CV_Botonera.btnFormularios(this, btnGuardaCambios);
+                CV_Utiles.BloquearControles(this);
+                dgvPersonas.Select();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("No se guardaron los datos por: \n" + ex);
             }
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -59,13 +63,7 @@ namespace CapaVistaUsuario.Administrador
         #region METODOS
         private void PasarDatos()
         {
-            productotesteo.CLNNombreProducto = textBox1.Text;
-            productotesteo.CLNMarca = textBox2.Text;
-            productotesteo.CLNCategoria = comboBox1.Text;
-            productotesteo.CLNTipoCantidadA = comboBox2.Text;
-            productotesteo.CLNTipoCantidadB = comboBox3.Text;
-            productotesteo.CLNCantidadA = Convert.ToInt32(textBox3.Text);
-            productotesteo.CLNCantidadB = Convert.ToInt32(textBox4.Text);
+
         }
 
         #endregion

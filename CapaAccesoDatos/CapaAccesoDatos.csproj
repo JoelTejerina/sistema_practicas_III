@@ -53,7 +53,7 @@
     <Compile Include="Administrador\CD_Personas.cs" />
     <Compile Include="CD_clsBitacora.cs" />
     <Compile Include="clsEjecutarComando.cs" />
-    <Compile Include="Administrador\ImitacionBDAltaProducto.cs" />
+    <Compile Include="Administrador\BDAltaProducto.cs" />
     <Compile Include="LlenarCombos\CD_LlenarCombos.cs" />
     <Compile Include="clsConexion.cs" />
     <Compile Include="Loguin\CD_BloqueoUser.cs" />

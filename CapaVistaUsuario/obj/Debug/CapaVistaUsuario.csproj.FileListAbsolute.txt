@@ -713,3 +713,21 @@ C:\Users\user\Source\Repos\sistema_practicas_III\CapaVistaUsuario\obj\Debug\Capa
 C:\Users\user\Source\Repos\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.csproj.CopyComplete
 C:\Users\user\Source\Repos\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.exe
 C:\Users\user\Source\Repos\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.pdb
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.csproj.AssemblyReference.cache
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.csproj.SuggestedBindingRedirects.cache
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.exe.config
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Administrador.ABMsUbicaciones.frmABMLocalidad.resources
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Administrador.ABMsUbicaciones.frmABMPartido.resources
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Administrador.ABMsUbicaciones.frmABMProvincia.resources
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Administrador.frmAltaProducto.resources
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Administrador.frmUbicaciones.resources
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.frmUsuario.resources
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.frmPersonas.resources
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.frmPrincipal.resources
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Loguin.frmCambioPassword.resources
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.frmLoguin.resources
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Properties.Resources.resources
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.csproj.GenerateResource.cache
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.csproj.CoreCompileInputs.cache
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.exe
+C:\Users\LENOVO 12\Documents\sistema_practicas_III\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.pdb

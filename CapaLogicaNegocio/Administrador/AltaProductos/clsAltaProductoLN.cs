@@ -15,7 +15,7 @@ namespace CapaLogicaNegocio.Administrador.AltaProductos
     {
         //El codigo que se vera en esta clase es el que sera utilizado en el programa original.
         
-        private ImitacionBDAltaProducto InstanciaImitacionBDAltaProducto = new ImitacionBDAltaProducto();
+        private BDAltaProducto InstanciaImitacionBDAltaProducto = new BDAltaProducto();
 
         #region ATRIBUTOS
         private string nombreproducto;
@@ -24,6 +24,7 @@ namespace CapaLogicaNegocio.Administrador.AltaProductos
         private string tipocantidada;
         private string tipocantidadb;
         private int cantidada;
+        private int idproducto;
         private int cantidadb;
         #endregion
 
@@ -79,10 +80,7 @@ namespace CapaLogicaNegocio.Administrador.AltaProductos
         public void InsertarPersona()
         {
             PasarDatos();
-            // InstanciaImitacionBDAltaProducto.InsertarProducto();
-            // Tuve que poner la linea de arriba en modo de comentario debido a que utiliza un metodo que
-            // requiere de tener su tabla terminada en la base de datos. Si no lo comentaba, no podria
-            // depurar el programa para testearlo. Disculpen las molestias.
+            personas.InsertarPersona();
         }
 
         private void PasarDatos()
