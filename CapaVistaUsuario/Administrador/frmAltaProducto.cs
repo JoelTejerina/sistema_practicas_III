@@ -18,7 +18,7 @@ namespace CapaVistaUsuario.Administrador
     public partial class frmAltaProducto : Form
     {
 
-        CN_Personas Pers = new CN_Personas();
+        clsAltaProductoLN Pers = new clsAltaProductoLN();
 
         public frmAltaProducto()
         {

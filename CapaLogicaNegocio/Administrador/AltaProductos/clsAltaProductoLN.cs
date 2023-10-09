@@ -71,6 +71,12 @@ namespace CapaLogicaNegocio.Administrador.AltaProductos
             get => cantidadb;
             set { cantidadb = value; }
         }
+
+        public int IdProducto
+        {
+            get => idproducto;
+            set { idproducto = value; }
+        }
         #endregion
 
 

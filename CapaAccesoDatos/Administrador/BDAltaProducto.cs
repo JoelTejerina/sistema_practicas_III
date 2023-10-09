@@ -25,82 +25,52 @@ namespace CapaAccesoDatos.Imitacion_de_una_BD
 
         #region PROPERTIES
 
-        public int IdPersona
+        public string CLNNombreProducto
         {
-            get => idpersona; //Expresion Lambda (Se suprime el Return y las llaves)
-            set { idpersona = value; }
+            get => nombreproducto;
+            set { nombreproducto = value; }
         }
 
-        public string Apellido
+        public string CLNCategoria
         {
-            get => apellido;
-            set { apellido = value; }
+            get => categoria;
+            set { categoria = value; }
         }
 
-        public string Nombre
+        public string CLNMarca
         {
-            get => nombre;
-            set { nombre = value; }
+            get => marca;
+            set { marca = value; }
         }
 
-        public int TipoDoc
+        public string CLNTipoCantidadA
         {
-            get => tipodoc;
-            set { tipodoc = value; }
+            get => tipocantidada;
+            set { tipocantidada = value; }
         }
 
-        public int NroDoc
+        public string CLNTipoCantidadB
         {
-            get => nrodoc;
-            set { nrodoc = value; }
+            get => tipocantidadb;
+            set { tipocantidadb = value; }
         }
 
-        public string Telefono
+        public int CLNCantidadA
         {
-            get => telefono;
-            set { telefono = value; }
+            get => cantidada;
+            set { cantidada = value; }
         }
 
-        public string Correo
+        public int CLNCantidadB
         {
-            get => correo;
-            set { correo = value; }
+            get => cantidadb;
+            set { cantidadb = value; }
         }
 
-        public string Calle
+        public int IdProducto
         {
-            get => calle;
-            set { calle = value; }
-        }
-
-        public string Nro
-        {
-            get => nro;
-            set { nro = value; }
-        }
-
-        public string Piso
-        {
-            get => piso;
-            set { piso = value; }
-        }
-
-        public string Dto
-        {
-            get => dto;
-            set { dto = value; }
-        }
-
-        public int IdLocalidad
-        {
-            get => idlocalidad;
-            set { idlocalidad = value; }
-        }
-
-        public int IdProvincia
-        {
-            get => idprovincia;
-            set { idprovincia = value; }
+            get => idproducto;
+            set { idproducto = value; }
         }
         #endregion
 
