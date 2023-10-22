@@ -59,6 +59,7 @@
     <Compile Include="Loguin\clsLogicaLoguin.cs" />
     <Compile Include="Loguin\CL_clsLogicaBloqueoUser.cs" />
     <Compile Include="Loguin\CL_clsCambioPass.cs" />
+    <Compile Include="ModuloProducto\clsProductosLN.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

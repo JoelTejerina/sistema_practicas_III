@@ -60,6 +60,7 @@
     <Compile Include="Loguin\CD_ModificaPass.cs" />
     <Compile Include="Loguin\clsConectarUsuario.cs" />
     <Compile Include="Loguin\clsPermisos.cs" />
+    <Compile Include="ModuloProductos\BDProducto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
