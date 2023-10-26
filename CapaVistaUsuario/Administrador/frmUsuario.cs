@@ -37,7 +37,6 @@ namespace CapaVistaUsuario
             //cmbLocalidad.SelectedIndex = 0;
 
 
-            MostrarPersonas();
             dgvPersonas.Select();
             CV_Utiles.BloquearControles(this);  //recordar que no instancio el objeto de  la clase  porque el metodo es estatico
             CV_Botonera.btnFormularios(this, btnCancelar);
@@ -73,7 +72,6 @@ namespace CapaVistaUsuario
                 //PasarDatos(false);
 
                 //User.InsertarPersona();
-                MostrarPersonas();
 
                 CV_Botonera.btnFormularios(this, btnGuardaCambios);
                 CV_Utiles.BloquearControles(this);
@@ -127,7 +125,6 @@ namespace CapaVistaUsuario
 
                 //User.ModificarPersona();
 
-                MostrarPersonas();
                 CV_Botonera.btnFormularios(this, btnGuardaCambios);
                 CV_Utiles.BloquearControles(this);
                 dgvPersonas.Select();
@@ -150,7 +147,6 @@ namespace CapaVistaUsuario
             {
                 User.IdUsuario = Convert.ToInt32(dgvPersonas.Rows[dgvPersonas.SelectedRows[0].Index].Cells["IdPersona"].Value.ToString());
                 User.EliminarUsuario();
-                MostrarPersonas();
                 dgvPersonas.Select();
             }
         }
@@ -207,11 +203,6 @@ namespace CapaVistaUsuario
 
         #region METODOS
 
-        private void MostrarPersonas()
-        {
-            CN_Personas Pers = new CN_Personas();
-            dgvPersonas.DataSource = Pers.MostrarPersona();
-        }
 
         /*
         private void PasarDatos(bool origen)

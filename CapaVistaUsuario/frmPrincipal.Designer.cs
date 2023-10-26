@@ -191,7 +191,6 @@ namespace CapaVistaUsuario
             this.gestiónDePersonalToolStripMenuItem.Name = "gestiónDePersonalToolStripMenuItem";
             this.gestiónDePersonalToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.gestiónDePersonalToolStripMenuItem.Text = "Gestión de Personal";
-            this.gestiónDePersonalToolStripMenuItem.Click += new System.EventHandler(this.gestiónDePersonalToolStripMenuItem_Click);
             // 
             // panel1
             // 

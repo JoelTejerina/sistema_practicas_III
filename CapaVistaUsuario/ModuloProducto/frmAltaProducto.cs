@@ -51,7 +51,7 @@ namespace CapaVistaUsuario.Administrador
 
             try
             {
-                PasarDatos(false);
+                PasarDatos(true);
 
                 ProductosLN.InsertarProducto();
 
@@ -104,5 +104,6 @@ namespace CapaVistaUsuario.Administrador
             MostrarProductos();
             dataGridView2.Select();
         }
+
     }
 }

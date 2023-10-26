@@ -14,13 +14,13 @@ namespace CapaAccesoDatos
         {
             string fecha = DateTime.Now.ToString("dd-MM-yyyy");
             string hora = DateTime.Now.ToString("HH:mm");
-            int IdUsuario; 
+            int IdUsuario;
             string usuario;
 
             if (UserCache.IdUsuario == 0)
-            {  IdUsuario = VerificCache.IdUsuario; }
+            { IdUsuario = VerificCache.IdUsuario; }
             else
-            {  IdUsuario = UserCache.IdUsuario; }
+            { IdUsuario = UserCache.IdUsuario; }
 
             if (UserCache.Apellido == null)
             { usuario = VerificCache.Apellido + " " + VerificCache.Nombres; }
@@ -28,7 +28,7 @@ namespace CapaAccesoDatos
             { usuario = UserCache.Apellido + " " + UserCache.Nombres; }
 
             string sSQL = "Insert into BITACORA (fecha, hora, IdUsuario, usuario, evento, detalle, origen) " +
-                "values (#" + fecha + "#, '" + hora + "', " +  IdUsuario + ", '" + usuario + "', '" + evento + "', '" + detalle + "', '" + origen +"')";
+                "values (#" + fecha + "#, '" + hora + "', " + IdUsuario + ", '" + usuario + "', '" + evento + "', '" + detalle + "', '" + origen + "')";
 
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSQL);

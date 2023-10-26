@@ -8,14 +8,14 @@ namespace CapaAccesoDatos.Loguin
 {
     public class CD_ModificaPass
     {
-        
+
         clsEjecutarComando Ejecutar = new clsEjecutarComando();
-        public void ModificaPass(int IdUser, String Pass )
+        public void ModificaPass(int IdUser, String Pass)
         {
-            string SSql = "UPDATE Usuarios SET Usuarios.Password ='" + Pass + "' WHERE Usuarios.IdUsuario =" + IdUser ;
+            string SSql = "UPDATE Usuarios SET Usuarios.Password ='" + Pass + "' WHERE Usuarios.IdUsuario =" + IdUser;
             Ejecutar.EjecucionDirecta(SSql);
         }
-        
+
 
     }
 }

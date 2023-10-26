@@ -22,7 +22,6 @@ namespace CapaLogicaNegocio.ModuloProducto
         private string tipocantidad;
         private int cantidad;
         private int idproducto;
-        private int cantidadb;
         #endregion
 
         #region PROPERTIES

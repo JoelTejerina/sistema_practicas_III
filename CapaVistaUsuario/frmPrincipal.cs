@@ -56,13 +56,6 @@ namespace CapaVistaUsuario
             }
         }
 
-        private void gestiónDePersonalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmPersonas fAux = new frmPersonas();
-            //Loguin.frmCambioPassword fAux = new Loguin.frmCambioPassword();
-            fAux.MdiParent = this;
-            fAux.Show();
-        }
 
         private void ubicacionesToolStripMenuItem_Click(object sender, EventArgs e)
         {

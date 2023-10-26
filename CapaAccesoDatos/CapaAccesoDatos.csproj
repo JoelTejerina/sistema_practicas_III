@@ -46,11 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administrador\BDFalsaListas.cs" />
-    <Compile Include="Administrador\CD_Localidades.cs" />
-    <Compile Include="Administrador\CD_Partidos.cs" />
-    <Compile Include="Administrador\CD_Provincias.cs" />
     <Compile Include="Administrador\CD_Usuarios.cs" />
-    <Compile Include="Administrador\CD_Personas.cs" />
     <Compile Include="CD_clsBitacora.cs" />
     <Compile Include="clsEjecutarComando.cs" />
     <Compile Include="Administrador\ImitacionBDAltaProducto.cs" />

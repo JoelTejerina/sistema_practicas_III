@@ -67,35 +67,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMLocalidad.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMLocalidad.designer.cs">
-      <DependentUpon>frmABMLocalidad.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMPartido.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMPartido.designer.cs">
-      <DependentUpon>frmABMPartido.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMProvincia.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Administrador\ABMsUbicaciones\frmABMProvincia.designer.cs">
-      <DependentUpon>frmABMProvincia.cs</DependentUpon>
-    </Compile>
     <Compile Include="ModuloProducto\frmAltaProducto.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ModuloProducto\frmAltaProducto.Designer.cs">
       <DependentUpon>frmAltaProducto.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Administrador\frmUbicaciones.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Administrador\frmUbicaciones.designer.cs">
-      <DependentUpon>frmUbicaciones.cs</DependentUpon>
     </Compile>
     <Compile Include="Administrador\CV_Botonera.cs" />
     <Compile Include="Administrador\CV_Utiles.cs" />
@@ -106,12 +82,6 @@
     </Compile>
     <Compile Include="Administrador\frmUsuario.Designer.cs">
       <DependentUpon>frmUsuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Administrador\frmPersonas.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Administrador\frmPersonas.Designer.cs">
-      <DependentUpon>frmPersonas.cs</DependentUpon>
     </Compile>
     <Compile Include="CL_clsBitacora.cs" />
     <Compile Include="frmPrincipal.cs">
@@ -134,26 +104,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmABMLocalidad.resx">
-      <DependentUpon>frmABMLocalidad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmABMPartido.resx">
-      <DependentUpon>frmABMPartido.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Administrador\ABMsUbicaciones\frmABMProvincia.resx">
-      <DependentUpon>frmABMProvincia.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ModuloProducto\frmAltaProducto.resx">
       <DependentUpon>frmAltaProducto.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Administrador\frmUbicaciones.resx">
-      <DependentUpon>frmUbicaciones.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Administrador\frmUsuario.resx">
       <DependentUpon>frmUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Administrador\frmPersonas.resx">
-      <DependentUpon>frmPersonas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPrincipal.resx">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
