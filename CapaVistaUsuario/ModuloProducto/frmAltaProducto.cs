@@ -18,8 +18,10 @@ namespace CapaVistaUsuario.Administrador
 {
     public partial class frmAltaProducto : Form
     {
-        // Arreglar instancia despues del testeo
+        //Instancio los objetos de las clses que utilizo en el form
         clsProductosLN ProductosLN = new clsProductosLN();
+        CV_Validar_Mail ValidaCorreo = new CV_Validar_Mail();
+
 
         public frmAltaProducto()
         {
@@ -51,9 +53,11 @@ namespace CapaVistaUsuario.Administrador
 
             try
             {
-                PasarDatos(true);
+                PasarDatos(false);
 
                 ProductosLN.InsertarProducto();
+                MostrarProductos();
+
 
                 dataGridView2.Select();
 
@@ -74,6 +78,7 @@ namespace CapaVistaUsuario.Administrador
 
         private void MostrarProductos()
         {
+            clsProductosLN ProductosLN = new clsProductosLN();
             dataGridView2.DataSource = ProductosLN.MostrarProducto();
         }
         private void PasarDatos(bool origen)
@@ -105,5 +110,10 @@ namespace CapaVistaUsuario.Administrador
             dataGridView2.Select();
         }
 
+        private void frmAltaProducto_Load(object sender, EventArgs e)
+        {
+
+            MostrarProductos();
+        }
     }
 }

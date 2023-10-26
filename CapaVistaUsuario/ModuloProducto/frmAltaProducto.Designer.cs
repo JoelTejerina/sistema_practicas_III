@@ -440,6 +440,7 @@
             this.Controls.Add(this.button1);
             this.Name = "frmAltaProducto";
             this.Text = "frmAltaProducto";
+            this.Load += new System.EventHandler(this.frmAltaProducto_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
