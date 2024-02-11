@@ -7,6 +7,7 @@ public class CD_Menu
 {
     #region ATRIBUTOS
     private int idMenu;
+    private string nombre;
     private string region;
     private string categoria;
     private int popularidad;
@@ -22,6 +23,12 @@ public class CD_Menu
     {
         get => idMenu;
         set { idMenu = value; }
+    }
+
+    public string Nombre
+    {
+        get => nombre;
+        set { nombre = value; }
     }
 
     public string Region
@@ -83,8 +90,8 @@ public class CD_Menu
 
     public void InsertarMenu()
     {
-        string sSql = $"INSERT INTO Menu (region, categoria, popularidad, precio, temporada, tipoDeEvento, tiempoPreparacionEstimado, descripcion) " +
-                      $"VALUES ('{Region}', '{Categoria}', {Popularidad}, {Precio}, '{Temporada}', '{TipoDeEvento}', {TiempoPreparacionEstimado}, '{Descripcion}')";
+        string sSql = $"INSERT INTO Menu (nombre, region, categoria, popularidad, precio, temporada, tipoDeEvento, tiempoPreparacionEstimado, descripcion) " +
+                      $"VALUES ('{Nombre}', '{Region}', '{Categoria}', {Popularidad}, {Precio}, '{Temporada}', '{TipoDeEvento}', {TiempoPreparacionEstimado}, '{Descripcion}')";
         Console.WriteLine(sSql);
         clsEjecutarComando Ejecutar = new clsEjecutarComando();
         Ejecutar.Ejecutar(sSql);
@@ -93,7 +100,7 @@ public class CD_Menu
     public void ModificarMenu()
     {
         string sSql = $"UPDATE Menu SET " +
-                      $"region = '{Region}', categoria = '{Categoria}', popularidad = {Popularidad}, " +
+                      $"nombre = '{Nombre}', region = '{Region}', categoria = '{Categoria}', popularidad = {Popularidad}, " +
                       $"precio = {Precio}, temporada = '{Temporada}', tipoDeEvento = '{TipoDeEvento}', " +
                       $"tiempoPreparacionEstimado = {TiempoPreparacionEstimado}, descripcion = '{Descripcion}' " +
                       $"WHERE idMenu = {IdMenu}";
@@ -105,6 +112,13 @@ public class CD_Menu
     public void EliminarMenu()
     {
         string sSql = $"DELETE FROM Menu WHERE idMenu = {IdMenu}";
+        clsEjecutarComando Ejecutar = new clsEjecutarComando();
+        Ejecutar.Ejecutar(sSql);
+    }
+
+    public void obtenerPrecio(string idMenu)
+    {
+        string sSql = $"SELECT precio FROM Menu WHERE idMenu = {idMenu}";
         clsEjecutarComando Ejecutar = new clsEjecutarComando();
         Ejecutar.Ejecutar(sSql);
     }

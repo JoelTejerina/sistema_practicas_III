@@ -14,7 +14,6 @@ namespace CapaAccesoDatos.Administrador
         private string nombre;
         private string categoria;
         private string marca;
-        private string tipoDeCantidad;
         #endregion
 
         #region PROPIEDADES
@@ -43,12 +42,6 @@ namespace CapaAccesoDatos.Administrador
             set { marca = value; }
         }
 
-        public string TipoDeCantidad
-        {
-            get => tipoDeCantidad;
-            set { tipoDeCantidad = value; }
-        }
-
         #endregion
 
         public DataTable MostrarProductos()
@@ -60,8 +53,8 @@ namespace CapaAccesoDatos.Administrador
 
         public void InsertarProducto()
         {
-            string sSql = $"INSERT INTO Productos (nombre, categoria, marca, tipoDeCantidad) " +
-                $"VALUES ('{Nombre}', '{Categoria}', '{Marca}', '{TipoDeCantidad}')";
+            string sSql = $"INSERT INTO Productos (nombre, categoria, marca) " +
+                $"VALUES ('{Nombre}', '{Categoria}', '{Marca}')";
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);
         }
@@ -69,7 +62,7 @@ namespace CapaAccesoDatos.Administrador
         public void ModificarProducto()
         {
             string sSql = $"UPDATE Productos SET " +
-                $"nombre = '{Nombre}', categoria = '{Categoria}', marca = '{Marca}', tipoDeCantidad = '{TipoDeCantidad}' " +
+                $"nombre = '{Nombre}', categoria = '{Categoria}', marca = '{Marca}' " +
                 $"WHERE idProducto = {IdProducto}";
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);

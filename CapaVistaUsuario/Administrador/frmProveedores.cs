@@ -22,6 +22,8 @@ namespace CapaVistaUsuario.Administrador
 
         private void frmProveedores_Load_1(object sender, EventArgs e)
         {
+            CV_Utiles.InicializarLabelPanel("Proveedores", panelProveedores);
+
             dgvProveedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProveedores.ReadOnly = true;
             dgvProveedores.MultiSelect = false;

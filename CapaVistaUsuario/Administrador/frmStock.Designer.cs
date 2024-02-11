@@ -40,13 +40,18 @@ namespace CapaVistaUsuario
             this.btnGuardar = new System.Windows.Forms.Button();
             this.dgvStock = new System.Windows.Forms.DataGridView();
             this.grpStock = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbxProveedor = new System.Windows.Forms.ComboBox();
+            this.cbxProducto = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dtpFechaVencimiento = new System.Windows.Forms.DateTimePicker();
             this.lblPrecioTotal = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.txtCantidad = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtNumeroLote = new System.Windows.Forms.TextBox();
-            this.dtpFechaVencimiento = new System.Windows.Forms.DateTimePicker();
+            this.panelStock = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStock)).BeginInit();
             this.grpStock.SuspendLayout();
@@ -62,15 +67,15 @@ namespace CapaVistaUsuario
             this.panel1.Controls.Add(this.btnCancelar);
             this.panel1.Controls.Add(this.btnGuardaCambios);
             this.panel1.Controls.Add(this.btnGuardar);
-            this.panel1.Location = new System.Drawing.Point(2, -27);
+            this.panel1.Location = new System.Drawing.Point(0, 50);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(190, 692);
+            this.panel1.Size = new System.Drawing.Size(193, 659);
             this.panel1.TabIndex = 7;
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(15, 633);
+            this.btnSalir.Location = new System.Drawing.Point(15, 610);
             this.btnSalir.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(159, 35);
@@ -148,17 +153,21 @@ namespace CapaVistaUsuario
             // dgvStock
             // 
             this.dgvStock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStock.Location = new System.Drawing.Point(196, 170);
+            this.dgvStock.Location = new System.Drawing.Point(197, 220);
             this.dgvStock.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvStock.Name = "dgvStock";
             this.dgvStock.RowHeadersWidth = 62;
-            this.dgvStock.Size = new System.Drawing.Size(695, 490);
+            this.dgvStock.Size = new System.Drawing.Size(995, 489);
             this.dgvStock.TabIndex = 6;
             this.dgvStock.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStock_RowEnter);
             // 
             // grpStock
             // 
             this.grpStock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(1)))), ((int)(((byte)(41)))));
+            this.grpStock.Controls.Add(this.label3);
+            this.grpStock.Controls.Add(this.cbxProveedor);
+            this.grpStock.Controls.Add(this.cbxProducto);
+            this.grpStock.Controls.Add(this.label2);
             this.grpStock.Controls.Add(this.dtpFechaVencimiento);
             this.grpStock.Controls.Add(this.lblPrecioTotal);
             this.grpStock.Controls.Add(this.label7);
@@ -168,14 +177,56 @@ namespace CapaVistaUsuario
             this.grpStock.Controls.Add(this.txtNumeroLote);
             this.grpStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.grpStock.ForeColor = System.Drawing.Color.White;
-            this.grpStock.Location = new System.Drawing.Point(196, 0);
+            this.grpStock.Location = new System.Drawing.Point(197, 50);
             this.grpStock.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpStock.Name = "grpStock";
             this.grpStock.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.grpStock.Size = new System.Drawing.Size(695, 163);
+            this.grpStock.Size = new System.Drawing.Size(995, 162);
             this.grpStock.TabIndex = 5;
             this.grpStock.TabStop = false;
-            this.grpStock.Text = "groupBox1";
+            this.grpStock.Text = "Formulario stock";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(575, 93);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 20);
+            this.label3.TabIndex = 39;
+            this.label3.Text = "Producto";
+            // 
+            // cbxProveedor
+            // 
+            this.cbxProveedor.FormattingEnabled = true;
+            this.cbxProveedor.Location = new System.Drawing.Point(699, 56);
+            this.cbxProveedor.Name = "cbxProveedor";
+            this.cbxProveedor.Size = new System.Drawing.Size(256, 28);
+            this.cbxProveedor.TabIndex = 38;
+            // 
+            // cbxProducto
+            // 
+            this.cbxProducto.FormattingEnabled = true;
+            this.cbxProducto.Location = new System.Drawing.Point(699, 90);
+            this.cbxProducto.Name = "cbxProducto";
+            this.cbxProducto.Size = new System.Drawing.Size(256, 28);
+            this.cbxProducto.TabIndex = 37;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(575, 59);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(81, 20);
+            this.label2.TabIndex = 36;
+            this.label2.Text = "Proveedor";
+            // 
+            // dtpFechaVencimiento
+            // 
+            this.dtpFechaVencimiento.Location = new System.Drawing.Point(183, 114);
+            this.dtpFechaVencimiento.Name = "dtpFechaVencimiento";
+            this.dtpFechaVencimiento.Size = new System.Drawing.Size(321, 26);
+            this.dtpFechaVencimiento.TabIndex = 35;
             // 
             // lblPrecioTotal
             // 
@@ -232,23 +283,25 @@ namespace CapaVistaUsuario
             this.txtNumeroLote.Size = new System.Drawing.Size(277, 26);
             this.txtNumeroLote.TabIndex = 0;
             // 
-            // dtpFechaVencimiento
+            // panelStock
             // 
-            this.dtpFechaVencimiento.Location = new System.Drawing.Point(183, 114);
-            this.dtpFechaVencimiento.Name = "dtpFechaVencimiento";
-            this.dtpFechaVencimiento.Size = new System.Drawing.Size(321, 26);
-            this.dtpFechaVencimiento.TabIndex = 35;
+            this.panelStock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.panelStock.Location = new System.Drawing.Point(0, 0);
+            this.panelStock.Name = "panelStock";
+            this.panelStock.Size = new System.Drawing.Size(1192, 54);
+            this.panelStock.TabIndex = 8;
             // 
-            // FrmStock
+            // frmStock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(894, 655);
+            this.ClientSize = new System.Drawing.Size(1198, 709);
+            this.Controls.Add(this.panelStock);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dgvStock);
             this.Controls.Add(this.grpStock);
-            this.Name = "FrmStock";
-            this.Text = "FrmStock";
+            this.Name = "frmStock";
+            this.Text = "Stock";
             this.Load += new System.EventHandler(this.frmStock_Load);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvStock)).EndInit();
@@ -277,5 +330,10 @@ namespace CapaVistaUsuario
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtNumeroLote;
         private System.Windows.Forms.DateTimePicker dtpFechaVencimiento;
+        private System.Windows.Forms.Panel panelStock;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cbxProveedor;
+        private System.Windows.Forms.ComboBox cbxProducto;
+        private System.Windows.Forms.Label label2;
     }
 }

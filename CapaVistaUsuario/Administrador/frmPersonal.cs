@@ -22,6 +22,8 @@ namespace CapaVistaUsuario.Administrador
 
         private void frmPersonal_Load(object sender, EventArgs e)
         {
+            CV_Utiles.InicializarLabelPanel("Personal", panelPersonal);
+
             dgvPersonal.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPersonal.ReadOnly = true;
             dgvPersonal.MultiSelect = false;

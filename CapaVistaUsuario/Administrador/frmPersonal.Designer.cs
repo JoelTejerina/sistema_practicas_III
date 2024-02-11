@@ -45,12 +45,13 @@
             this.dgvPersonal = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnSalir = new System.Windows.Forms.Button();
-            this.btnEliminar = new System.Windows.Forms.Button();
-            this.btnCancelar = new System.Windows.Forms.Button();
-            this.btnModificar = new System.Windows.Forms.Button();
-            this.btnGuardaCambios = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnModificar = new System.Windows.Forms.Button();
+            this.btnGuardaCambios = new System.Windows.Forms.Button();
+            this.btnEliminar = new System.Windows.Forms.Button();
+            this.btnCancelar = new System.Windows.Forms.Button();
+            this.panelPersonal = new System.Windows.Forms.Panel();
             this.grpPersonal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPersonal)).BeginInit();
             this.panel1.SuspendLayout();
@@ -74,14 +75,14 @@
             this.grpPersonal.Controls.Add(this.txtApellido);
             this.grpPersonal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.grpPersonal.ForeColor = System.Drawing.Color.White;
-            this.grpPersonal.Location = new System.Drawing.Point(193, 0);
+            this.grpPersonal.Location = new System.Drawing.Point(194, 95);
             this.grpPersonal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpPersonal.Name = "grpPersonal";
             this.grpPersonal.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpPersonal.Size = new System.Drawing.Size(1029, 236);
             this.grpPersonal.TabIndex = 13;
             this.grpPersonal.TabStop = false;
-            this.grpPersonal.Text = "groupBox1";
+            this.grpPersonal.Text = "Formulario personal";
             // 
             // txtNro
             // 
@@ -204,7 +205,7 @@
             // dgvPersonal
             // 
             this.dgvPersonal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPersonal.Location = new System.Drawing.Point(202, 241);
+            this.dgvPersonal.Location = new System.Drawing.Point(203, 336);
             this.dgvPersonal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvPersonal.Name = "dgvPersonal";
             this.dgvPersonal.RowHeadersWidth = 62;
@@ -221,7 +222,7 @@
             this.panel1.Controls.Add(this.btnGuardaCambios);
             this.panel1.Controls.Add(this.btnEliminar);
             this.panel1.Controls.Add(this.btnCancelar);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(1, 95);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(194, 584);
@@ -237,50 +238,6 @@
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
-            // 
-            // btnEliminar
-            // 
-            this.btnEliminar.Location = new System.Drawing.Point(15, 131);
-            this.btnEliminar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(159, 35);
-            this.btnEliminar.TabIndex = 5;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
-            // 
-            // btnCancelar
-            // 
-            this.btnCancelar.Location = new System.Drawing.Point(15, 130);
-            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(159, 35);
-            this.btnCancelar.TabIndex = 2;
-            this.btnCancelar.Text = "Cancelar";
-            this.btnCancelar.UseVisualStyleBackColor = true;
-            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
-            // 
-            // btnModificar
-            // 
-            this.btnModificar.Location = new System.Drawing.Point(15, 82);
-            this.btnModificar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(159, 35);
-            this.btnModificar.TabIndex = 3;
-            this.btnModificar.Text = "Modificar";
-            this.btnModificar.UseVisualStyleBackColor = true;
-            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
-            // 
-            // btnGuardaCambios
-            // 
-            this.btnGuardaCambios.Location = new System.Drawing.Point(15, 82);
-            this.btnGuardaCambios.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnGuardaCambios.Name = "btnGuardaCambios";
-            this.btnGuardaCambios.Size = new System.Drawing.Size(159, 35);
-            this.btnGuardaCambios.TabIndex = 4;
-            this.btnGuardaCambios.Text = "Guardar Cambios";
-            this.btnGuardaCambios.UseVisualStyleBackColor = true;
-            this.btnGuardaCambios.Click += new System.EventHandler(this.btnGuardaCambios_Click);
             // 
             // btnAgregar
             // 
@@ -304,16 +261,69 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click_1);
             // 
+            // btnModificar
+            // 
+            this.btnModificar.Location = new System.Drawing.Point(15, 82);
+            this.btnModificar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnModificar.Name = "btnModificar";
+            this.btnModificar.Size = new System.Drawing.Size(159, 35);
+            this.btnModificar.TabIndex = 3;
+            this.btnModificar.Text = "Modificar";
+            this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
+            // 
+            // btnGuardaCambios
+            // 
+            this.btnGuardaCambios.Location = new System.Drawing.Point(15, 82);
+            this.btnGuardaCambios.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnGuardaCambios.Name = "btnGuardaCambios";
+            this.btnGuardaCambios.Size = new System.Drawing.Size(159, 35);
+            this.btnGuardaCambios.TabIndex = 4;
+            this.btnGuardaCambios.Text = "Guardar Cambios";
+            this.btnGuardaCambios.UseVisualStyleBackColor = true;
+            this.btnGuardaCambios.Click += new System.EventHandler(this.btnGuardaCambios_Click);
+            // 
+            // btnEliminar
+            // 
+            this.btnEliminar.Location = new System.Drawing.Point(15, 131);
+            this.btnEliminar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnEliminar.Name = "btnEliminar";
+            this.btnEliminar.Size = new System.Drawing.Size(159, 35);
+            this.btnEliminar.TabIndex = 5;
+            this.btnEliminar.Text = "Eliminar";
+            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            // 
+            // btnCancelar
+            // 
+            this.btnCancelar.Location = new System.Drawing.Point(15, 130);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(159, 35);
+            this.btnCancelar.TabIndex = 2;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
+            // panelPersonal
+            // 
+            this.panelPersonal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.panelPersonal.Location = new System.Drawing.Point(0, 0);
+            this.panelPersonal.Name = "panelPersonal";
+            this.panelPersonal.Size = new System.Drawing.Size(1223, 100);
+            this.panelPersonal.TabIndex = 14;
+            // 
             // frmPersonal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1225, 586);
+            this.ClientSize = new System.Drawing.Size(1225, 679);
+            this.Controls.Add(this.panelPersonal);
             this.Controls.Add(this.grpPersonal);
             this.Controls.Add(this.dgvPersonal);
             this.Controls.Add(this.panel1);
             this.Name = "frmPersonal";
-            this.Text = "frmPersonal";
+            this.Text = "Personal";
             this.Load += new System.EventHandler(this.frmPersonal_Load);
             this.grpPersonal.ResumeLayout(false);
             this.grpPersonal.PerformLayout();
@@ -348,5 +358,6 @@
         private System.Windows.Forms.Button btnGuardaCambios;
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.Panel panelPersonal;
     }
 }

@@ -78,20 +78,47 @@ namespace CapaLogicaNegocio.Administrador
 
         public void InsertarPersonal()
         {
-            PasarDatos();
-            cdPersonal.InsertarPersonal();
+            PasarDatos();       
+            try
+            {
+                cdPersonal.InsertarPersonal();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Creado con exito", "Exitoso", "frmPersonal");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmPersonal");
+            }
         }
 
         public void ModificarPersonal()
         {
             PasarDatos();
-            cdPersonal.ModificarPersonal();
+            try
+            {
+                cdPersonal.ModificarPersonal();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Modificado con exito", "Exitoso", "frmPersonal");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmPersonal");
+            }
         }
 
         public void EliminarPersonal()
         {
             cdPersonal.IdPersonal = IdPersonal;
-            cdPersonal.EliminarPersonal();
+            try
+            {
+                cdPersonal.EliminarPersonal();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Eliminado con exito", "Exitoso", "frmPersonal");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmPersonal");
+            }
         }
 
         private void PasarDatos()

@@ -17,7 +17,6 @@ namespace CapaLogicaNegocio.Administrador
         private string nombre;
         private string categoria;
         private string marca;
-        private string tipoDeCantidad;
         #endregion
 
         #region PROPERTIES
@@ -46,12 +45,6 @@ namespace CapaLogicaNegocio.Administrador
             set { marca = value; }
         }
 
-        public string TipoDeCantidad
-        {
-            get => tipoDeCantidad;
-            set { tipoDeCantidad = value; }
-        }
-
         #endregion
 
         #region METODOS
@@ -66,19 +59,46 @@ namespace CapaLogicaNegocio.Administrador
         public void InsertarProducto()
         {
             PasarDatos();
-            cdProducto.InsertarProducto();
+            try
+            {
+                cdProducto.InsertarProducto();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Creado con exito", "Exitoso", "frmProducto");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmProducto");
+            }
         }
 
         public void ModificarProducto()
         {
             PasarDatos();
-            cdProducto.ModificarProducto();
+            try
+            {
+                cdProducto.ModificarProducto();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Modificado con exito", "Exitoso", "frmProducto");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmProducto");
+            }
         }
 
         public void EliminarProducto()
         {
             cdProducto.IdProducto = IdProducto;
-            cdProducto.EliminarProducto();
+            try
+            {
+                cdProducto.EliminarProducto();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Eliminado con exito", "Exitoso", "frmProducto");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmProducto");
+            }
         }
 
         private void PasarDatos()
@@ -87,7 +107,6 @@ namespace CapaLogicaNegocio.Administrador
             cdProducto.Nombre = Nombre;
             cdProducto.Categoria = Categoria;
             cdProducto.Marca = Marca;
-            cdProducto.TipoDeCantidad = TipoDeCantidad;
         }
 
         #endregion

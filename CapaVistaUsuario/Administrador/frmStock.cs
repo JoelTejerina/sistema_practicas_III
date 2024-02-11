@@ -1,4 +1,5 @@
-﻿using CapaLogicaNegocio.Administrador;
+﻿using CapaLogicaNegocio;
+using CapaLogicaNegocio.Administrador;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,10 +23,16 @@ namespace CapaVistaUsuario
 
         private void frmStock_Load(object sender, EventArgs e)
         {
+            CV_Utiles.InicializarLabelPanel("Stock", panelStock);
+
             dgvStock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvStock.ReadOnly = true;
             dgvStock.MultiSelect = false;
             dgvStock.AllowUserToAddRows = false;
+
+            CN_LlenarCombos llenarCMB = new CN_LlenarCombos(cbxProveedor, "Proveedores", "idProveedor", "nombre", null, null);
+            CN_LlenarCombos llenarCMB2 = new CN_LlenarCombos(cbxProducto, "Productos", "idProducto", "nombre", null, null);
+
 
             MostrarStock();
             dgvStock.Select();
@@ -159,8 +166,26 @@ namespace CapaVistaUsuario
             }
 
             stock.FechaDeVencimiento = dtpFechaVencimiento.Value.ToString();
-            stock.NumeroDeLote = Convert.ToInt32(txtNumeroLote.Text);
+            stock.NumeroDeLote = txtNumeroLote.Text;
             stock.Cantidad = Convert.ToInt32(txtCantidad.Text);
+
+            if (cbxProducto.SelectedItem == null)
+            {
+                stock.IdProducto = "0";
+            }
+            else
+            {
+                stock.IdProducto = cbxProducto.SelectedValue.ToString();
+            }
+
+            if (cbxProveedor.SelectedItem == null)
+            {
+                stock.IdProveedor = "0";
+            }
+            else
+            {
+                stock.IdProveedor = cbxProveedor.SelectedValue.ToString();
+            }
         }
     }
 

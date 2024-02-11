@@ -21,7 +21,22 @@ namespace CapaVistaUsuario
 
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
-            lblSesion.Text = "Sesion de: " + UserCache.Usuario; 
+            this.WindowState = FormWindowState.Maximized;
+            lblSesion.Text = "Sesion de: " + UserCache.Usuario;
+
+            // Crear y configurar el Label
+            Label lblBitacora = new Label();
+            lblBitacora.Size = new Size(300, 100);
+            lblBitacora.Text = "Fomulario principal";
+            lblBitacora.TextAlign = ContentAlignment.MiddleCenter;
+            lblBitacora.Font = new Font(lblBitacora.Font.FontFamily, 16, FontStyle.Bold);
+
+            int x = (panelPrincipal.Width - lblBitacora.Width) / 2;
+            int y = (panelPrincipal.Height - lblBitacora.Height) / 2;
+
+            lblBitacora.Location = new Point(x, y);
+
+            panelPrincipal.Controls.Add(lblBitacora);
         }
 
         private void cambioDePasswordToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -88,6 +103,18 @@ namespace CapaVistaUsuario
         private void productoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmProducto fAux = new frmProducto();
+            fAux.MdiParent = this;
+            fAux.Show();
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void bitacoraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmBitacora fAux = new frmBitacora();
             fAux.MdiParent = this;
             fAux.Show();
         }

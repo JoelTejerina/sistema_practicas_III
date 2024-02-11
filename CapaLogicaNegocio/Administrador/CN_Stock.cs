@@ -14,8 +14,10 @@ namespace CapaLogicaNegocio.Administrador
         #region ATRIBUTOS
         private int idStock;
         private string fechaDeVencimiento;
-        private int numeroDeLote;
+        private string numeroDeLote;
         private int cantidad;
+        private string idProveedor;
+        private string idProducto;
         #endregion
 
         #region PROPERTIES
@@ -31,7 +33,7 @@ namespace CapaLogicaNegocio.Administrador
             set { fechaDeVencimiento = value; }
         }
 
-        public int NumeroDeLote
+        public string NumeroDeLote
         {
             get => numeroDeLote;
             set { numeroDeLote = value; }
@@ -41,6 +43,17 @@ namespace CapaLogicaNegocio.Administrador
         {
             get => cantidad;
             set { cantidad = value; }
+        }
+        public string IdProveedor
+        {
+            get => idProveedor;
+            set { idProveedor = value; }
+        }
+
+        public string IdProducto
+        {
+            get => idProducto;
+            set { idProducto = value; }
         }
         #endregion
 
@@ -55,19 +68,46 @@ namespace CapaLogicaNegocio.Administrador
         public void InsertarStock()
         {
             PasarDatos();
-            cdStock.InsertarStock();
+            try
+            {
+                cdStock.InsertarStock();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Creado con exito", "Exitoso", "frmStock");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmStock");
+            }
         }
 
         public void ModificarStock()
         {
             PasarDatos();
-            cdStock.ModificarStock();
+            try
+            {
+                cdStock.ModificarStock();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Modificado con exito", "Exitoso", "frmStock");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmStock");
+            }
         }
 
         public void EliminarStock()
         {
             cdStock.IdStock = IdStock;
-            cdStock.EliminarStock();
+            try
+            {
+                cdStock.EliminarStock();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Eliminado con exito", "Exitoso", "frmStock");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmStock");
+            }
         }
 
         private void PasarDatos()
@@ -76,6 +116,9 @@ namespace CapaLogicaNegocio.Administrador
             cdStock.FechaDeVencimiento = FechaDeVencimiento;
             cdStock.NumeroDeLote = NumeroDeLote;
             cdStock.Cantidad = Cantidad;
+            cdStock.IdProducto = Convert.ToInt32(IdProducto);
+            cdStock.IdProveedor = Convert.ToInt32(IdProveedor);
+
         }
         #endregion
     }

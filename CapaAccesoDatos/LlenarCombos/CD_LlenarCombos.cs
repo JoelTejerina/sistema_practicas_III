@@ -15,6 +15,8 @@ namespace CapaAccesoDatos
         private string tabla;
         private string campoid;
         private string campodescrip;
+        private string campoAdicional1;
+        private string campoAdicional2;
         private string condicion;
         #endregion
 
@@ -31,6 +33,16 @@ namespace CapaAccesoDatos
         {
             set { campodescrip = value; }
         }
+        public string CampoAdicional1
+        {
+            set { campoAdicional1 = value; }
+        }
+
+        public string CampoAdicional2
+        {
+            set { campoAdicional2 = value; }
+        }
+
         public string Condicion
         {
             set { condicion = value; }
@@ -43,7 +55,13 @@ namespace CapaAccesoDatos
             string sSql;
             if (condicion == "")
             {
-                sSql = "SELECT " + campoid + ", " + campodescrip + " FROM " + tabla + " ORDER BY " + campodescrip;
+                if (campoAdicional1 != null  && campoAdicional2 != null)
+                {
+                    sSql = "SELECT " + campoid + ", " + campodescrip + ", " + campoAdicional1 + ", " + campoAdicional2 + " FROM " + tabla + " ORDER BY " + campodescrip;
+                } else
+                {
+                    sSql = "SELECT " + campoid + ", " + campodescrip + " FROM " + tabla + " ORDER BY " + campodescrip;
+                }
             }
             else
             {

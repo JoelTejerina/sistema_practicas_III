@@ -87,19 +87,47 @@ namespace CapaLogicaNegocio.Administrador
         public void InsertarProveedor()
         {
             PasarDatos();
-            cdProveedor.InsertarProveedor();
+            try
+            {
+                cdProveedor.InsertarProveedor();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Creado con exito", "Exitoso", "frmProveedores");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmProveedores");
+            }
         }
 
         public void ModificarProveedor()
         {
             PasarDatos();
-            cdProveedor.ModificarProveedor();
+            try
+            {
+                cdProveedor.ModificarProveedor();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Modificacion con exito", "Exitoso", "frmProveedores");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmProveedores");
+            }
         }
 
         public void EliminarProveedor()
         {
             cdProveedor.IdProveedor = idProveedor;
-            cdProveedor.EliminarProveedor();
+            try
+            {
+                cdProveedor.EliminarProveedor();
+                CL_clsBitacora Guardar = new CL_clsBitacora("Eliminado con exito", "Exitoso", "frmProveedores");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmProveedores");
+            }
+
         }
 
         private void PasarDatos()

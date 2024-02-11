@@ -1,4 +1,11 @@
-﻿using System.Data;
+﻿using CapaAccesoDatos.Administrador;
+using CapaLogicaNegocio;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 public class CN_Menu
 {
@@ -6,6 +13,7 @@ public class CN_Menu
 
     #region ATRIBUTOS
     private int idMenu;
+    private string nombre;
     private string region;
     private string categoria;
     private int popularidad;
@@ -17,10 +25,17 @@ public class CN_Menu
     #endregion
 
     #region PROPERTIES
+
     public int IdMenu
     {
         get => idMenu;
         set { idMenu = value; }
+    }
+
+    public string Nombre
+    {
+        get => nombre;
+        set { nombre = value; }
     }
 
     public string Region
@@ -83,24 +98,58 @@ public class CN_Menu
     public void InsertarMenu()
     {
         PasarDatos();
-        cdMenu.InsertarMenu();
+        try
+        {
+            cdMenu.InsertarMenu();
+            CL_clsBitacora Guardar = new CL_clsBitacora("Creado con exito", "Exitoso", "frmMenu");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmMenu");
+        }
     }
 
     public void ModificarMenu()
     {
         PasarDatos();
-        cdMenu.ModificarMenu();
+        try
+        {
+            cdMenu.ModificarMenu();
+            CL_clsBitacora Guardar = new CL_clsBitacora("Modificado con exito", "Exitoso", "frmMenu");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmMenu");
+        }
     }
 
     public void EliminarMenu()
     {
         cdMenu.IdMenu = IdMenu;
-        cdMenu.EliminarMenu();
+        try
+        {
+            cdMenu.EliminarMenu();
+            CL_clsBitacora Guardar = new CL_clsBitacora("Eliminado con exito", "Exitoso", "frmMenu");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            CL_clsBitacora Guardar = new CL_clsBitacora(ex.Message, "Error", "frmMenu");
+        }
+
+    }
+
+    public void obtenerPrecio(string idMenu)
+    {
+         cdMenu.obtenerPrecio(idMenu);
     }
 
     private void PasarDatos()
     {
         cdMenu.IdMenu = IdMenu;
+        cdMenu.Nombre = Nombre;
         cdMenu.Region = Region;
         cdMenu.Categoria = Categoria;
         cdMenu.Popularidad = Popularidad;

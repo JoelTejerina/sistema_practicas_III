@@ -22,6 +22,8 @@ namespace CapaVistaUsuario.Administrador
 
         private void frmProducto_Load(object sender, EventArgs e)
         {
+            CV_Utiles.InicializarLabelPanel("Producto", panelProducto);
+
             dgvProducto.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProducto.ReadOnly = true;
             dgvProducto.MultiSelect = false;
@@ -40,7 +42,6 @@ namespace CapaVistaUsuario.Administrador
                 txtNombre.Text = dgvProducto.Rows[dgvProducto.SelectedRows[0].Index].Cells["nombre"].Value.ToString();
                 txtCategoria.Text = dgvProducto.Rows[dgvProducto.SelectedRows[0].Index].Cells["categoria"].Value.ToString();
                 txtMarca.Text = dgvProducto.Rows[dgvProducto.SelectedRows[0].Index].Cells["marca"].Value.ToString();
-                txtCantidad.Text = dgvProducto.Rows[dgvProducto.SelectedRows[0].Index].Cells["tipoDeCantidad"].Value.ToString();
             }
         }
 
@@ -149,7 +150,6 @@ namespace CapaVistaUsuario.Administrador
             producto.Nombre = txtNombre.Text;
             producto.Categoria = txtCategoria.Text;
             producto.Marca = txtMarca.Text;
-            producto.TipoDeCantidad = txtCantidad.Text;
         }
 
     }

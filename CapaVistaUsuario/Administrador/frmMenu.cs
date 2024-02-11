@@ -21,6 +21,7 @@ namespace CapaVistaUsuario
 
         private void frmMenu_Load(object sender, EventArgs e)
         {
+            CV_Utiles.InicializarLabelPanel("Menu", panelMenu);
             dgvMenu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvMenu.ReadOnly = true;
             dgvMenu.MultiSelect = false;
@@ -36,6 +37,7 @@ namespace CapaVistaUsuario
         {
             if (dgvMenu.SelectedRows.Count > 0)
             {
+                txtNombre.Text = dgvMenu.Rows[dgvMenu.SelectedRows[0].Index].Cells["nombre"].Value.ToString();
                 txtDescripcion.Text = dgvMenu.Rows[dgvMenu.SelectedRows[0].Index].Cells["descripcion"].Value.ToString();
                 txtPrecio.Text = dgvMenu.Rows[dgvMenu.SelectedRows[0].Index].Cells["precio"].Value.ToString();
                 cbxRegion.Text = dgvMenu.Rows[dgvMenu.SelectedRows[0].Index].Cells["region"].Value.ToString();
@@ -148,6 +150,7 @@ namespace CapaVistaUsuario
                 menu.IdMenu = 0;
             }
 
+            menu.Nombre = txtNombre.Text;
             menu.Descripcion = txtDescripcion.Text;
             menu.Precio = Convert.ToSingle(txtPrecio.Text);
             menu.Region = cbxRegion.Text;

@@ -8,8 +8,10 @@ public class CD_Stock
     #region ATRIBUTOS
     private int idStock;
     private string fechaDeVencimiento;
-    private int numeroDeLote;
+    private string numeroDeLote;
     private int cantidad;
+    private int idProveedor;
+    private int idProducto;
     #endregion
 
     #region PROPERTIES
@@ -25,7 +27,7 @@ public class CD_Stock
         set { fechaDeVencimiento = value; }
     }
 
-    public int NumeroDeLote
+    public string NumeroDeLote
     {
         get => numeroDeLote;
         set { numeroDeLote = value; }
@@ -35,6 +37,18 @@ public class CD_Stock
     {
         get => cantidad;
         set { cantidad = value; }
+    }
+
+    public int IdProveedor
+    {
+        get => idProveedor;
+        set { idProveedor = value; }
+    }
+
+    public int IdProducto
+    {
+        get => idProducto;
+        set { idProducto = value; }
     }
     #endregion
 
@@ -48,8 +62,8 @@ public class CD_Stock
 
     public void InsertarStock()
     {
-        string sSql = $"INSERT INTO Stock (fechaDeVencimiento, numeroDeLote, cantidad) " +
-                      $"VALUES ('{FechaDeVencimiento}', '{NumeroDeLote}', '{cantidad}')";
+        string sSql = $"INSERT INTO Stock (fechaDeVencimiento, numeroDeLote, idProducto, idProveedor, cantidad) " +
+                      $"VALUES ('{FechaDeVencimiento}', '{NumeroDeLote}', '{IdProducto}', '{IdProveedor}', '{Cantidad}')";
         Console.WriteLine(sSql);
         clsEjecutarComando Ejecutar = new clsEjecutarComando();
         Ejecutar.Ejecutar(sSql);
@@ -59,7 +73,9 @@ public class CD_Stock
     {
         string sSql = $"UPDATE Stock SET " +
                       $"fechaDeVencimiento = '{FechaDeVencimiento}', " +
-                      $"numeroDeLote = '{NumeroDeLote}' " +
+                      $"numeroDeLote = '{NumeroDeLote}', " +
+                      $"idProducto = '{IdProducto}' " +
+                      $"idProveedor = '{IdProveedor}' " +
                       $"cantidad = '{cantidad}' " +
                       $"WHERE idStock = {IdStock}";
         Console.WriteLine(sSql);

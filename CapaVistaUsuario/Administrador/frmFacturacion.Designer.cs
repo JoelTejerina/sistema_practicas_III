@@ -31,10 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFacturacion));
             this.grpPersonas = new System.Windows.Forms.GroupBox();
-            this.lblPrecioTotal = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.cbxOpcionPago = new System.Windows.Forms.ComboBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.txtCantidad = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -44,15 +41,16 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.dgvFacturacion = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnGuardar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.btnGuardaCambios = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.btnGuardar = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.panelFacturacion = new System.Windows.Forms.Panel();
             this.grpPersonas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFacturacion)).BeginInit();
             this.panel1.SuspendLayout();
@@ -63,10 +61,7 @@
             // grpPersonas
             // 
             this.grpPersonas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(1)))), ((int)(((byte)(41)))));
-            this.grpPersonas.Controls.Add(this.lblPrecioTotal);
-            this.grpPersonas.Controls.Add(this.label2);
             this.grpPersonas.Controls.Add(this.cbxOpcionPago);
-            this.grpPersonas.Controls.Add(this.label13);
             this.grpPersonas.Controls.Add(this.label7);
             this.grpPersonas.Controls.Add(this.txtCantidad);
             this.grpPersonas.Controls.Add(this.label5);
@@ -76,33 +71,14 @@
             this.grpPersonas.Controls.Add(this.txtNombre);
             this.grpPersonas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.grpPersonas.ForeColor = System.Drawing.Color.White;
-            this.grpPersonas.Location = new System.Drawing.Point(204, 18);
+            this.grpPersonas.Location = new System.Drawing.Point(204, 78);
             this.grpPersonas.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpPersonas.Name = "grpPersonas";
             this.grpPersonas.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpPersonas.Size = new System.Drawing.Size(915, 163);
             this.grpPersonas.TabIndex = 2;
             this.grpPersonas.TabStop = false;
-            this.grpPersonas.Text = "groupBox1";
-            // 
-            // lblPrecioTotal
-            // 
-            this.lblPrecioTotal.AutoSize = true;
-            this.lblPrecioTotal.Location = new System.Drawing.Point(807, 101);
-            this.lblPrecioTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblPrecioTotal.Name = "lblPrecioTotal";
-            this.lblPrecioTotal.Size = new System.Drawing.Size(0, 20);
-            this.lblPrecioTotal.TabIndex = 33;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(710, 101);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(100, 20);
-            this.label2.TabIndex = 32;
-            this.label2.Text = "Precio Total: ";
+            this.grpPersonas.Text = "Formulario facturacion";
             // 
             // cbxOpcionPago
             // 
@@ -112,18 +88,6 @@
             this.cbxOpcionPago.Name = "cbxOpcionPago";
             this.cbxOpcionPago.Size = new System.Drawing.Size(277, 28);
             this.cbxOpcionPago.TabIndex = 31;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.ForeColor = System.Drawing.Color.Red;
-            this.label13.Location = new System.Drawing.Point(78, 46);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(24, 29);
-            this.label13.TabIndex = 29;
-            this.label13.Text = "*";
             // 
             // label7
             // 
@@ -184,7 +148,7 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(110, 44);
+            this.txtNombre.Location = new System.Drawing.Point(81, 44);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(277, 26);
@@ -193,11 +157,11 @@
             // dgvFacturacion
             // 
             this.dgvFacturacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFacturacion.Location = new System.Drawing.Point(204, 191);
+            this.dgvFacturacion.Location = new System.Drawing.Point(204, 251);
             this.dgvFacturacion.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvFacturacion.Name = "dgvFacturacion";
             this.dgvFacturacion.RowHeadersWidth = 62;
-            this.dgvFacturacion.Size = new System.Drawing.Size(915, 490);
+            this.dgvFacturacion.Size = new System.Drawing.Size(915, 430);
             this.dgvFacturacion.TabIndex = 3;
             this.dgvFacturacion.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFacturacion_RowEnter);
             // 
@@ -211,22 +175,11 @@
             this.panel1.Controls.Add(this.btnGuardaCambios);
             this.panel1.Controls.Add(this.btnCancelar);
             this.panel1.Controls.Add(this.btnGuardar);
-            this.panel1.Location = new System.Drawing.Point(3, 0);
+            this.panel1.Location = new System.Drawing.Point(6, 87);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(190, 692);
+            this.panel1.Size = new System.Drawing.Size(190, 593);
             this.panel1.TabIndex = 4;
-            // 
-            // btnGuardar
-            // 
-            this.btnGuardar.Location = new System.Drawing.Point(15, 38);
-            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(159, 35);
-            this.btnGuardar.TabIndex = 7;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnEliminar
             // 
@@ -263,7 +216,7 @@
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(15, 645);
+            this.btnSalir.Location = new System.Drawing.Point(15, 534);
             this.btnSalir.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(159, 35);
@@ -294,6 +247,17 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
+            // btnGuardar
+            // 
+            this.btnGuardar.Location = new System.Drawing.Point(15, 38);
+            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(159, 35);
+            this.btnGuardar.TabIndex = 7;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            // 
             // errorProvider1
             // 
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.AlwaysBlink;
@@ -305,12 +269,21 @@
             this.errorProvider2.ContainerControl = this;
             this.errorProvider2.Icon = ((System.Drawing.Icon)(resources.GetObject("errorProvider2.Icon")));
             // 
+            // panelFacturacion
+            // 
+            this.panelFacturacion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.panelFacturacion.Location = new System.Drawing.Point(6, 8);
+            this.panelFacturacion.Name = "panelFacturacion";
+            this.panelFacturacion.Size = new System.Drawing.Size(1113, 65);
+            this.panelFacturacion.TabIndex = 5;
+            // 
             // frmFacturacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(1)))), ((int)(((byte)(41)))));
             this.ClientSize = new System.Drawing.Size(1137, 694);
+            this.Controls.Add(this.panelFacturacion);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dgvFacturacion);
             this.Controls.Add(this.grpPersonas);
@@ -350,12 +323,10 @@
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ErrorProvider errorProvider2;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.ComboBox cbxOpcionPago;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lblPrecioTotal;
+        private System.Windows.Forms.Panel panelFacturacion;
     }
 }
 

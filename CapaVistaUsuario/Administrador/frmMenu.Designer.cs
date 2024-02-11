@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.grpMenu = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtNombre = new System.Windows.Forms.TextBox();
+            this.cbxTemporada = new System.Windows.Forms.ComboBox();
+            this.cbxCategoria = new System.Windows.Forms.ComboBox();
+            this.cbxRegion = new System.Windows.Forms.ComboBox();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
             this.txtTiempoPreparacionEstimado = new System.Windows.Forms.TextBox();
             this.txtTipoDeEvento = new System.Windows.Forms.TextBox();
@@ -46,15 +51,13 @@
             this.dgvMenu = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnSalir = new System.Windows.Forms.Button();
-            this.btnModificar = new System.Windows.Forms.Button();
-            this.btnEliminar = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
-            this.btnGuardaCambios = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnModificar = new System.Windows.Forms.Button();
+            this.btnGuardaCambios = new System.Windows.Forms.Button();
+            this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.cbxRegion = new System.Windows.Forms.ComboBox();
-            this.cbxCategoria = new System.Windows.Forms.ComboBox();
-            this.cbxTemporada = new System.Windows.Forms.ComboBox();
+            this.panelMenu = new System.Windows.Forms.Panel();
             this.grpMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMenu)).BeginInit();
             this.panel1.SuspendLayout();
@@ -63,6 +66,8 @@
             // grpMenu
             // 
             this.grpMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(1)))), ((int)(((byte)(41)))));
+            this.grpMenu.Controls.Add(this.label3);
+            this.grpMenu.Controls.Add(this.txtNombre);
             this.grpMenu.Controls.Add(this.cbxTemporada);
             this.grpMenu.Controls.Add(this.cbxCategoria);
             this.grpMenu.Controls.Add(this.cbxRegion);
@@ -82,30 +87,73 @@
             this.grpMenu.Controls.Add(this.label1);
             this.grpMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.grpMenu.ForeColor = System.Drawing.Color.White;
-            this.grpMenu.Location = new System.Drawing.Point(191, 1);
+            this.grpMenu.Location = new System.Drawing.Point(194, 93);
             this.grpMenu.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpMenu.Name = "grpMenu";
             this.grpMenu.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpMenu.Size = new System.Drawing.Size(1029, 303);
             this.grpMenu.TabIndex = 10;
             this.grpMenu.TabStop = false;
-            this.grpMenu.Text = "groupBox1";
+            this.grpMenu.Text = "Formulario menu";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 47);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 20);
+            this.label3.TabIndex = 50;
+            this.label3.Text = "Nombre";
+            // 
+            // txtNombre
+            // 
+            this.txtNombre.Location = new System.Drawing.Point(83, 29);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtNombre.Multiline = true;
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(462, 62);
+            this.txtNombre.TabIndex = 49;
+            // 
+            // cbxTemporada
+            // 
+            this.cbxTemporada.FormattingEnabled = true;
+            this.cbxTemporada.Location = new System.Drawing.Point(110, 249);
+            this.cbxTemporada.Name = "cbxTemporada";
+            this.cbxTemporada.Size = new System.Drawing.Size(327, 28);
+            this.cbxTemporada.TabIndex = 48;
+            // 
+            // cbxCategoria
+            // 
+            this.cbxCategoria.FormattingEnabled = true;
+            this.cbxCategoria.Location = new System.Drawing.Point(110, 201);
+            this.cbxCategoria.Name = "cbxCategoria";
+            this.cbxCategoria.Size = new System.Drawing.Size(327, 28);
+            this.cbxCategoria.TabIndex = 47;
+            // 
+            // cbxRegion
+            // 
+            this.cbxRegion.FormattingEnabled = true;
+            this.cbxRegion.Location = new System.Drawing.Point(657, 47);
+            this.cbxRegion.Name = "cbxRegion";
+            this.cbxRegion.Size = new System.Drawing.Size(327, 28);
+            this.cbxRegion.TabIndex = 11;
             // 
             // txtDescripcion
             // 
-            this.txtDescripcion.Location = new System.Drawing.Point(596, 142);
+            this.txtDescripcion.Location = new System.Drawing.Point(596, 154);
             this.txtDescripcion.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtDescripcion.Multiline = true;
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(388, 133);
+            this.txtDescripcion.Size = new System.Drawing.Size(388, 121);
             this.txtDescripcion.TabIndex = 46;
             // 
             // txtTiempoPreparacionEstimado
             // 
-            this.txtTiempoPreparacionEstimado.Location = new System.Drawing.Point(681, 95);
+            this.txtTiempoPreparacionEstimado.Location = new System.Drawing.Point(497, 101);
             this.txtTiempoPreparacionEstimado.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTiempoPreparacionEstimado.Name = "txtTiempoPreparacionEstimado";
-            this.txtTiempoPreparacionEstimado.Size = new System.Drawing.Size(227, 26);
+            this.txtTiempoPreparacionEstimado.Size = new System.Drawing.Size(273, 26);
             this.txtTiempoPreparacionEstimado.TabIndex = 44;
             // 
             // txtTipoDeEvento
@@ -118,24 +166,24 @@
             // 
             // txtPopularidad
             // 
-            this.txtPopularidad.Location = new System.Drawing.Point(557, 44);
+            this.txtPopularidad.Location = new System.Drawing.Point(908, 101);
             this.txtPopularidad.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtPopularidad.Name = "txtPopularidad";
-            this.txtPopularidad.Size = new System.Drawing.Size(351, 26);
+            this.txtPopularidad.Size = new System.Drawing.Size(59, 26);
             this.txtPopularidad.TabIndex = 41;
             // 
             // txtPrecio
             // 
-            this.txtPrecio.Location = new System.Drawing.Point(83, 98);
+            this.txtPrecio.Location = new System.Drawing.Point(83, 101);
             this.txtPrecio.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtPrecio.Name = "txtPrecio";
-            this.txtPrecio.Size = new System.Drawing.Size(327, 26);
+            this.txtPrecio.Size = new System.Drawing.Size(151, 26);
             this.txtPrecio.TabIndex = 40;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(482, 201);
+            this.label10.Location = new System.Drawing.Point(483, 204);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(92, 20);
@@ -155,7 +203,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(446, 47);
+            this.label8.Location = new System.Drawing.Point(793, 104);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(93, 20);
@@ -204,7 +252,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(446, 101);
+            this.label7.Location = new System.Drawing.Point(271, 104);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(218, 20);
@@ -214,7 +262,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 47);
+            this.label1.Location = new System.Drawing.Point(590, 50);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 20);
@@ -224,7 +272,7 @@
             // dgvMenu
             // 
             this.dgvMenu.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMenu.Location = new System.Drawing.Point(191, 306);
+            this.dgvMenu.Location = new System.Drawing.Point(194, 398);
             this.dgvMenu.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvMenu.Name = "dgvMenu";
             this.dgvMenu.RowHeadersWidth = 62;
@@ -242,7 +290,7 @@
             this.panel1.Controls.Add(this.btnGuardaCambios);
             this.panel1.Controls.Add(this.btnEliminar);
             this.panel1.Controls.Add(this.btnCancelar);
-            this.panel1.Location = new System.Drawing.Point(-2, 1);
+            this.panel1.Location = new System.Drawing.Point(1, 93);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(194, 605);
@@ -259,28 +307,6 @@
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
-            // btnModificar
-            // 
-            this.btnModificar.Location = new System.Drawing.Point(15, 82);
-            this.btnModificar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(159, 35);
-            this.btnModificar.TabIndex = 3;
-            this.btnModificar.Text = "Modificar";
-            this.btnModificar.UseVisualStyleBackColor = true;
-            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
-            // 
-            // btnEliminar
-            // 
-            this.btnEliminar.Location = new System.Drawing.Point(15, 131);
-            this.btnEliminar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(159, 35);
-            this.btnEliminar.TabIndex = 5;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
-            // 
             // btnAgregar
             // 
             this.btnAgregar.Location = new System.Drawing.Point(15, 37);
@@ -291,17 +317,6 @@
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
-            // 
-            // btnGuardaCambios
-            // 
-            this.btnGuardaCambios.Location = new System.Drawing.Point(15, 82);
-            this.btnGuardaCambios.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnGuardaCambios.Name = "btnGuardaCambios";
-            this.btnGuardaCambios.Size = new System.Drawing.Size(159, 35);
-            this.btnGuardaCambios.TabIndex = 4;
-            this.btnGuardaCambios.Text = "Guardar Cambios";
-            this.btnGuardaCambios.UseVisualStyleBackColor = true;
-            this.btnGuardaCambios.Click += new System.EventHandler(this.btnGuardaCambios_Click);
             // 
             // btnGuardar
             // 
@@ -314,6 +329,39 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
+            // btnModificar
+            // 
+            this.btnModificar.Location = new System.Drawing.Point(15, 82);
+            this.btnModificar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnModificar.Name = "btnModificar";
+            this.btnModificar.Size = new System.Drawing.Size(159, 35);
+            this.btnModificar.TabIndex = 3;
+            this.btnModificar.Text = "Modificar";
+            this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
+            // 
+            // btnGuardaCambios
+            // 
+            this.btnGuardaCambios.Location = new System.Drawing.Point(15, 82);
+            this.btnGuardaCambios.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnGuardaCambios.Name = "btnGuardaCambios";
+            this.btnGuardaCambios.Size = new System.Drawing.Size(159, 35);
+            this.btnGuardaCambios.TabIndex = 4;
+            this.btnGuardaCambios.Text = "Guardar Cambios";
+            this.btnGuardaCambios.UseVisualStyleBackColor = true;
+            this.btnGuardaCambios.Click += new System.EventHandler(this.btnGuardaCambios_Click);
+            // 
+            // btnEliminar
+            // 
+            this.btnEliminar.Location = new System.Drawing.Point(15, 131);
+            this.btnEliminar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnEliminar.Name = "btnEliminar";
+            this.btnEliminar.Size = new System.Drawing.Size(159, 35);
+            this.btnEliminar.TabIndex = 5;
+            this.btnEliminar.Text = "Eliminar";
+            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            // 
             // btnCancelar
             // 
             this.btnCancelar.Location = new System.Drawing.Point(15, 130);
@@ -325,40 +373,25 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
-            // cbxRegion
+            // panelMenu
             // 
-            this.cbxRegion.FormattingEnabled = true;
-            this.cbxRegion.Location = new System.Drawing.Point(83, 41);
-            this.cbxRegion.Name = "cbxRegion";
-            this.cbxRegion.Size = new System.Drawing.Size(327, 28);
-            this.cbxRegion.TabIndex = 11;
-            // 
-            // cbxCategoria
-            // 
-            this.cbxCategoria.FormattingEnabled = true;
-            this.cbxCategoria.Location = new System.Drawing.Point(110, 201);
-            this.cbxCategoria.Name = "cbxCategoria";
-            this.cbxCategoria.Size = new System.Drawing.Size(327, 28);
-            this.cbxCategoria.TabIndex = 47;
-            // 
-            // cbxTemporada
-            // 
-            this.cbxTemporada.FormattingEnabled = true;
-            this.cbxTemporada.Location = new System.Drawing.Point(110, 249);
-            this.cbxTemporada.Name = "cbxTemporada";
-            this.cbxTemporada.Size = new System.Drawing.Size(327, 28);
-            this.cbxTemporada.TabIndex = 48;
+            this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.panelMenu.Location = new System.Drawing.Point(0, 0);
+            this.panelMenu.Name = "panelMenu";
+            this.panelMenu.Size = new System.Drawing.Size(1216, 97);
+            this.panelMenu.TabIndex = 11;
             // 
             // frmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1216, 584);
+            this.ClientSize = new System.Drawing.Size(1216, 696);
+            this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.grpMenu);
             this.Controls.Add(this.dgvMenu);
             this.Controls.Add(this.panel1);
             this.Name = "frmMenu";
-            this.Text = "frmMenu";
+            this.Text = "Menu";
             this.Load += new System.EventHandler(this.frmMenu_Load);
             this.grpMenu.ResumeLayout(false);
             this.grpMenu.PerformLayout();
@@ -397,5 +430,8 @@
         private System.Windows.Forms.ComboBox cbxRegion;
         private System.Windows.Forms.ComboBox cbxTemporada;
         private System.Windows.Forms.ComboBox cbxCategoria;
+        private System.Windows.Forms.Panel panelMenu;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtNombre;
     }
 }

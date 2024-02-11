@@ -1,4 +1,15 @@
 ﻿using System.Windows.Forms;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using CapaComun;
+using CapaVistaUsuario.Administrador;
 
 namespace CapaVistaUsuario
 {
@@ -105,6 +116,24 @@ namespace CapaVistaUsuario
                     ((ComboBox)h).Text = null;
                 }
             }
+        }
+
+        public static void InicializarLabelPanel(string texto, Panel nombrePanel)
+        {
+            // Crear y configurar el Label
+            Label lblBitacora = new Label();
+            lblBitacora.Size = new Size(300, 100);
+            lblBitacora.Text = texto;
+            lblBitacora.TextAlign = ContentAlignment.MiddleCenter;
+            lblBitacora.Font = new Font(lblBitacora.Font.FontFamily, 16, FontStyle.Bold);
+            lblBitacora.ForeColor = Color.White;
+
+            int x = (nombrePanel.Width - lblBitacora.Width) / 2;
+            int y = (nombrePanel.Height - lblBitacora.Height) / 2;
+
+            lblBitacora.Location = new Point(x, y);
+
+            nombrePanel.Controls.Add(lblBitacora);
         }
 
     }

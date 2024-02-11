@@ -3,12 +3,14 @@ using System.Data;
 using System.Windows.Forms;
 using CapaLogicaNegocio.Administrador;
 using CapaComun;
+using CapaLogicaNegocio;
 
 namespace CapaVistaUsuario
 {
     public partial class frmFacturacion : Form
     {
         CN_Facturacion facturacion = new CN_Facturacion();
+        CN_Menu menu = new CN_Menu();
 
         public frmFacturacion()
         {
@@ -17,10 +19,23 @@ namespace CapaVistaUsuario
 
         private void frmFacturacion_Load(object sender, EventArgs e)
         {
+            cbxOpcionPago.Items.Add("DEBITO");
+            cbxOpcionPago.Items.Add("CREDITO");
+            cbxOpcionPago.Items.Add("EFECTIVO");
+
+            // Seleccionar el primer elemento por defecto si hay opciones disponibles
+            if (cbxOpcionPago.Items.Count > 0)
+            {
+                cbxOpcionPago.SelectedIndex = 0;
+            }
+
+            CV_Utiles.InicializarLabelPanel("Facturacion", panelFacturacion);
             dgvFacturacion.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvFacturacion.ReadOnly = true;
             dgvFacturacion.MultiSelect = false;
             dgvFacturacion.AllowUserToAddRows = false;
+
+            CN_LlenarCombos llenarCMB2 = new CN_LlenarCombos(cbxMenu, "Menu", "idMenu", "nombre", "precio", "descripcion");
 
             MostrarFacturaciones();
             dgvFacturacion.Select();
@@ -159,20 +174,27 @@ namespace CapaVistaUsuario
 
         private void PasarDatos(bool origen)
         {
-                if (origen == true)
-                {
-                    facturacion.IdFacturacion = Convert.ToInt32(dgvFacturacion.Rows[dgvFacturacion.SelectedRows[0].Index].Cells["idFacturacion"].Value.ToString());
-                }
-                else
-                {
-                    facturacion.IdFacturacion = 0;
-                }
-
-                facturacion.NombreDelCliente = txtNombre.Text;
-                facturacion.Cantidades = Convert.ToInt32(txtCantidad.Text);
-                facturacion.PrecioTotal = 0;
-                facturacion.FormaDePago = cbxOpcionPago.Text;
-                facturacion.IdMenu = 0;
+            if (origen == true)
+            {
+                facturacion.IdFacturacion = Convert.ToInt32(dgvFacturacion.Rows[dgvFacturacion.SelectedRows[0].Index].Cells["idFacturacion"].Value.ToString());
+            }
+            else
+            {
+                facturacion.IdFacturacion = 0;
+            }
+            if (cbxMenu.SelectedItem == null)
+            {
+                facturacion.IdMenu = "0";
+            }
+            else
+            {
+                facturacion.IdMenu = cbxMenu.SelectedValue.ToString();
+            }
+            facturacion.NombreDelCliente = txtNombre.Text;
+            facturacion.Cantidades = Convert.ToInt32(txtCantidad.Text);
+            menu.obtenerPrecio(facturacion.IdMenu);
+            
+            facturacion.FormaDePago = cbxOpcionPago.Text;
         }
         #endregion
     }

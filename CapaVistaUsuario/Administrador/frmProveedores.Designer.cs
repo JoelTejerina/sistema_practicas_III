@@ -33,14 +33,12 @@
             this.btnSalir = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.btnGuardar = new System.Windows.Forms.Button();
-            this.btnAgregar = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnGuardaCambios = new System.Windows.Forms.Button();
+            this.btnAgregar = new System.Windows.Forms.Button();
+            this.btnGuardar = new System.Windows.Forms.Button();
             this.dgvProveedores = new System.Windows.Forms.DataGridView();
             this.grpPersonas = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.txtProducto = new System.Windows.Forms.TextBox();
             this.txtCategoria = new System.Windows.Forms.TextBox();
             this.txtCantidad = new System.Windows.Forms.TextBox();
@@ -55,7 +53,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblPrecioTotal = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.txtRazonSocial = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -64,6 +61,7 @@
             this.errorNombre = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorRazonSocial = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorCuit = new System.Windows.Forms.ErrorProvider(this.components);
+            this.panelProveedores = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProveedores)).BeginInit();
             this.grpPersonas.SuspendLayout();
@@ -82,7 +80,7 @@
             this.panel1.Controls.Add(this.btnGuardaCambios);
             this.panel1.Controls.Add(this.btnAgregar);
             this.panel1.Controls.Add(this.btnGuardar);
-            this.panel1.Location = new System.Drawing.Point(-1, 2);
+            this.panel1.Location = new System.Drawing.Point(-2, 57);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(194, 623);
@@ -90,7 +88,7 @@
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(15, 645);
+            this.btnSalir.Location = new System.Drawing.Point(15, 571);
             this.btnSalir.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(159, 35);
@@ -120,28 +118,6 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click_1);
             // 
-            // btnGuardar
-            // 
-            this.btnGuardar.Location = new System.Drawing.Point(15, 38);
-            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(159, 35);
-            this.btnGuardar.TabIndex = 7;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click_1);
-            // 
-            // btnAgregar
-            // 
-            this.btnAgregar.Location = new System.Drawing.Point(15, 38);
-            this.btnAgregar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(159, 35);
-            this.btnAgregar.TabIndex = 0;
-            this.btnAgregar.Text = "Agregar";
-            this.btnAgregar.UseVisualStyleBackColor = true;
-            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click_1);
-            // 
             // btnModificar
             // 
             this.btnModificar.Location = new System.Drawing.Point(15, 83);
@@ -164,10 +140,32 @@
             this.btnGuardaCambios.UseVisualStyleBackColor = true;
             this.btnGuardaCambios.Click += new System.EventHandler(this.btnGuardaCambios_Click);
             // 
+            // btnAgregar
+            // 
+            this.btnAgregar.Location = new System.Drawing.Point(15, 38);
+            this.btnAgregar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAgregar.Name = "btnAgregar";
+            this.btnAgregar.Size = new System.Drawing.Size(159, 35);
+            this.btnAgregar.TabIndex = 0;
+            this.btnAgregar.Text = "Agregar";
+            this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click_1);
+            // 
+            // btnGuardar
+            // 
+            this.btnGuardar.Location = new System.Drawing.Point(15, 38);
+            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(159, 35);
+            this.btnGuardar.TabIndex = 7;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click_1);
+            // 
             // dgvProveedores
             // 
             this.dgvProveedores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProveedores.Location = new System.Drawing.Point(192, 274);
+            this.dgvProveedores.Location = new System.Drawing.Point(191, 329);
             this.dgvProveedores.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvProveedores.Name = "dgvProveedores";
             this.dgvProveedores.RowHeadersWidth = 62;
@@ -178,8 +176,6 @@
             // grpPersonas
             // 
             this.grpPersonas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(1)))), ((int)(((byte)(41)))));
-            this.grpPersonas.Controls.Add(this.label11);
-            this.grpPersonas.Controls.Add(this.label5);
             this.grpPersonas.Controls.Add(this.txtProducto);
             this.grpPersonas.Controls.Add(this.txtCategoria);
             this.grpPersonas.Controls.Add(this.txtCantidad);
@@ -194,7 +190,6 @@
             this.grpPersonas.Controls.Add(this.label4);
             this.grpPersonas.Controls.Add(this.label2);
             this.grpPersonas.Controls.Add(this.lblPrecioTotal);
-            this.grpPersonas.Controls.Add(this.label13);
             this.grpPersonas.Controls.Add(this.label7);
             this.grpPersonas.Controls.Add(this.txtRazonSocial);
             this.grpPersonas.Controls.Add(this.label3);
@@ -202,38 +197,14 @@
             this.grpPersonas.Controls.Add(this.txtNombre);
             this.grpPersonas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.grpPersonas.ForeColor = System.Drawing.Color.White;
-            this.grpPersonas.Location = new System.Drawing.Point(192, 2);
+            this.grpPersonas.Location = new System.Drawing.Point(191, 57);
             this.grpPersonas.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpPersonas.Name = "grpPersonas";
             this.grpPersonas.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpPersonas.Size = new System.Drawing.Size(1029, 273);
             this.grpPersonas.TabIndex = 7;
             this.grpPersonas.TabStop = false;
-            this.grpPersonas.Text = "groupBox1";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.Red;
-            this.label11.Location = new System.Drawing.Point(49, 98);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(24, 29);
-            this.label11.TabIndex = 48;
-            this.label11.Text = "*";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(529, 44);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(24, 29);
-            this.label5.TabIndex = 47;
-            this.label5.Text = "*";
+            this.grpPersonas.Text = "Formulario proveedores";
             // 
             // txtProducto
             // 
@@ -360,18 +331,6 @@
             this.lblPrecioTotal.Size = new System.Drawing.Size(0, 20);
             this.lblPrecioTotal.TabIndex = 33;
             // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.ForeColor = System.Drawing.Color.Red;
-            this.label13.Location = new System.Drawing.Point(78, 46);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(24, 29);
-            this.label13.TabIndex = 29;
-            this.label13.Text = "*";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -430,11 +389,20 @@
             // 
             this.errorCuit.ContainerControl = this;
             // 
+            // panelProveedores
+            // 
+            this.panelProveedores.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.panelProveedores.Location = new System.Drawing.Point(0, 0);
+            this.panelProveedores.Name = "panelProveedores";
+            this.panelProveedores.Size = new System.Drawing.Size(1220, 58);
+            this.panelProveedores.TabIndex = 8;
+            // 
             // frmProveedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1219, 622);
+            this.ClientSize = new System.Drawing.Size(1219, 675);
+            this.Controls.Add(this.panelProveedores);
             this.Controls.Add(this.grpPersonas);
             this.Controls.Add(this.dgvProveedores);
             this.Controls.Add(this.panel1);
@@ -465,7 +433,6 @@
         private System.Windows.Forms.DataGridView dgvProveedores;
         private System.Windows.Forms.GroupBox grpPersonas;
         private System.Windows.Forms.Label lblPrecioTotal;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtRazonSocial;
         private System.Windows.Forms.Label label3;
@@ -484,10 +451,9 @@
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.TextBox txtCertificadoAfip;
         private System.Windows.Forms.TextBox txtCuit;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ErrorProvider errorNombre;
         private System.Windows.Forms.ErrorProvider errorRazonSocial;
         private System.Windows.Forms.ErrorProvider errorCuit;
+        private System.Windows.Forms.Panel panelProveedores;
     }
 }

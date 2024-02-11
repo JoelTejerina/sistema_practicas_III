@@ -698,3 +698,4 @@ C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Administra
 C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Administrador.frmProducto.resources
 C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.frmMenu.resources
 C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.frmStock.resources
+C:\Users\Joel\Sistema2023\CapaVistaUsuario\obj\Debug\CapaVistaUsuario.Administrador.frmBitacora.resources
