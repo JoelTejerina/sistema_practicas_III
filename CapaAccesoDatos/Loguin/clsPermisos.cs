@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
-using System.Data.OleDb;
 using CapaComun;
 using CapaAccesoDatos;
 
@@ -12,30 +7,78 @@ namespace CapaDatos
 {
     public class clsPermisos : clsConexion
     {
-        public bool Permisos(int IdUser)
+        private const string FiltroUsuarioActivo =
+            " AND ISNULL(PermisosUsuarios.FechaBaja) " +
+            " AND iif(NOT ISNULL(PermisosUsuarios.AltaProvisoria), PermisosUsuarios.AltaProvisoria >= date(), ISNULL(PermisosUsuarios.AltaProvisoria)) ";
+
+        public bool Permisos(int idUser)
         {
-            string sSql = "SELECT PermisosUsuarios.IdPermiso, Permisos.Funcionalidad"+
-                          " FROM Permisos INNER JOIN PermisosUsuarios ON Permisos.[IdPermiso] = PermisosUsuarios.[IdPermiso]" +
-                          " where IdUsuario = " + IdUser + 
-                          " and ISNULL(PermisosUsuarios.FechaBaja) " +
-                          " and iif(NOT ISNULL(PermisosUsuarios.AltaProvisoria), PermisosUsuarios.AltaProvisoria >= date(), ISNULL(PermisosUsuarios.AltaProvisoria))  ";
+            UserCache.PermisosUsuario.Clear();
 
-            DataTable DT = new DataTable();
-            clsEjecutarComando Ejecutar = new clsEjecutarComando();
-            DT= Ejecutar.Ejecutar(sSql);
+            bool tieneAlguno = false;
+            tieneAlguno |= CargarPermisosDirectos(idUser);
+            tieneAlguno |= CargarPermisosPorGrupo(idUser);
+            CargarGrupoUsuario(idUser);
 
-            if (DT.Rows.Count > 0)
+            return tieneAlguno;
+        }
+
+        private void CargarGrupoUsuario(int idUser)
+        {
+            UserCache.IdGrupo = 0;
+            UserCache.NombreGrupo = null;
+
+            string sSql = "SELECT UsuariosGrupos.IdGrupo, Grupos.Grupo " +
+                "FROM UsuariosGrupos INNER JOIN Grupos ON UsuariosGrupos.IdGrupo = Grupos.IdGrupo " +
+                "WHERE UsuariosGrupos.IdUsuario = " + idUser;
+
+            clsEjecutarComando ejecutar = new clsEjecutarComando();
+            DataTable dt = ejecutar.Ejecutar(sSql);
+            if (dt.Rows.Count > 0)
             {
-                foreach (DataRow row in DT.Rows)
-                {
-                    UserCache.PermisosUsuario.Add(Convert.ToInt32(row[0].ToString()), row[1].ToString());
-                }
-                return true;
+                UserCache.IdGrupo = Convert.ToInt32(dt.Rows[0][0]);
+                UserCache.NombreGrupo = dt.Rows[0][1].ToString();
             }
-            else
+        }
+
+        private bool CargarPermisosDirectos(int idUser)
+        {
+            string sSql = "SELECT PermisosUsuarios.IdPermiso, Permisos.Funcionalidad " +
+                "FROM Permisos INNER JOIN PermisosUsuarios ON Permisos.IdPermiso = PermisosUsuarios.IdPermiso " +
+                "WHERE PermisosUsuarios.IdUsuario = " + idUser + FiltroUsuarioActivo;
+
+            clsEjecutarComando ejecutar = new clsEjecutarComando();
+            return AgregarPermisos(ejecutar.Ejecutar(sSql));
+        }
+
+        private bool CargarPermisosPorGrupo(int idUser)
+        {
+            string sSql = "SELECT Permisos.IdPermiso, Permisos.Funcionalidad " +
+                "FROM ((UsuariosGrupos INNER JOIN PermisosGrupos ON UsuariosGrupos.IdGrupo = PermisosGrupos.IdGrupo) " +
+                "INNER JOIN Permisos ON PermisosGrupos.IdPermiso = Permisos.IdPermiso) " +
+                "WHERE UsuariosGrupos.IdUsuario = " + idUser;
+
+            clsEjecutarComando ejecutar = new clsEjecutarComando();
+            return AgregarPermisos(ejecutar.Ejecutar(sSql));
+        }
+
+        private bool AgregarPermisos(DataTable dt)
+        {
+            if (dt == null || dt.Rows.Count == 0)
             {
                 return false;
             }
+
+            foreach (DataRow row in dt.Rows)
+            {
+                int idPermiso = Convert.ToInt32(row[0]);
+                string funcionalidad = row[1].ToString();
+                if (!UserCache.PermisosUsuario.ContainsKey(idPermiso))
+                {
+                    UserCache.PermisosUsuario.Add(idPermiso, funcionalidad);
+                }
+            }
+            return true;
         }
     }
 }
