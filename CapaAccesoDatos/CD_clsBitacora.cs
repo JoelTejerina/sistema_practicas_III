@@ -11,7 +11,7 @@ namespace CapaAccesoDatos
     {
         public CD_clsBitacora(string evento, string detalle, string origen)
         {
-            string fecha = DateTime.Now.ToString("dd-MM-yyyy");
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
             string hora = DateTime.Now.ToString("HH:mm");
             int IdUsuario; 
             string usuario;
@@ -26,11 +26,17 @@ namespace CapaAccesoDatos
             else
             { usuario = UserCache.Apellido + " " + UserCache.Nombres; }
 
-            string sSQL = "Insert into BITACORA (fecha, hora, IdUsuario, usuario, evento, detalle, origen) " +
-                "values (#" + fecha + "#, '" + hora + "', " +  IdUsuario + ", '" + usuario + "', '" + evento + "', '" + detalle + "', '" + origen +"')";
+            string sSQL = "INSERT INTO Bitacora (Fecha, Hora, IdUsuario, Usuario, Evento, Detalle, Origen) " +
+                "VALUES (#" + fecha + "#, '" + hora + "', " + IdUsuario + ", '" + SqlTxt(usuario) +
+                "', '" + SqlTxt(evento) + "', '" + SqlTxt(detalle) + "', '" + SqlTxt(origen) + "')";
 
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
-            Ejecutar.Ejecutar(sSQL);
+            Ejecutar.EjecucionDirecta(sSQL);
+        }
+
+        private static string SqlTxt(string valor)
+        {
+            return (valor ?? "").Replace("'", "''");
         }
     }
 }
