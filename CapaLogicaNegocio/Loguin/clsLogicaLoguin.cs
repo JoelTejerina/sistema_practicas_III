@@ -28,6 +28,7 @@ namespace CapaLogicaNegocio
                 //existe = userLoguin.Login(user, pass);
                 if (existe)
                 {
+                    UserCache.PermisosUsuario.Clear();
                     Permisos.Permisos(UserCache.IdUsuario);
                 }
             }
