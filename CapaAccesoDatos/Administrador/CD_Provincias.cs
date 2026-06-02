@@ -60,6 +60,7 @@ namespace CapaAccesoDatos.Administrador
         public void ModificarProvincia()
         {
             string sSql = "UPDATE Provincias set " +
+                " Provincia = '" + provincia + "'" +
                 " WHERE IdProvincia =" + idprovincia;
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);
