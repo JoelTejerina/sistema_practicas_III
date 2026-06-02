@@ -1,0 +1,29 @@
+# Visual Studio / IDE (no subir por error)
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Compilacion: cada PC genera los suyos
+CapaAccesoDatos/bin/
+CapaAccesoDatos/obj/
+CapaComun/bin/
+CapaComun/obj/
+CapaLogicaNegocio/bin/
+CapaLogicaNegocio/obj/
+CapaVistaUsuario/obj/
+
+# bin de la app: ignorar todo excepto la BD compartida
+CapaVistaUsuario/bin/*
+!CapaVistaUsuario/bin/Debug/
+CapaVistaUsuario/bin/Debug/*
+!CapaVistaUsuario/bin/Debug/Loguin.accdb
+
+# Bloqueo de Access mientras la BD esta abierta
+*.laccdb
+
+# Otros temporales
+[Tt]humbs.db
+[Dd]esktop.ini
+packages/
