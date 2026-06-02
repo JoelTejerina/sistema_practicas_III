@@ -22,6 +22,8 @@ namespace CapaComun
         public static string Apellido { get; set; }
         public static string Nombres { get; set; }
         public static string Cargo { get; set; }
+        public static int IdGrupo { get; set; }
+        public static string NombreGrupo { get; set; }
 
         public static Hashtable PermisosUsuario = new Hashtable();
 
