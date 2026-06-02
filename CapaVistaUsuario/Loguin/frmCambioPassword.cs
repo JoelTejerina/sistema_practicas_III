@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using CapaComun;
 using CapaLogicaNegocio;
 using CapaLogicaNegocio.Loguin;
+using CapaVistaUsuario;
 
 namespace CapaVistaUsuario.Loguin
 {
@@ -47,10 +48,7 @@ namespace CapaVistaUsuario.Loguin
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(),
-                    "ERROR EN CAMBIO",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error );
+                CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name, "ERROR EN CAMBIO");
             }
         }
 

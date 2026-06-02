@@ -16,6 +16,7 @@ namespace CapaVistaUsuario
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            CV_ExcepcionBitacora.ConfigurarManejadoresGlobales();
            // Application.Run(new CapaVistaUsuario.frmLoguin());
 
             CapaVistaUsuario.frmLoguin frm = new CapaVistaUsuario.frmLoguin();

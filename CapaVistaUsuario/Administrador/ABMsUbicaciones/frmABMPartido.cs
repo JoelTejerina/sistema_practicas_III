@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CapaLogicaNegocio;
 using CapaLogicaNegocio.Administrador.ABMsUbicaciones;
+using CapaVistaUsuario;
 
 namespace CapaVistaUsuario.Administrador.ABMsUbicaciones
 {
@@ -41,7 +42,7 @@ namespace CapaVistaUsuario.Administrador.ABMsUbicaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No se guardaron los datos por: \n" + ex);
+                CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
             }
         }
 

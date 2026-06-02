@@ -81,7 +81,7 @@ namespace CapaVistaUsuario
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No se guardaron los datos por: \n" + ex);
+                CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
             }
 
             errorProvider1.Dispose();
@@ -134,7 +134,7 @@ namespace CapaVistaUsuario
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No se guardaron los datos por: \n" + ex);
+                CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
             }
             errorProvider1.Dispose();
             errorProvider2.Dispose();
