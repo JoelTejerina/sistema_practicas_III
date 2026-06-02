@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administrador\ABMsUbicaciones\CLN_Partido.cs" />
+    <Compile Include="Administrador\CN_Bitacora.cs" />
+    <Compile Include="Administrador\CN_UsuariosGrupos.cs" />
+    <Compile Include="Administrador\CN_RegistroUsuario.cs" />
     <Compile Include="Administrador\ABMsUbicaciones\CLN_Provincia.cs" />
     <Compile Include="Administrador\ABMsUbicaciones\Cls_CLocalidades.cs" />
     <Compile Include="Administrador\ABMsUbicaciones\Cls_CPartidos.cs" />
@@ -53,6 +56,12 @@
     <Compile Include="Administrador\ABMsUbicaciones\ListaLocalidades.cs" />
     <Compile Include="Administrador\CN_Usuarios.cs" />
     <Compile Include="Administrador\CN_Personas.cs" />
+    <Compile Include="Compras\CN_Proveedor.cs" />
+    <Compile Include="Compras\CN_Producto.cs" />
+    <Compile Include="Compras\CN_Stock.cs" />
+    <Compile Include="Ventas\CN_Menu.cs" />
+    <Compile Include="Ventas\CN_Estadisticas.cs" />
+    <Compile Include="Ventas\CN_Pedido.cs" />
     <Compile Include="CL_clsBitacora.cs" />
     <Compile Include="LlenarCombos\CN_LlenarCombos.cs" />
     <Compile Include="Loguin\clsLogicaLoguin.cs" />

@@ -95,6 +95,26 @@
     <Compile Include="Administrador\CV_Utiles.cs" />
     <Compile Include="Administrador\CV_Notify.cs" />
     <Compile Include="Administrador\CV_Validar_Mail.cs" />
+    <Compile Include="Administrador\frmAsignarRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\frmAsignarRol.Designer.cs">
+      <DependentUpon>frmAsignarRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\frmRegistrarUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\frmRegistrarUsuario.Designer.cs">
+      <DependentUpon>frmRegistrarUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\frmBitacora.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\frmBitacora.Designer.cs">
+      <DependentUpon>frmBitacora.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CV_ABM_Permisos.cs" />
+    <Compile Include="CV_ExcepcionBitacora.cs" />
     <Compile Include="Administrador\frmUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +126,42 @@
     </Compile>
     <Compile Include="Administrador\frmPersonas.Designer.cs">
       <DependentUpon>frmPersonas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compras\frmProveedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compras\frmProveedores.Designer.cs">
+      <DependentUpon>frmProveedores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compras\frmProducto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compras\frmProducto.Designer.cs">
+      <DependentUpon>frmProducto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compras\frmStock.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compras\frmStock.Designer.cs">
+      <DependentUpon>frmStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ventas\frmMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\frmMenu.Designer.cs">
+      <DependentUpon>frmMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ventas\frmFacturacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\frmFacturacion.Designer.cs">
+      <DependentUpon>frmFacturacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ventas\frmEstadisticas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\frmEstadisticas.Designer.cs">
+      <DependentUpon>frmEstadisticas.cs</DependentUpon>
     </Compile>
     <Compile Include="frmPrincipal.cs">
       <SubType>Form</SubType>

@@ -47,9 +47,18 @@
   <ItemGroup>
     <Compile Include="Administrador\CD_Localidades.cs" />
     <Compile Include="Administrador\CD_Partidos.cs" />
+    <Compile Include="Administrador\CD_Bitacora.cs" />
+    <Compile Include="Administrador\CD_UsuariosGrupos.cs" />
+    <Compile Include="Administrador\CD_RegistroUsuario.cs" />
     <Compile Include="Administrador\CD_Provincias.cs" />
     <Compile Include="Administrador\CD_Usuarios.cs" />
     <Compile Include="Administrador\CD_Personas.cs" />
+    <Compile Include="Compras\CD_Proveedor.cs" />
+    <Compile Include="Compras\CD_Producto.cs" />
+    <Compile Include="Compras\CD_Stock.cs" />
+    <Compile Include="Ventas\CD_Menu.cs" />
+    <Compile Include="Ventas\CD_Estadisticas.cs" />
+    <Compile Include="Ventas\CD_Pedido.cs" />
     <Compile Include="CD_clsBitacora.cs" />
     <Compile Include="clsEjecutarComando.cs" />
     <Compile Include="LlenarCombos\CD_LlenarCombos.cs" />
