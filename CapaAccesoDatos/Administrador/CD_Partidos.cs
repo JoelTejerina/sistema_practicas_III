@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using CapaComun;
-using System.Data.OleDb;
 using CapaAccesoDatos;
 
 namespace CapaAccesoDatos.Administrador
@@ -64,7 +63,7 @@ namespace CapaAccesoDatos.Administrador
         public void ModificarPersona()
         {
             string sSql = "UPDATE Partidos set " +
-                "IdPartido='" + idpartido + "', Partido='" + partido + "', IdProvincia = " + idprovincia +
+                "Partido='" + partido + "', IdProvincia = " + idprovincia +
                 " WHERE IdPartido =" + idpartido;
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);

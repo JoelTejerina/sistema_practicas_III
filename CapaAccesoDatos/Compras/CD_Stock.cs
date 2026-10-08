@@ -28,7 +28,7 @@ namespace CapaAccesoDatos.Compras
         {
             string sSql = "INSERT INTO Stock " +
                 "(IdProducto, NumeroLote, Cantidad, FechaVencimiento, Precio) VALUES (" +
-                IdProducto + ",'" + T(NumeroLote) + "'," + Cantidad + ",#" + Fecha() + "#," + Num(Precio) + ")";
+                IdProducto + ",'" + T(NumeroLote) + "'," + Cantidad + ",'" + Fecha() + "'," + Num(Precio) + ")";
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);
         }
@@ -37,7 +37,7 @@ namespace CapaAccesoDatos.Compras
         {
             string sSql = "UPDATE Stock SET " +
                 "IdProducto=" + IdProducto + ", NumeroLote='" + T(NumeroLote) + "', Cantidad=" + Cantidad +
-                ", FechaVencimiento=#" + Fecha() + "#, Precio=" + Num(Precio) + " " +
+                ", FechaVencimiento='" + Fecha() + "', Precio=" + Num(Precio) + " " +
                 "WHERE IdStock=" + IdStock;
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);
@@ -55,10 +55,10 @@ namespace CapaAccesoDatos.Compras
             return (valor ?? "").Replace("'", "''");
         }
 
-        // Formato de fecha no ambiguo para Access (yyyy-MM-dd)
+        // Formato de fecha no ambiguo para SQL Server (yyyyMMdd)
         private string Fecha()
         {
-            return FechaVencimiento.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            return FechaVencimiento.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
         }
 
         // Numero con punto decimal, independiente de la cultura/idioma activo

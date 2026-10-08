@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using CapaComun;
-using System.Data.OleDb;
 using CapaAccesoDatos;
 
 namespace CapaAccesoDatos.Administrador
@@ -66,7 +65,7 @@ namespace CapaAccesoDatos.Administrador
         public DataTable Mostrar()
         {
              string sSql;
-             sSql = "Select * from Usuario ";
+             sSql = "Select * from Usuarios ";
              clsEjecutarComando Ejecutar = new clsEjecutarComando();
              return Ejecutar.Ejecutar(sSql);  
             

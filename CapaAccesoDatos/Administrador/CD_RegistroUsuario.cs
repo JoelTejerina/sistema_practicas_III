@@ -76,9 +76,7 @@ namespace CapaAccesoDatos.Administrador
                         "VALUES ('" + SqlTxt(Apellido) + "','" + SqlTxt(Nombres) + "'," + IdTipoDoc + "," + NroDoc +
                         ",'" + SqlTxt(Telefono) + "','" + SqlTxt(Correo) + "','','0','',''," +
                         idLocalidad + "," + idCargo + ")";
-                    ejecutar.EjecucionDirecta(sqlPersonal);
-
-                    idPersona = ObtenerMaxId(ejecutar, "Personal", "IdPersona");
+                    idPersona = InsertarYObtenerId(ejecutar, sqlPersonal);
                     if (idPersona <= 0)
                     {
                         throw new InvalidOperationException("No se pudo obtener el IdPersona generado.");
@@ -90,14 +88,12 @@ namespace CapaAccesoDatos.Administrador
                     throw new InvalidOperationException("Esta persona ya tiene un usuario de acceso en el sistema.");
                 }
 
-                string fechaAlta = DateTime.Today.ToString("yyyy-MM-dd");
+                string fechaAlta = DateTime.Today.ToString("yyyyMMdd");
                 string sqlUsuario = "INSERT INTO Usuarios " +
                     "([Usuario], [Password], [IdPersona], [FechaAlta], [CambiaCada], [UsuarioDesactivado]) " +
                     "VALUES ('" + SqlTxt(Usuario.Trim()) + "','" + PasswordHash + "'," + idPersona +
-                    ",#" + fechaAlta + "#,90,False)";
-                ejecutar.EjecucionDirecta(sqlUsuario);
-
-                int idUsuario = ObtenerMaxId(ejecutar, "Usuarios", "IdUsuario");
+                    ",'" + fechaAlta + "',90,0)";
+                int idUsuario = InsertarYObtenerId(ejecutar, sqlUsuario);
                 if (idUsuario <= 0)
                 {
                     throw new InvalidOperationException("No se pudo obtener el IdUsuario generado.");
@@ -127,14 +123,16 @@ namespace CapaAccesoDatos.Administrador
             }
         }
 
-        private static int ObtenerMaxId(clsEjecutarComando ejecutar, string tabla, string campo)
+        // Ejecuta el INSERT y devuelve el Id que genero ESA misma sentencia.
+        // (SCOPE_IDENTITY es seguro con varios usuarios a la vez; MAX(Id) no lo era.)
+        private static int InsertarYObtenerId(clsEjecutarComando ejecutar, string sqlInsert)
         {
-            DataTable dt = ejecutar.Ejecutar("SELECT MAX(" + campo + ") AS Ultimo FROM " + tabla);
-            if (dt.Rows.Count == 0 || dt.Rows[0]["Ultimo"] == DBNull.Value)
+            object nuevoId = ejecutar.EjecutarEscalar(sqlInsert + "; SELECT CAST(SCOPE_IDENTITY() AS INT)");
+            if (nuevoId == null || nuevoId == DBNull.Value)
             {
                 return 0;
             }
-            return Convert.ToInt32(dt.Rows[0]["Ultimo"]);
+            return Convert.ToInt32(nuevoId);
         }
     }
 }

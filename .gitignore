@@ -27,3 +27,6 @@ CapaVistaUsuario/bin/Debug/*
 [Tt]humbs.db
 [Dd]esktop.ini
 packages/
+
+# Conexion a la base de datos de cada desarrollador (no subir)
+conexion.local.txt

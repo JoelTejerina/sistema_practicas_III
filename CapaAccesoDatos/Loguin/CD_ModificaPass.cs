@@ -12,7 +12,7 @@ namespace CapaAccesoDatos.Loguin
         clsEjecutarComando Ejecutar = new clsEjecutarComando();
         public void ModificaPass(int IdUser, String Pass )
         {
-            string SSql = "UPDATE Usuarios SET Usuarios.Password ='" + Pass + "' WHERE Usuarios.IdUsuario =" + IdUser ;
+            string SSql = "UPDATE Usuarios SET Usuarios.Password ='" + (Pass ?? "").Replace("'", "''") + "' WHERE Usuarios.IdUsuario =" + IdUser ;
             Ejecutar.EjecucionDirecta(SSql);
         }
         

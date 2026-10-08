@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using System.Data.OleDb;
 using CapaComun;
 
 namespace CapaAccesoDatos
@@ -15,9 +14,9 @@ namespace CapaAccesoDatos
         public bool Login(string user, string pass)
         {
             string sSql = "SELECT Usuarios.IdUsuario, Usuarios.Usuario, Usuarios.Password, Usuarios.IdPersona, Usuarios.FechaAlta, Usuarios.FechaBaja, Usuarios.CambiaCada, Usuarios.FechaUltimoCambio, Usuarios.UsuarioDesactivado, Usuarios.FechaDesactivacion, Personal.Apellido, Personal.Nombres, Cargos.Cargo " +
-           "FROM(Cargos INNER JOIN Personal ON Cargos.[IdCargo] = Personal.[IdCargo]) " +
+           "FROM Cargos INNER JOIN Personal ON Cargos.[IdCargo] = Personal.[IdCargo] " +
            "INNER JOIN Usuarios ON Personal.[IdPersona] = Usuarios.[IdPersona]" +
-           " where Usuarios.usuario= '" + user + "' and Usuarios.Password= '" + pass + "'";
+           " where Usuarios.usuario= '" + (user ?? "").Replace("'", "''") + "' and Usuarios.Password= '" + (pass ?? "").Replace("'", "''") + "'";
             // and Usuarios.UsuarioDesactivado=false
             DataTable DT = new DataTable();
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
@@ -53,9 +52,9 @@ namespace CapaAccesoDatos
         {
             //Verifica si el usuario existe extrayendo 
             string sSql = "SELECT Usuarios.IdUsuario, Usuarios.Usuario, Usuarios.IdPersona, Personal.Apellido, Personal.Nombres, Cargos.Cargo " +
-               "FROM(Cargos INNER JOIN Personal ON Cargos.[IdCargo] = Personal.[IdCargo]) " +
-               "INNER JOIN Usuarios ON Personal.[IdPersona] = Usuarios.[IdPersona]" +
-                "WHERE Usuarios.usuario= '" + user +"'";
+               "FROM Cargos INNER JOIN Personal ON Cargos.[IdCargo] = Personal.[IdCargo] " +
+               "INNER JOIN Usuarios ON Personal.[IdPersona] = Usuarios.[IdPersona] " +
+                "WHERE Usuarios.usuario= '" + (user ?? "").Replace("'", "''") +"'";
             DataTable DT2 = new DataTable();
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             DT2 = Ejecutar.Ejecutar(sSql);

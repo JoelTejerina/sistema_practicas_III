@@ -11,7 +11,7 @@ namespace CapaAccesoDatos.Administrador
         public DataTable MostrarUsuariosConRol()
         {
             string sSql = "SELECT u.IdUsuario, u.Usuario, g.IdGrupo, g.Grupo " +
-                "FROM (Usuarios AS u LEFT JOIN UsuariosGrupos AS ug ON u.IdUsuario = ug.IdUsuario) " +
+                "FROM Usuarios AS u LEFT JOIN UsuariosGrupos AS ug ON u.IdUsuario = ug.IdUsuario " +
                 "LEFT JOIN Grupos AS g ON ug.IdGrupo = g.IdGrupo " +
                 "ORDER BY u.Usuario";
             clsEjecutarComando ejecutar = new clsEjecutarComando();

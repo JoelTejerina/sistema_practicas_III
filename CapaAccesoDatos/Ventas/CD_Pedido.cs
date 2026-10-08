@@ -32,7 +32,7 @@ namespace CapaAccesoDatos.Ventas
             string sSql = "INSERT INTO Pedido " +
                 "(NombreCliente, IdMenu, Cantidad, FormaPago, InstruccionesEspeciales, Estado, PrecioTotal, Fecha) VALUES (" +
                 "'" + T(NombreCliente) + "'," + IdMenu + "," + Cantidad + ",'" + T(FormaPago) + "','" +
-                T(InstruccionesEspeciales) + "','" + T(Estado) + "'," + Num(PrecioTotal) + ",#" + FechaTxt() + "#)";
+                T(InstruccionesEspeciales) + "','" + T(Estado) + "'," + Num(PrecioTotal) + ",'" + FechaTxt() + "')";
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);
         }
@@ -42,7 +42,7 @@ namespace CapaAccesoDatos.Ventas
             string sSql = "UPDATE Pedido SET " +
                 "NombreCliente='" + T(NombreCliente) + "', IdMenu=" + IdMenu + ", Cantidad=" + Cantidad +
                 ", FormaPago='" + T(FormaPago) + "', InstruccionesEspeciales='" + T(InstruccionesEspeciales) +
-                "', Estado='" + T(Estado) + "', PrecioTotal=" + Num(PrecioTotal) + ", Fecha=#" + FechaTxt() + "# " +
+                "', Estado='" + T(Estado) + "', PrecioTotal=" + Num(PrecioTotal) + ", Fecha='" + FechaTxt() + "' " +
                 "WHERE IdPedido=" + IdPedido;
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);
@@ -70,7 +70,7 @@ namespace CapaAccesoDatos.Ventas
 
         private string FechaTxt()
         {
-            return Fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            return Fecha.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
         }
 
         private string Num(decimal valor)
