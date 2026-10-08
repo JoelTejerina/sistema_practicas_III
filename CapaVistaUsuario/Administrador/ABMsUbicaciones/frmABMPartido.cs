@@ -20,6 +20,7 @@ namespace CapaVistaUsuario.Administrador.ABMsUbicaciones
         public frmABMPartido()
         {
             InitializeComponent();
+            BuscadorGrilla.Agregar(dataGridView1, "Partido");
         }
 
         private void ABMPartido_Load(object sender, EventArgs e)
@@ -27,6 +28,18 @@ namespace CapaVistaUsuario.Administrador.ABMsUbicaciones
             //Revisar lo de la carga. Utilizar una lista para que tenga lo mismo que la base
             //cmbprovincia.DataSource = Cls_CProvincias.BaseProvincias;
             //cmbprovincia.DisplayMember = "NombreProvincia";
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.ReadOnly = true;
+            dataGridView1.MultiSelect = false;
+            dataGridView1.AllowUserToAddRows = false;
+            try
+            {
+                dataGridView1.DataSource = Parti.MostrarPartido();
+            }
+            catch (Exception ex)
+            {
+                CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
+            }
         }
 
         private void btnagregar_Click(object sender, EventArgs e)

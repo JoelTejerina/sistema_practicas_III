@@ -14,6 +14,7 @@ namespace CapaVistaUsuario.Ventas
         public frmFacturacion()
         {
             InitializeComponent();
+            BuscadorGrilla.Agregar(dgvPedido, "NombreCliente", "Estado", "FormaPago");
         }
 
         private void frmFacturacion_Load(object sender, EventArgs e)

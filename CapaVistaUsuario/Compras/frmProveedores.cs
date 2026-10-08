@@ -14,6 +14,7 @@ namespace CapaVistaUsuario.Compras
         public frmProveedores()
         {
             InitializeComponent();
+            BuscadorGrilla.Agregar(dgvProveedores, "Nombre", "RazonSocial", "CUIT", "Categoria");
         }
 
         private void frmProveedores_Load(object sender, EventArgs e)

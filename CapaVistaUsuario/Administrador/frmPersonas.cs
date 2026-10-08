@@ -16,6 +16,7 @@ namespace CapaVistaUsuario
         public frmPersonas()
         {
             InitializeComponent();
+            BuscadorGrilla.Agregar(dgvPersonas, "Apellido", "Nombres", "NroDoc", "CuitCuil");
         }
 
         private void frmPersonas_Load(object sender, EventArgs e)

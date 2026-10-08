@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Administrador\ABMsUbicaciones\CLN_Localidad.cs" />
     <Compile Include="Administrador\ABMsUbicaciones\CLN_Partido.cs" />
     <Compile Include="Administrador\CN_Bitacora.cs" />
     <Compile Include="Administrador\CN_UsuariosGrupos.cs" />

@@ -20,10 +20,23 @@ namespace CapaVistaUsuario.Administrador.ABMsUbicaciones
         public frmABMLocalidad()
         {
             InitializeComponent();
+            BuscadorGrilla.Agregar(dataGridView1, "Localidades", "CP");
         }
 
         private void ABMLocalidad_Load(object sender, EventArgs e)
         {
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.ReadOnly = true;
+            dataGridView1.MultiSelect = false;
+            dataGridView1.AllowUserToAddRows = false;
+            try
+            {
+                dataGridView1.DataSource = new CLN_Localidad().MostrarLocalidad();
+            }
+            catch (Exception ex)
+            {
+                CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
+            }
 
             cmbpartidos.DataSource = Cls_CPartidos.BasePartidos;
             cmbpartidos.DisplayMember = "NombrePartido";

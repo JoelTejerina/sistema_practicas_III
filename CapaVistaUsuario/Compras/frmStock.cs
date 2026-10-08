@@ -14,6 +14,7 @@ namespace CapaVistaUsuario.Compras
         public frmStock()
         {
             InitializeComponent();
+            BuscadorGrilla.Agregar(dgvStock, "NumeroLote");
         }
 
         private void frmStock_Load(object sender, EventArgs e)

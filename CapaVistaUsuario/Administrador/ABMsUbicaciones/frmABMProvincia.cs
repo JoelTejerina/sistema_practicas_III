@@ -13,6 +13,7 @@ namespace CapaVistaUsuario.Administrador.ABMsUbicaciones
         public frmABMProvincia()
         {
             InitializeComponent();
+            BuscadorGrilla.Agregar(dataGridView1, "Provincia");
         }
 
         private void ABMProvincia_Load(object sender, EventArgs e)

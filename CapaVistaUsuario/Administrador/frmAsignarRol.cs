@@ -14,6 +14,7 @@ namespace CapaVistaUsuario.Administrador
         public frmAsignarRol()
         {
             InitializeComponent();
+            BuscadorGrilla.Agregar(dgvUsuarios, "Usuario", "Grupo");
         }
 
         private void frmAsignarRol_Load(object sender, EventArgs e)

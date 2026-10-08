@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="Administrador\CV_Botonera.cs" />
     <Compile Include="Administrador\CV_Utiles.cs" />
+    <Compile Include="BuscadorGrilla.cs" />
     <Compile Include="Administrador\CV_Notify.cs" />
     <Compile Include="Administrador\CV_Validar_Mail.cs" />
     <Compile Include="Administrador\frmAsignarRol.cs">

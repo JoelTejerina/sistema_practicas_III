@@ -14,6 +14,7 @@ namespace CapaVistaUsuario.Compras
         public frmProducto()
         {
             InitializeComponent();
+            BuscadorGrilla.Agregar(dgvProducto, "Nombre", "Marca", "Categoria");
         }
 
         private void frmProducto_Load(object sender, EventArgs e)
