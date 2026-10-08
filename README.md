@@ -1,5 +1,18 @@
 # sistema_practicas_III
 
+## Base de datos: SQL Server (reemplaza a Access)
+
+La app ahora usa **SQL Server**. Cada uno trabaja con su instancia local y la estructura/datos
+base se versionan en git (carpeta `Database/`).
+
+1. Instalar SQL Server Express (links mas abajo).
+2. Ejecutar `Database\Instalar-BaseDeDatos.bat` (agregar `-Demo` para datos de ejemplo).
+3. Abrir `SistemaLoguin.sln` y ejecutar. Usuario de prueba: `Edu` / `123`.
+4. Despues de cada `git pull`, volver a correr el `.bat`: aplica las migraciones nuevas de otros.
+
+Detalle completo (como cambiar la estructura sin pisarnos, conexion a otro servidor, etc.) en
+[`Database/README.md`](Database/README.md).
+
 Instalar SQL Server: https://www.youtube.com/watch?v=mA1qoWdNCOE&ab_channel=SergioAlejandroCampos-EXCELeINFO
 
 SQL Server Express: https://www.microsoft.com/es-ar/sql-server/sql-server-downloads
