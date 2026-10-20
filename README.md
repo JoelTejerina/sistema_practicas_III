@@ -7,8 +7,27 @@ base se versionan en git (carpeta `Database/`).
 
 1. Instalar SQL Server Express (links mas abajo).
 2. Ejecutar `Database\Instalar-BaseDeDatos.bat` (agregar `-Demo` para datos de ejemplo).
-3. Abrir `SistemaLoguin.sln` y ejecutar. Usuario de prueba: `Edu` / `123`.
+3. Abrir `SistemaLoguin.sln` y ejecutar. Ingresar con alguno de los usuarios de prueba (ver abajo).
 4. Despues de cada `git pull`, volver a correr el `.bat`: aplica las migraciones nuevas de otros.
+
+## Usuarios de prueba (uno por rol)
+
+Son datos de **demostracion** para probar el sistema, no cuentas reales. Todos tienen la misma
+contraseña: `123`. Cambiala en cualquier entorno real. Excepto `Edu` y `titor`, que vienen con la
+instalacion base, los demas se cargan al instalar con `-Demo`
+(`Database\Instalar-BaseDeDatos.bat -Demo`).
+
+| Rol | Usuario | Contraseña | Que puede hacer |
+|---|---|---|---|
+| Gerente | `Edu` | `123` | Todo el sistema, incluida Elaboracion y la copia de respaldo |
+| Subgerente | `subgerente` | `123` | Compras: Proveedores, Productos y Stock |
+| Cajero | `titor` (tambien `lgomez`) | `123` | Pedidos / Facturacion |
+| Jefe de Cocina | `mfernandez` | `123` | Menu (recetas) y Elaboracion |
+| Propietario | `propietario` | `123` | Consulta: Estadisticas y Bitacora |
+| Recursos Humanos | `srios` | `123` | Registrar usuario, Asignar rol y Gestion de Personal |
+| Jefe de Salon | `jefesalon` | `123` | Menu (consulta) y Pedidos |
+
+Todos pueden cambiar su contraseña desde **Usuarios > Cambio de Password**.
 
 Detalle completo (como cambiar la estructura sin pisarnos, conexion a otro servidor, etc.) en
 [`Database/README.md`](Database/README.md).

@@ -46,7 +46,8 @@ USING (VALUES
     (3, N'Cajero'),
     (4, N'Jefe de Cocina'),
     (5, N'Propietario'),
-    (6, N'Recursos Humanos')
+    (6, N'Recursos Humanos'),
+    (7, N'Jefe de Salon')
 ) AS s (IdGrupo, Grupo)
    ON t.IdGrupo = s.IdGrupo
 WHEN NOT MATCHED BY TARGET THEN
@@ -70,7 +71,8 @@ USING (VALUES
     (12, N'Bitacora'),
     (13, N'Personal'),
     (14, N'Ubicaciones'),
-    (15, N'Estadisticas')
+    (15, N'Estadisticas'),
+    (16, N'Elaboracion')
 ) AS s (IdPermiso, Funcionalidad)
    ON t.IdPermiso = s.IdPermiso
 WHEN NOT MATCHED BY TARGET THEN
@@ -108,7 +110,12 @@ USING (VALUES
     (2, 6),
     (3, 6),
     (5, 6),
-    (13, 6)
+    (13, 6),
+    (16, 1),
+    (16, 4),
+    (5, 7),
+    (10, 7),
+    (11, 7)
 ) AS s (IdPermiso, IdGrupo)
    ON t.IdPermiso = s.IdPermiso AND t.IdGrupo = s.IdGrupo
 WHEN NOT MATCHED BY TARGET THEN

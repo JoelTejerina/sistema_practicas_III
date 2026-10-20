@@ -16,7 +16,10 @@ MERGE dbo.Personal AS t
 USING (VALUES
     (3, N'Gomez',   N'Laura',   1, 30111222, N'27-30111222-4', N'1155550003', N'lgomez@demo.com',   N'Av. Mitre',   1250, N'',  N'',  1, 3),
     (4, N'Fernandez', N'Marcos', 1, 28333444, N'20-28333444-7', N'1155550004', N'mfernandez@demo.com', N'Belgrano',  480,  N'2', N'B', 2, 4),
-    (5, N'Rios',    N'Sofia',   1, 33555666, N'27-33555666-1', N'1155550005', N'srios@demo.com',    N'San Martin',  75,   N'',  N'',  3, 4)
+    (5, N'Rios',    N'Sofia',   1, 33555666, N'27-33555666-1', N'1155550005', N'srios@demo.com',    N'San Martin',  75,   N'',  N'',  3, 4),
+    (6, N'Suarez',  N'Diego',   1, 29777888, N'20-29777888-5', N'1155550006', N'dsuarez@demo.com',  N'Alsina',      910,  N'',  N'',  5, 2),
+    (7, N'Alvarez', N'Marta',   1, 25999000, N'27-25999000-9', N'1155550007', N'malvarez@demo.com', N'Italia',      320,  N'1', N'A', 6, 5),
+    (8, N'Torres',  N'Lucia',   1, 31222333, N'27-31222333-6', N'1155550008', N'ltorres@demo.com',  N'Rivadavia',   640,  N'',  N'',  2, 3)
 ) AS s (IdPersona, Apellido, Nombres, IdTDoc, NroDoc, CuitCuil, Telefono, Correo, Calle, Nro, Piso, Dto, IdLocalidad, IdCargo)
    ON t.IdPersona = s.IdPersona
 WHEN NOT MATCHED BY TARGET THEN
@@ -31,7 +34,10 @@ MERGE dbo.Usuarios AS t
 USING (VALUES
     (4, N'lgomez',     N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 3, CAST('2024-03-01' AS DATE), 0),
     (5, N'mfernandez', N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 4, CAST('2024-03-01' AS DATE), 0),
-    (6, N'srios',      N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 5, CAST('2024-03-01' AS DATE), 0)
+    (6, N'srios',      N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 5, CAST('2024-03-01' AS DATE), 0),
+    (7, N'subgerente', N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 6, CAST('2024-03-01' AS DATE), 0),
+    (8, N'propietario', N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 7, CAST('2024-03-01' AS DATE), 0),
+    (9, N'jefesalon',  N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 8, CAST('2024-03-01' AS DATE), 0)
 ) AS s (IdUsuario, Usuario, [Password], IdPersona, FechaAlta, CambiaCada)
    ON t.IdUsuario = s.IdUsuario
 WHEN NOT MATCHED BY TARGET THEN
@@ -44,7 +50,10 @@ MERGE dbo.UsuariosGrupos AS t
 USING (VALUES
     (4, 3),   -- lgomez     -> Cajero
     (5, 4),   -- mfernandez -> Jefe de Cocina
-    (6, 6)    -- srios      -> Recursos Humanos
+    (6, 6),   -- srios      -> Recursos Humanos
+    (7, 2),   -- subgerente  -> Subgerente
+    (8, 5),   -- propietario -> Propietario
+    (9, 7)    -- jefesalon   -> Jefe de Salon
 ) AS s (IdUsuario, IdGrupo)
    ON t.IdUsuario = s.IdUsuario
 WHEN NOT MATCHED BY TARGET THEN
@@ -136,4 +145,52 @@ FROM (VALUES
     (CAST(GETDATE() AS DATE),                   CAST('10:05:00' AS TIME(0)), 3, N'Montecino Hector', N'Cambio de password', N'El usuario modifico su contrasena')
 ) AS v (Fecha, Hora, IdUsuario, Usuario, Evento, Detalle)
 WHERE NOT EXISTS (SELECT 1 FROM dbo.Bitacora b WHERE b.Origen = N'Demo');
+GO
+
+/* ------------------------------------------------- Fecha de nacimiento (edad) */
+UPDATE dbo.Personal
+SET FechaNacimiento = CASE IdPersona
+        WHEN 1 THEN CAST('19850312' AS DATE) WHEN 2 THEN CAST('19880720' AS DATE)
+        WHEN 3 THEN CAST('19920505' AS DATE) WHEN 4 THEN CAST('19901117' AS DATE)
+        WHEN 5 THEN CAST('19950228' AS DATE) WHEN 6 THEN CAST('19830915' AS DATE)
+        WHEN 7 THEN CAST('19790401' AS DATE) WHEN 8 THEN CAST('19940123' AS DATE) END
+WHERE FechaNacimiento IS NULL AND IdPersona BETWEEN 1 AND 8;
+GO
+
+/* ----------------------------------------------- Stock minimo/maximo y alertas */
+UPDATE dbo.Stock SET StockMinimo = 20, StockMaximo = 200 WHERE IdStock = 1 AND StockMinimo = 0 AND StockMaximo = 0;
+UPDATE dbo.Stock SET StockMinimo = 10, StockMaximo = 100 WHERE IdStock = 2 AND StockMinimo = 0 AND StockMaximo = 0;
+UPDATE dbo.Stock SET StockMinimo = 15, StockMaximo = 150 WHERE IdStock = 3 AND StockMinimo = 0 AND StockMaximo = 0;
+GO
+
+/* ------------------------------------------------------------------ Recetas
+   Cantidad = unidades del ingrediente por cada platillo (en la medida del producto). */
+MERGE dbo.RecetaIngrediente AS t
+USING (VALUES
+    (1, 2, CAST(1 AS DECIMAL(18,3)), 1),   -- Bife con guarnicion: 1 Lomo (principal)
+    (1, 3, CAST(2 AS DECIMAL(18,3)), 0),   --                      2 Papa
+    (2, 3, CAST(3 AS DECIMAL(18,3)), 1),   -- Papas fritas:        3 Papa (principal)
+    (3, 1, CAST(1 AS DECIMAL(18,3)), 1)    -- Gaseosa cola:        1 Gaseosa (principal)
+) AS s (IdMenu, IdProducto, Cantidad, EsPrincipal)
+   ON t.IdMenu = s.IdMenu AND t.IdProducto = s.IdProducto
+WHEN NOT MATCHED BY TARGET THEN
+    INSERT (IdMenu, IdProducto, Cantidad, EsPrincipal) VALUES (s.IdMenu, s.IdProducto, s.Cantidad, s.EsPrincipal);
+GO
+
+/* ------------------------------------------------ Detalle de los pedidos demo */
+UPDATE dbo.Pedido SET IdUsuario = 3 WHERE IdUsuario IS NULL;
+GO
+INSERT INTO dbo.PedidoDetalle (IdPedido, IdMenu, Cantidad, PrecioUnitario)
+SELECT p.IdPedido, p.IdMenu, p.Cantidad,
+       CASE WHEN p.Cantidad > 0 THEN CAST(p.PrecioTotal / p.Cantidad AS DECIMAL(18,2)) ELSE p.PrecioTotal END
+FROM dbo.Pedido p
+WHERE p.Cantidad > 0
+  AND NOT EXISTS (SELECT 1 FROM dbo.PedidoDetalle d WHERE d.IdPedido = p.IdPedido);
+GO
+
+/* ------------------------------------------- Historial inicial de movimientos */
+INSERT INTO dbo.MovimientoStock (Tipo, IdStock, IdProducto, NumeroLote, Cantidad, CantidadResultante, IdUsuario, Detalle)
+SELECT N'Ingreso', s.IdStock, s.IdProducto, s.NumeroLote, s.Cantidad, s.Cantidad, 1, N'Carga inicial (demo)'
+FROM dbo.Stock s
+WHERE NOT EXISTS (SELECT 1 FROM dbo.MovimientoStock m WHERE m.IdStock = s.IdStock);
 GO

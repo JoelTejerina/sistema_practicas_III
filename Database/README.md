@@ -65,6 +65,21 @@ GO
 
 - Intercalacion (collation) `Latin1_General_100_CI_AI`: las busquedas no distinguen mayusculas ni acentos.
 - Contraseñas: se guardan como hash SHA-256; las de los usuarios por defecto son `123`.
+- Usuarios de prueba, uno por rol (todos con contraseña `123`; los que no son Edu/titor vienen con `-Demo`):
+
+  | Rol | Usuario |
+  |---|---|
+  | Gerente | `Edu` |
+  | Subgerente | `subgerente` |
+  | Cajero | `titor` (también `lgomez`) |
+  | Jefe de Cocina | `mfernandez` |
+  | Propietario | `propietario` |
+  | Recursos Humanos | `srios` |
+  | Jefe de Salon | `jefesalon` |
+- `migraciones/002_ajustes_alcance.sql` agrega lo que pide el documento de alcance: recetas por
+  platillo, detalle de pedidos (varios platillos), movimientos de stock (trazabilidad), stock
+  minimo/maximo, baja logica de Producto/Proveedor/Menu, fecha de nacimiento e idioma por usuario.
+  Con eso el pedido verifica el stock, descuenta los insumos y los devuelve al cancelar.
 - Las claves foraneas ahora se **hacen cumplir**: no se puede borrar, por ejemplo, un proveedor
   con productos. Antes Access lo permitia en las tablas sin relacion.
 - `Loguin.accdb` y `Loguin - Copia.accdb` quedan solo como respaldo historico; la app ya no los usa.
