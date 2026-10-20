@@ -10,6 +10,7 @@ namespace CapaVistaUsuario.Compras
     public partial class frmProveedores : Form
     {
         CN_Proveedor Prov = new CN_Proveedor();
+        private readonly CV_Obligatorios obligatorios = new CV_Obligatorios();
 
         public frmProveedores()
         {
@@ -59,13 +60,10 @@ namespace CapaVistaUsuario.Compras
 
         private bool DatosValidos()
         {
-            if (txtNombre.Text.Trim().Length == 0)
-            {
-                MessageBox.Show(Idioma.Texto("Msg_CampoObligatorio"));
-                txtNombre.Select();
-                return false;
-            }
-            return true;
+            // Todos los campos son obligatorios.
+            return obligatorios.Validar(txtNombre, txtRazonSocial, txtCategoria, txtCUIT,
+                txtCertificadoAfip, txtDireccion, txtEmail, txtTelefono)
+                && obligatorios.ValidarCorreo(txtEmail);
         }
 
         private void PasarDatos(bool modificar)
@@ -118,6 +116,7 @@ namespace CapaVistaUsuario.Compras
                 MessageBox.Show(Idioma.Texto("Msg_SeleccioneRegistro"));
                 return;
             }
+            CargarSeleccion();
             CV_Utiles.DesbloquearControles(this);
             CV_Botonera.btnFormularios(this, btnModificar);
             txtNombre.Select();
@@ -179,7 +178,14 @@ namespace CapaVistaUsuario.Compras
 
         private void dgvProveedores_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || dgvProveedores.SelectedRows.Count == 0) return;
+            if (e.RowIndex < 0) return;
+            CargarSeleccion();
+        }
+
+        /// <summary>Llena los campos con el registro seleccionado en la grilla.</summary>
+        private void CargarSeleccion()
+        {
+            if (dgvProveedores.SelectedRows.Count == 0) return;
             var f = dgvProveedores.SelectedRows[0];
             lblID.Text = f.Cells["IdProveedor"].Value.ToString();
             txtNombre.Text = f.Cells["Nombre"].Value.ToString();

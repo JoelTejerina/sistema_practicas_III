@@ -73,6 +73,13 @@ namespace CapaVistaUsuario
             grilla.Height -= AltoBuscador + Separacion;
 
             grilla.Parent.Controls.Add(buscador);
+
+            // Algunos formularios tienen fondo oscuro: la etiqueta pasa a blanco para que se lea.
+            Color fondo = grilla.Parent.BackColor;
+            if (fondo.A > 0 && fondo.GetBrightness() < 0.4f)
+            {
+                buscador.lblBuscar.ForeColor = Color.White;
+            }
             return buscador;
         }
 

@@ -10,11 +10,33 @@ namespace CapaVistaUsuario.Ventas
     public partial class frmMenu : Form
     {
         CN_Menu Men = new CN_Menu();
+        private readonly CV_Obligatorios obligatorios = new CV_Obligatorios();
+
+        private Button btnReceta;
 
         public frmMenu()
         {
             InitializeComponent();
             BuscadorGrilla.Agregar(dgvMenu, "Nombre", "Categoria", "TipoEvento", "Temporada");
+
+            // La receta (ingredientes del platillo) se abre desde un boton junto a los campos.
+            btnReceta = new Button { Name = "btnReceta", Location = new System.Drawing.Point(562, 303), Size = new System.Drawing.Size(82, 26) };
+            btnReceta.Click += btnReceta_Click;
+            Controls.Add(btnReceta);
+        }
+
+        private void btnReceta_Click(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(lblID.Text) == 0)
+            {
+                MessageBox.Show(Idioma.Texto("Msg_SeleccioneRegistro"));
+                return;
+            }
+            using (frmReceta receta = new frmReceta(Convert.ToInt32(lblID.Text), txtNombre.Text,
+                PermisosSistema.SoloLectura(PermisosSistema.Menu)))
+            {
+                receta.ShowDialog(this);
+            }
         }
 
         private void frmMenu_Load(object sender, EventArgs e)
@@ -25,6 +47,7 @@ namespace CapaVistaUsuario.Ventas
             dgvMenu.AllowUserToAddRows = false;
 
             AplicarIdioma();
+            btnReceta.Text = Idioma.Texto("Btn_Receta");
             CargarCombos();
             MostrarMenu();
             CV_Utiles.BloquearControles(this);
@@ -68,15 +91,16 @@ namespace CapaVistaUsuario.Ventas
 
         private bool DatosValidos()
         {
-            if (txtNombre.Text.Trim().Length == 0)
+            // Opcionales: Popularidad, Region, Temporada y Tipo de evento.
+            if (!obligatorios.Validar(txtNombre, txtDescripcion, txtIngredientes, txtCategoria,
+                txtPrecio, txtTiempo, cmbStock))
             {
-                MessageBox.Show(Idioma.Texto("Msg_CampoObligatorio"));
-                txtNombre.Select();
                 return false;
             }
             decimal precio;
             if (!decimal.TryParse(txtPrecio.Text.Trim(), out precio) || precio < 0)
             {
+                obligatorios.Marcar(txtPrecio);
                 MessageBox.Show(Idioma.Texto("Msg_PrecioInvalido"));
                 txtPrecio.Select();
                 return false;
@@ -84,6 +108,7 @@ namespace CapaVistaUsuario.Ventas
             int tiempo;
             if (!int.TryParse(txtTiempo.Text.Trim(), out tiempo) || tiempo < 0)
             {
+                obligatorios.Marcar(txtTiempo);
                 MessageBox.Show(Idioma.Texto("Msg_TiempoInvalido"));
                 txtTiempo.Select();
                 return false;
@@ -147,6 +172,7 @@ namespace CapaVistaUsuario.Ventas
                 MessageBox.Show(Idioma.Texto("Msg_SeleccioneRegistro"));
                 return;
             }
+            CargarSeleccion();
             CV_Utiles.DesbloquearControles(this);
             CV_Botonera.btnFormularios(this, btnModificar);
             txtNombre.Select();
@@ -208,7 +234,14 @@ namespace CapaVistaUsuario.Ventas
 
         private void dgvMenu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || dgvMenu.SelectedRows.Count == 0) return;
+            if (e.RowIndex < 0) return;
+            CargarSeleccion();
+        }
+
+        /// <summary>Llena los campos con el registro seleccionado en la grilla.</summary>
+        private void CargarSeleccion()
+        {
+            if (dgvMenu.SelectedRows.Count == 0) return;
             var f = dgvMenu.SelectedRows[0];
             lblID.Text = f.Cells["IdMenu"].Value.ToString();
             txtNombre.Text = f.Cells["Nombre"].Value.ToString();

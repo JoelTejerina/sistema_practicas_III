@@ -8,21 +8,101 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CapaComun;
+using CapaLogicaNegocio;
+using CapaLogicaNegocio.Administrador;
+using CapaLogicaNegocio.Loguin;
 
 
 namespace CapaVistaUsuario
 {
     public partial class frmPrincipal : Form
     {
+        // Entradas de menu del alcance: Elaboracion (cocina) y Copia de respaldo (backup).
+        private readonly ToolStripMenuItem elaboracionToolStripMenuItem = new ToolStripMenuItem { Name = "elaboracionToolStripMenuItem" };
+        private readonly ToolStripMenuItem backupToolStripMenuItem = new ToolStripMenuItem { Name = "backupToolStripMenuItem" };
+
         public frmPrincipal()
         {
             InitializeComponent();
+            elaboracionToolStripMenuItem.Click += elaboracionToolStripMenuItem_Click;
+            backupToolStripMenuItem.Click += backupToolStripMenuItem_Click;
+            facturacionToolStripMenuItem.DropDownItems.Add(elaboracionToolStripMenuItem);
+            administracionToolStripMenuItem.DropDownItems.Add(backupToolStripMenuItem);
         }
 
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
+            // Cada usuario entra con el idioma que eligio la ultima vez.
+            try
+            {
+                new CN_IdiomaUsuario().AplicarIdiomaDelUsuario(UserCache.IdUsuario);
+            }
+            catch (Exception)
+            {
+                // Si no se puede leer el idioma guardado se sigue con el activo.
+            }
             AplicarIdioma();
             AplicarPermisos();
+        }
+
+        private void GuardarIdiomaElegido(string idioma)
+        {
+            try
+            {
+                new CN_IdiomaUsuario().GuardarIdioma(UserCache.IdUsuario, idioma);
+            }
+            catch (Exception)
+            {
+                // No poder guardar la preferencia no debe impedir cambiar el idioma.
+            }
+        }
+
+        private void elaboracionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!VerificarPermiso(PermisosSistema.Elaboracion)) return;
+            Ventas.frmElaboracion fAux = new Ventas.frmElaboracion();
+            fAux.MdiParent = this;
+            fAux.Show();
+        }
+
+        // Copia de respaldo de la base de datos (solo quien administra el sistema).
+        private void backupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!VerificarPermiso(PermisosSistema.AdministracionSistema)) return;
+            try
+            {
+                CN_Backup backup = new CN_Backup();
+                string carpeta = backup.RutaPredeterminada();
+                string ruta;
+                using (SaveFileDialog dialogo = new SaveFileDialog())
+                {
+                    dialogo.Title = Idioma.Texto("Backup");
+                    dialogo.Filter = "SQL Server (*.bak)|*.bak";
+                    dialogo.FileName = backup.NombreBase() + "_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".bak";
+                    if (!string.IsNullOrEmpty(carpeta) && System.IO.Directory.Exists(carpeta))
+                    {
+                        dialogo.InitialDirectory = carpeta;
+                    }
+                    if (dialogo.ShowDialog(this) != DialogResult.OK) return;
+                    ruta = dialogo.FileName;
+                }
+
+                Cursor = Cursors.WaitCursor;
+                try
+                {
+                    backup.Respaldar(ruta);
+                }
+                finally
+                {
+                    Cursor = Cursors.Default;
+                }
+                new CL_clsBitacora("Copia de respaldo", ruta, "frmPrincipal");
+                MessageBox.Show(Idioma.Texto("Msg_BackupOk") + "\n" + ruta, Idioma.Texto("Backup"));
+            }
+            catch (Exception ex)
+            {
+                CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
+            }
         }
 
         // Muestra u oculta menús según permisos cargados al loguearse
@@ -37,14 +117,16 @@ namespace CapaVistaUsuario
             stockComprasToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Stock);
 
             facturacionToolStripMenuItem.Visible = admin || PermisosSistema.TieneAlguno(
-                PermisosSistema.Menu, PermisosSistema.Pedidos);
+                PermisosSistema.Menu, PermisosSistema.Pedidos, PermisosSistema.Elaboracion);
             menuToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Menu);
             pedidosToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Pedidos);
+            elaboracionToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Elaboracion);
 
             administracionToolStripMenuItem.Visible = admin || PermisosSistema.TieneAlguno(
                 PermisosSistema.AltaUsuarios, PermisosSistema.BajaUsuarios,
                 PermisosSistema.ModificacionUsuarios, PermisosSistema.Personal,
                 PermisosSistema.Bitacora, PermisosSistema.Ubicaciones);
+            backupToolStripMenuItem.Visible = admin;
             gestiónDePersonalToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Personal);
             registroToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Bitacora);
             bitacoraToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Bitacora);
@@ -104,6 +186,8 @@ namespace CapaVistaUsuario
             facturacionToolStripMenuItem.Text = Idioma.Texto("Ventas");
             menuToolStripMenuItem.Text = Idioma.Texto("Menu");
             pedidosToolStripMenuItem.Text = Idioma.Texto("Pedidos");
+            elaboracionToolStripMenuItem.Text = Idioma.Texto("Elaboracion");
+            backupToolStripMenuItem.Text = Idioma.Texto("Backup");
             estadisticasToolStripMenuItem.Text = Idioma.Texto("Estadisticas");
             asignarRolToolStripMenuItem.Text = Idioma.Texto("AsignarRol");
         }
@@ -187,18 +271,21 @@ namespace CapaVistaUsuario
         private void espanolToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Idioma.Establecer(Idioma.Espanol);
+            GuardarIdiomaElegido(Idioma.Espanol);
             AplicarIdioma();
         }
 
         private void englishToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Idioma.Establecer(Idioma.Ingles);
+            GuardarIdiomaElegido(Idioma.Ingles);
             AplicarIdioma();
         }
 
         private void portuguesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Idioma.Establecer(Idioma.Portugues);
+            GuardarIdiomaElegido(Idioma.Portugues);
             AplicarIdioma();
         }
 

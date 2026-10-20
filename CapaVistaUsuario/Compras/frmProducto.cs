@@ -10,6 +10,7 @@ namespace CapaVistaUsuario.Compras
     public partial class frmProducto : Form
     {
         CN_Producto Prod = new CN_Producto();
+        private readonly CV_Obligatorios obligatorios = new CV_Obligatorios();
 
         public frmProducto()
         {
@@ -53,7 +54,7 @@ namespace CapaVistaUsuario.Compras
 
         private void CargarCombos()
         {
-            new CN_LlenarCombos(cmbProveedor, "Proveedor", "IdProveedor", "Nombre");
+            new CN_LlenarCombos(cmbProveedor, "Proveedor", "IdProveedor", "Nombre", "Activo = 1");
         }
 
         private void MostrarProductos()
@@ -63,19 +64,8 @@ namespace CapaVistaUsuario.Compras
 
         private bool DatosValidos()
         {
-            if (txtNombre.Text.Trim().Length == 0)
-            {
-                MessageBox.Show(Idioma.Texto("Msg_CampoObligatorio"));
-                txtNombre.Select();
-                return false;
-            }
-            if (cmbProveedor.SelectedValue == null)
-            {
-                MessageBox.Show(Idioma.Texto("Msg_SeleccioneProveedor"));
-                cmbProveedor.Select();
-                return false;
-            }
-            return true;
+            // Obligatorios todos menos la descripcion.
+            return obligatorios.Validar(txtNombre, txtMarca, txtCategoria, txtMedida, cmbProveedor);
         }
 
         private void PasarDatos(bool modificar)
@@ -127,6 +117,7 @@ namespace CapaVistaUsuario.Compras
                 MessageBox.Show(Idioma.Texto("Msg_SeleccioneRegistro"));
                 return;
             }
+            CargarSeleccion();
             CV_Utiles.DesbloquearControles(this);
             CV_Botonera.btnFormularios(this, btnModificar);
             txtNombre.Select();
@@ -188,7 +179,14 @@ namespace CapaVistaUsuario.Compras
 
         private void dgvProducto_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || dgvProducto.SelectedRows.Count == 0) return;
+            if (e.RowIndex < 0) return;
+            CargarSeleccion();
+        }
+
+        /// <summary>Llena los campos con el registro seleccionado en la grilla.</summary>
+        private void CargarSeleccion()
+        {
+            if (dgvProducto.SelectedRows.Count == 0) return;
             var f = dgvProducto.SelectedRows[0];
             lblID.Text = f.Cells["IdProducto"].Value.ToString();
             txtNombre.Text = f.Cells["Nombre"].Value.ToString();

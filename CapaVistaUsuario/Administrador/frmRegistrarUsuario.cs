@@ -11,11 +11,25 @@ namespace CapaVistaUsuario.Administrador
     {
         private readonly CN_RegistroUsuario registro = new CN_RegistroUsuario();
         private readonly CV_Validar_Mail validarCorreo = new CV_Validar_Mail();
+        private readonly CV_Obligatorios obligatorios = new CV_Obligatorios();
         private int idPersonaExistente;
+
+        private readonly Label lblNacimiento = new Label();
+        private DateTimePicker dtpNacimiento;
 
         public frmRegistrarUsuario()
         {
             InitializeComponent();
+
+            // Fecha de nacimiento (la edad es dato obligatorio del alta): una fila mas en datos personales.
+            grpPersonal.Height += 30;
+            grpAcceso.Top += 30;
+            btnRegistrar.Top += 30;
+            btnLimpiar.Top += 30;
+            btnSalir.Top += 30;
+            ClientSize = new System.Drawing.Size(ClientSize.Width, ClientSize.Height + 30);
+            lblNacimiento.Left = 15;
+            dtpNacimiento = CV_Edad.CrearSelector(grpPersonal, lblNacimiento, new System.Drawing.Point(120, 194), 200);
         }
 
         private void frmRegistrarUsuario_Load(object sender, EventArgs e)
@@ -28,8 +42,10 @@ namespace CapaVistaUsuario.Administrador
 
             if (cmbTipoDoc.Items.Count > 0) cmbTipoDoc.SelectedIndex = 0;
             if (cmbLocalidad.Items.Count > 0) cmbLocalidad.SelectedIndex = 0;
-            if (cmbCargo.Items.Count > 0) cmbCargo.SelectedIndex = 0;
+            // El cargo es obligatorio: arranca vacio para que se elija a proposito.
+            cmbCargo.SelectedIndex = -1;
             txtNroDoc.Text = "0";
+            CV_Documento.Configurar(cmbTipoDoc, txtNroDoc);
         }
 
         private void AplicarIdioma()
@@ -49,6 +65,7 @@ namespace CapaVistaUsuario.Administrador
             lblConfirmar.Text = Idioma.Texto("ConfirmarPassword");
             lblGrupo.Text = Idioma.Texto("RolUsuario");
             lblCargo.Text = Idioma.Texto("Cargo");
+            lblNacimiento.Text = Idioma.Texto("FechaNacimiento");
             btnRegistrar.Text = Idioma.Texto("Btn_Registrar");
             btnLimpiar.Text = Idioma.Texto("Btn_Limpiar");
             btnSalir.Text = Idioma.Texto("Btn_Salir");
@@ -82,23 +99,23 @@ namespace CapaVistaUsuario.Administrador
         {
             idPersonaExistente = 0;
 
-            if (string.IsNullOrWhiteSpace(txtApellido.Text) || string.IsNullOrWhiteSpace(txtNombres.Text))
+            // Todo es obligatorio salvo la localidad (si no se elige se usa la 1).
+            if (!obligatorios.Validar(txtApellido, txtNombres, cmbTipoDoc, txtNroDoc, dtpNacimiento, txtTelefono,
+                txtCorreo, cmbCargo, txtUsuario, txtPassword, txtConfirmar, cmbGrupo))
             {
-                MessageBox.Show(Idioma.Texto("Msg_CompletarApellidoNombre"));
                 return false;
             }
 
-            if (!int.TryParse(txtNroDoc.Text, out int nroDoc) || nroDoc <= 0)
+            if (!obligatorios.ValidarEdad(dtpNacimiento))
             {
-                MessageBox.Show(Idioma.Texto("Msg_NroDocInvalido"));
                 return false;
             }
 
-            if (cmbTipoDoc.SelectedValue == null)
+            if (!CV_Documento.Validar(obligatorios, cmbTipoDoc, txtNroDoc))
             {
-                MessageBox.Show(Idioma.Texto("Msg_SeleccioneTipoDoc"));
                 return false;
             }
+            int nroDoc = Convert.ToInt32(txtNroDoc.Text.Trim());
 
             int idTipoDoc = Convert.ToInt32(cmbTipoDoc.SelectedValue);
             idPersonaExistente = registro.ObtenerIdPersonaPorDocumento(idTipoDoc, nroDoc);
@@ -120,43 +137,32 @@ namespace CapaVistaUsuario.Administrador
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(txtCorreo.Text))
+            if (!obligatorios.ValidarCorreo(txtCorreo))
             {
-                validarCorreo.Correo = txtCorreo.Text.Trim();
-                if (!validarCorreo.Valid())
-                {
-                    MessageBox.Show(Idioma.Texto("Msg_CorreoInvalido"));
-                    return false;
-                }
-            }
-
-            if (string.IsNullOrWhiteSpace(txtUsuario.Text))
-            {
-                MessageBox.Show(Idioma.Texto("Msg_CompletarUsuario"));
                 return false;
             }
 
             if (registro.ExisteUsuario(txtUsuario.Text.Trim()))
             {
+                obligatorios.Marcar(txtUsuario);
                 MessageBox.Show(Idioma.Texto("Msg_UsuarioExiste"));
+                txtUsuario.Select();
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(txtPassword.Text) || txtPassword.Text.Length < 3)
+            if (txtPassword.Text.Length < 3)
             {
+                obligatorios.Marcar(txtPassword);
                 MessageBox.Show(Idioma.Texto("Msg_PasswordCorta"));
+                txtPassword.Select();
                 return false;
             }
 
             if (txtPassword.Text != txtConfirmar.Text)
             {
+                obligatorios.Marcar(txtConfirmar);
                 MessageBox.Show(Idioma.Texto("Msg_PasswordNoCoincide"));
-                return false;
-            }
-
-            if (cmbGrupo.SelectedValue == null)
-            {
-                MessageBox.Show(Idioma.Texto("Msg_SeleccioneRol"));
+                txtConfirmar.Select();
                 return false;
             }
 
@@ -168,6 +174,7 @@ namespace CapaVistaUsuario.Administrador
             registro.Apellido = txtApellido.Text.Trim();
             registro.Nombres = txtNombres.Text.Trim();
             registro.IdTipoDoc = Convert.ToInt32(cmbTipoDoc.SelectedValue);
+            registro.FechaNacimiento = dtpNacimiento.Value.Date;
             registro.NroDoc = Convert.ToInt32(txtNroDoc.Text);
             registro.Telefono = txtTelefono.Text.Trim();
             registro.Correo = txtCorreo.Text.Trim();
@@ -197,8 +204,10 @@ namespace CapaVistaUsuario.Administrador
             txtConfirmar.Clear();
             if (cmbTipoDoc.Items.Count > 0) cmbTipoDoc.SelectedIndex = 0;
             if (cmbLocalidad.Items.Count > 0) cmbLocalidad.SelectedIndex = 0;
-            if (cmbCargo.Items.Count > 0) cmbCargo.SelectedIndex = 0;
+            cmbCargo.SelectedIndex = -1;
             cmbGrupo.SelectedIndex = -1;
+            dtpNacimiento.Checked = false;
+            obligatorios.LimpiarMarcas();
             idPersonaExistente = 0;
             txtApellido.Focus();
         }

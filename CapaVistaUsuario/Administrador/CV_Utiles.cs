@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace CapaVistaUsuario
 {
@@ -6,106 +6,68 @@ namespace CapaVistaUsuario
     {
         public static void BloquearControles(Form FRM)
         {
-            foreach (Control c in FRM.Controls)
-            {
-                if (c is TextBox)
-                {
-                    ((TextBox)c).Enabled = false;
-                }
-                if (c is ComboBox)
-                {
-                    ((ComboBox)c).Enabled = false;
-                }
-                if (c is GroupBox | c is Panel)
-                {
-                    BC2(c);
-                }
-            }
+            Recorrer(FRM.Controls, Bloquear);
         }
-
-        private static void BC2(Control x)
-        {
-            foreach (Control h in x.Controls)
-            {
-                if (h is TextBox)
-                {
-                    ((TextBox)h).Enabled = false;
-                }
-                if (h is ComboBox)
-                {
-                    ((ComboBox)h).Enabled = false;
-                }
-            }
-        }
-
 
         public static void DesbloquearControles(Form FRM)
         {
-            foreach (Control c in FRM.Controls)
-            {
-                if (c is TextBox)
-                {
-                    ((TextBox)c).Enabled = true;
-                }
-                if (c is ComboBox)
-                {
-                    ((ComboBox)c).Enabled = true;
-                }
-                if (c is GroupBox | c is Panel)
-                {
-                    DC2(c);
-                }
-            }
-        }
-
-        private static void DC2(Control x)
-        {
-            foreach (Control h in x.Controls)
-            {
-                if (h is TextBox)
-                {
-                    ((TextBox)h).Enabled = true;
-                }
-                if (h is ComboBox)
-                {
-                    ((ComboBox)h).Enabled = true;
-                }
-            }
+            Recorrer(FRM.Controls, Desbloquear);
         }
 
         public static void LimpiarControles(Form FRM)
         {
-            foreach (Control c in FRM.Controls)
+            Recorrer(FRM.Controls, Limpiar);
+        }
+
+        // Aplica la accion a los controles del formulario y a los de sus GroupBox / Panel.
+        private static void Recorrer(Control.ControlCollection controles, System.Action<Control> accion)
+        {
+            foreach (Control c in controles)
             {
-                if (c is TextBox)
-                {
-                    ((TextBox)c).Text = null;
-                }
-                if (c is ComboBox)
-                {
-                    ((ComboBox)c).Text = null;
-                }
+                accion(c);
                 if (c is GroupBox | c is Panel)
                 {
-                    LC2(c);
+                    foreach (Control h in c.Controls)
+                    {
+                        accion(h);
+                    }
                 }
             }
         }
 
-        private static void LC2(Control x)
+        private static void Bloquear(Control c)
         {
-            foreach (Control h in x.Controls)
+            if (c is TextBox || c is ComboBox || c is DateTimePicker)
             {
-                if (h is TextBox)
-                {
-                    ((TextBox)h).Text = null;
-                }
-                if (h is ComboBox)
-                {
-                    ((ComboBox)h).Text = null;
-                }
+                c.Enabled = false;
             }
         }
 
+        private static void Desbloquear(Control c)
+        {
+            if (c is TextBox || c is ComboBox || c is DateTimePicker)
+            {
+                c.Enabled = true;
+            }
+        }
+
+        private static void Limpiar(Control c)
+        {
+            if (c is TextBox)
+            {
+                ((TextBox)c).Text = null;
+            }
+            if (c is ComboBox)
+            {
+                ((ComboBox)c).Text = null;
+            }
+
+            // Las fechas obligatorias con casilla (fecha de nacimiento) vuelven a quedar sin elegir.
+            DateTimePicker fecha = c as DateTimePicker;
+            if (fecha != null && fecha.ShowCheckBox)
+            {
+                fecha.Checked = false;
+            }
+        }
     }
 }

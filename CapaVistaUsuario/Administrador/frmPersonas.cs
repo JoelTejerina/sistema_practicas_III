@@ -12,10 +12,19 @@ namespace CapaVistaUsuario
         //Instancio los objetos de las clses que utilizo en el form
         CN_Personas Pers = new CN_Personas();
         CV_Validar_Mail ValidaCorreo = new CV_Validar_Mail();
+        private readonly CV_Obligatorios obligatorios = new CV_Obligatorios();
+
+        private readonly Label lblNacimiento = new Label();
+        private DateTimePicker dtpNacimiento;
 
         public frmPersonas()
         {
             InitializeComponent();
+
+            // Fecha de nacimiento (obligatoria): entra en el hueco entre Apellido y Tipo Doc.
+            lblNacimiento.Left = 5;
+            lblNacimiento.Text = Idioma.Texto("FechaNacimiento");
+            dtpNacimiento = CV_Edad.CrearSelector(grpPersonas, lblNacimiento, new Point(92, 53), 150);
             BuscadorGrilla.Agregar(dgvPersonas, "Apellido", "Nombres", "NroDoc", "CuitCuil");
         }
 
@@ -35,6 +44,7 @@ namespace CapaVistaUsuario
             txtNro.Text = "0";
             cmbTipoDoc.SelectedIndex = 0;
             cmbLocalidad.SelectedIndex = 0;
+            CV_Documento.Configurar(cmbTipoDoc, txtNroDoc);
 
 
             MostrarPersonas();
@@ -61,6 +71,18 @@ namespace CapaVistaUsuario
                 txtPiso.Text = dgvPersonas.Rows[dgvPersonas.SelectedRows[0].Index].Cells["Piso"].Value.ToString();
                 txtDto.Text = dgvPersonas.Rows[dgvPersonas.SelectedRows[0].Index].Cells["Dto"].Value.ToString();
                 cmbLocalidad.SelectedValue = dgvPersonas.Rows[dgvPersonas.SelectedRows[0].Index].Cells["IdLocalidad"].Value; ;
+
+                // Fecha de nacimiento: si la persona todavia no la tiene cargada queda sin elegir.
+                object nacimiento = dgvPersonas.Rows[dgvPersonas.SelectedRows[0].Index].Cells["FechaNacimiento"].Value;
+                if (nacimiento != null && nacimiento != DBNull.Value)
+                {
+                    dtpNacimiento.Value = Convert.ToDateTime(nacimiento);
+                    dtpNacimiento.Checked = true;
+                }
+                else
+                {
+                    dtpNacimiento.Checked = false;
+                }
             }
         }
 
@@ -68,6 +90,7 @@ namespace CapaVistaUsuario
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            if (!DatosValidos()) return;
             try
             {
                 PasarDatos(false);
@@ -124,6 +147,7 @@ namespace CapaVistaUsuario
 
         private void btnGuardaCambios_Click(object sender, EventArgs e)
         {
+            if (!DatosValidos()) return;
             try
             {
                 PasarDatos(true);
@@ -210,6 +234,28 @@ namespace CapaVistaUsuario
 
         #region METODOS
 
+        // Opcionales: Calle, Nro, Piso, Depart y Provincia. El resto es obligatorio.
+        private bool DatosValidos()
+        {
+            if (!obligatorios.Validar(txtApellido, txtNombres, cmbTipoDoc, txtNroDoc, dtpNacimiento,
+                txtTelefono, txtCorreo, cmbLocalidad))
+            {
+                return false;
+            }
+
+            if (!obligatorios.ValidarEdad(dtpNacimiento))
+            {
+                return false;
+            }
+
+            if (!CV_Documento.Validar(obligatorios, cmbTipoDoc, txtNroDoc))
+            {
+                return false;
+            }
+
+            return obligatorios.ValidarCorreo(txtCorreo);
+        }
+
         private void MostrarPersonas()
         {
             CN_Personas Pers = new CN_Personas();
@@ -244,6 +290,7 @@ namespace CapaVistaUsuario
             Pers.Nro = txtNro.Text;
             Pers.Piso = txtPiso.Text;
             Pers.Dto = txtDto.Text;
+            Pers.FechaNacimiento = dtpNacimiento.Value.Date;
             if (cmbLocalidad.SelectedItem == null)
             {
                 Pers.IdLocalidad = "0";

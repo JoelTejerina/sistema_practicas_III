@@ -10,11 +10,83 @@ namespace CapaVistaUsuario.Compras
     public partial class frmStock : Form
     {
         CN_Stock Stk = new CN_Stock();
+        private readonly CV_Obligatorios obligatorios = new CV_Obligatorios();
+
+        // Campos nuevos del alcance: stock minimo/maximo (alertas) e historial de movimientos.
+        private Label lblMinimo;
+        private Label lblMaximo;
+        private TextBox txtMinimo;
+        private TextBox txtMaximo;
+        private Button btnHistorial;
 
         public frmStock()
         {
             InitializeComponent();
+            CrearCamposStock();
             BuscadorGrilla.Agregar(dgvStock, "NumeroLote");
+        }
+
+        private void CrearCamposStock()
+        {
+            lblMinimo = new Label { AutoSize = true, Location = new System.Drawing.Point(360, 291) };
+            txtMinimo = new TextBox { Name = "txtStockMinimo", Location = new System.Drawing.Point(470, 288), Size = new System.Drawing.Size(70, 20) };
+            lblMaximo = new Label { AutoSize = true, Location = new System.Drawing.Point(548, 291) };
+            txtMaximo = new TextBox { Name = "txtStockMaximo", Location = new System.Drawing.Point(610, 288), Size = new System.Drawing.Size(70, 20) };
+            btnHistorial = new Button { Name = "btnHistorial", Location = new System.Drawing.Point(120, 320), Size = new System.Drawing.Size(150, 26) };
+            btnHistorial.Click += btnHistorial_Click;
+            Controls.AddRange(new Control[] { lblMinimo, txtMinimo, lblMaximo, txtMaximo, btnHistorial });
+        }
+
+        // Muestra el historial de movimientos del producto del lote elegido (o de todos).
+        private void btnHistorial_Click(object sender, EventArgs e)
+        {
+            int idProducto = 0;
+            string nombre = "";
+            if (Convert.ToInt32(lblID.Text) != 0 && cmbProducto.SelectedValue != null)
+            {
+                idProducto = Convert.ToInt32(cmbProducto.SelectedValue);
+                nombre = cmbProducto.Text;
+            }
+            using (frmHistorialStock historial = new frmHistorialStock(idProducto, nombre))
+            {
+                historial.ShowDialog(this);
+            }
+        }
+
+        // Avisa los lotes cuya existencia llego al minimo configurado.
+        private void MostrarAlertaStockBajo()
+        {
+            System.Data.DataTable bajos = Stk.LotesBajoMinimo();
+            if (bajos.Rows.Count == 0) return;
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.AppendLine(Idioma.Texto("Stock_AlertaBajo"));
+            foreach (System.Data.DataRow fila in bajos.Rows)
+            {
+                sb.AppendLine("- " + fila["Producto"] + " (" + fila["NumeroLote"] + "): " + fila["Cantidad"] +
+                    " / " + Idioma.Texto("StockMinimoCorto") + " " + fila["StockMinimo"]);
+            }
+            MessageBox.Show(sb.ToString().TrimEnd(), Idioma.Texto("Stock_AlertaTitulo"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        // Resalta en la grilla los lotes bajo el minimo (rojo) o por encima del maximo (amarillo).
+        private void dgvStock_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || !dgvStock.Columns.Contains("StockMinimo")) return;
+            DataGridViewRow fila = dgvStock.Rows[e.RowIndex];
+            int cant, min, max;
+            if (!int.TryParse(Convert.ToString(fila.Cells["Cantidad"].Value), out cant)) return;
+            int.TryParse(Convert.ToString(fila.Cells["StockMinimo"].Value), out min);
+            int.TryParse(Convert.ToString(fila.Cells["StockMaximo"].Value), out max);
+            if (min > 0 && cant <= min)
+            {
+                e.CellStyle.BackColor = System.Drawing.Color.FromArgb(255, 200, 200);
+                e.CellStyle.ForeColor = System.Drawing.Color.Black;
+            }
+            else if (max > 0 && cant > max)
+            {
+                e.CellStyle.BackColor = System.Drawing.Color.FromArgb(255, 245, 180);
+                e.CellStyle.ForeColor = System.Drawing.Color.Black;
+            }
         }
 
         private void frmStock_Load(object sender, EventArgs e)
@@ -24,12 +96,15 @@ namespace CapaVistaUsuario.Compras
             dgvStock.MultiSelect = false;
             dgvStock.AllowUserToAddRows = false;
 
+            dgvStock.CellFormatting += dgvStock_CellFormatting;
+
             AplicarIdioma();
             CargarCombos();
             MostrarStock();
             CV_Utiles.BloquearControles(this);
             CV_Botonera.btnFormularios(this, btnCancelar);
             CV_ABM_Permisos.AplicarModoLectura(this, PermisosSistema.Stock);
+            MostrarAlertaStockBajo();
         }
 
         #region METODOS
@@ -41,6 +116,9 @@ namespace CapaVistaUsuario.Compras
             lblCantidad.Text = Idioma.Texto("Cantidad");
             lblVencimiento.Text = Idioma.Texto("Vencimiento");
             lblPrecio.Text = Idioma.Texto("Precio");
+            lblMinimo.Text = Idioma.Texto("StockMinimo");
+            lblMaximo.Text = Idioma.Texto("StockMaximo");
+            btnHistorial.Text = Idioma.Texto("Btn_Historial");
             btnAgregar.Text = Idioma.Texto("Btn_Agregar");
             btnModificar.Text = Idioma.Texto("Btn_Modificar");
             btnGuardar.Text = Idioma.Texto("Btn_Guardar");
@@ -52,7 +130,7 @@ namespace CapaVistaUsuario.Compras
 
         private void CargarCombos()
         {
-            new CN_LlenarCombos(cmbProducto, "Producto", "IdProducto", "Nombre");
+            new CN_LlenarCombos(cmbProducto, "Producto", "IdProducto", "Nombre", "Activo = 1");
         }
 
         private void MostrarStock()
@@ -62,15 +140,15 @@ namespace CapaVistaUsuario.Compras
 
         private bool DatosValidos()
         {
-            if (cmbProducto.SelectedValue == null)
+            // Todos los campos son obligatorios.
+            if (!obligatorios.Validar(cmbProducto, txtNumeroLote, txtCantidad, dtpVencimiento, txtPrecio))
             {
-                MessageBox.Show(Idioma.Texto("Msg_SeleccioneProducto"));
-                cmbProducto.Select();
                 return false;
             }
             int cant;
             if (!int.TryParse(txtCantidad.Text.Trim(), out cant) || cant < 0)
             {
+                obligatorios.Marcar(txtCantidad);
                 MessageBox.Show(Idioma.Texto("Msg_CantidadInvalida"));
                 txtCantidad.Select();
                 return false;
@@ -78,8 +156,22 @@ namespace CapaVistaUsuario.Compras
             decimal precio;
             if (!decimal.TryParse(txtPrecio.Text.Trim(), out precio) || precio < 0)
             {
+                obligatorios.Marcar(txtPrecio);
                 MessageBox.Show(Idioma.Texto("Msg_PrecioInvalido"));
                 txtPrecio.Select();
+                return false;
+            }
+
+            // Minimo y maximo son opcionales (vacio o 0 = sin alerta); el maximo no puede ser menor que el minimo.
+            int min = 0, max = 0;
+            bool minOk = txtMinimo.Text.Trim().Length == 0 || (int.TryParse(txtMinimo.Text.Trim(), out min) && min >= 0);
+            bool maxOk = txtMaximo.Text.Trim().Length == 0 || (int.TryParse(txtMaximo.Text.Trim(), out max) && max >= 0);
+            if (!minOk || !maxOk || (max > 0 && max < min))
+            {
+                if (!minOk || (max > 0 && max < min)) obligatorios.Marcar(txtMinimo);
+                if (!maxOk || (max > 0 && max < min)) obligatorios.Marcar(txtMaximo);
+                MessageBox.Show(Idioma.Texto("Msg_MinMaxInvalido"));
+                txtMinimo.Select();
                 return false;
             }
             return true;
@@ -93,6 +185,8 @@ namespace CapaVistaUsuario.Compras
             Stk.Cantidad = Convert.ToInt32(txtCantidad.Text.Trim());
             Stk.FechaVencimiento = dtpVencimiento.Value;
             Stk.Precio = Convert.ToDecimal(txtPrecio.Text.Trim());
+            Stk.StockMinimo = txtMinimo.Text.Trim().Length == 0 ? 0 : Convert.ToInt32(txtMinimo.Text.Trim());
+            Stk.StockMaximo = txtMaximo.Text.Trim().Length == 0 ? 0 : Convert.ToInt32(txtMaximo.Text.Trim());
         }
         #endregion
 
@@ -104,6 +198,8 @@ namespace CapaVistaUsuario.Compras
             cmbProducto.SelectedIndex = -1;
             txtCantidad.Text = "0";
             txtPrecio.Text = "0";
+            txtMinimo.Text = "0";
+            txtMaximo.Text = "0";
             lblID.Text = "0";
             CV_Botonera.btnFormularios(this, btnAgregar);
             cmbProducto.Select();
@@ -135,6 +231,7 @@ namespace CapaVistaUsuario.Compras
                 MessageBox.Show(Idioma.Texto("Msg_SeleccioneRegistro"));
                 return;
             }
+            CargarSeleccion();
             CV_Utiles.DesbloquearControles(this);
             CV_Botonera.btnFormularios(this, btnModificar);
             cmbProducto.Select();
@@ -196,7 +293,14 @@ namespace CapaVistaUsuario.Compras
 
         private void dgvStock_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || dgvStock.SelectedRows.Count == 0) return;
+            if (e.RowIndex < 0) return;
+            CargarSeleccion();
+        }
+
+        /// <summary>Llena los campos con el registro seleccionado en la grilla.</summary>
+        private void CargarSeleccion()
+        {
+            if (dgvStock.SelectedRows.Count == 0) return;
             var f = dgvStock.SelectedRows[0];
             lblID.Text = f.Cells["IdStock"].Value.ToString();
             if (f.Cells["IdProducto"].Value != DBNull.Value && f.Cells["IdProducto"].Value != null)
@@ -210,6 +314,8 @@ namespace CapaVistaUsuario.Compras
                 dtpVencimiento.Value = Convert.ToDateTime(f.Cells["FechaVencimiento"].Value);
             }
             txtPrecio.Text = f.Cells["Precio"].Value.ToString();
+            txtMinimo.Text = f.Cells["StockMinimo"].Value.ToString();
+            txtMaximo.Text = f.Cells["StockMaximo"].Value.ToString();
         }
     }
 }
