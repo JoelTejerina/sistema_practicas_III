@@ -20,7 +20,7 @@ namespace CapaAccesoDatos.Compras
         #region METODOS
         public DataTable Mostrar()
         {
-            string sSql = "SELECT * FROM Proveedor ORDER BY Nombre";
+            string sSql = "SELECT * FROM Proveedor WHERE Activo = 1 ORDER BY Nombre";
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             return Ejecutar.Ejecutar(sSql);
         }
@@ -48,7 +48,7 @@ namespace CapaAccesoDatos.Compras
 
         public void EliminarProveedor()
         {
-            string sSql = "DELETE FROM Proveedor WHERE IdProveedor=" + IdProveedor;
+            string sSql = "UPDATE Proveedor SET Activo = 0 WHERE IdProveedor=" + IdProveedor;
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);
         }

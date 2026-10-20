@@ -24,7 +24,7 @@ namespace CapaAccesoDatos.Ventas
         #region METODOS
         public DataTable Mostrar()
         {
-            string sSql = "SELECT * FROM Menu ORDER BY Nombre";
+            string sSql = "SELECT * FROM Menu WHERE Activo = 1 ORDER BY Nombre";
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             return Ejecutar.Ejecutar(sSql);
         }
@@ -54,7 +54,7 @@ namespace CapaAccesoDatos.Ventas
 
         public void EliminarMenu()
         {
-            string sSql = "DELETE FROM Menu WHERE IdMenu=" + IdMenu;
+            string sSql = "UPDATE Menu SET Activo = 0 WHERE IdMenu=" + IdMenu;
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);
         }

@@ -63,6 +63,9 @@
     <Compile Include="Ventas\CN_Menu.cs" />
     <Compile Include="Ventas\CN_Estadisticas.cs" />
     <Compile Include="Ventas\CN_Pedido.cs" />
+    <Compile Include="Ventas\CN_Receta.cs" />
+    <Compile Include="Administrador\CN_Backup.cs" />
+    <Compile Include="Loguin\CN_IdiomaUsuario.cs" />
     <Compile Include="CL_clsBitacora.cs" />
     <Compile Include="LlenarCombos\CN_LlenarCombos.cs" />
     <Compile Include="Loguin\clsLogicaLoguin.cs" />

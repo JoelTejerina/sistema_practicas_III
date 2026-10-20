@@ -19,6 +19,7 @@ namespace CapaComun
         public const string Personal = "Personal";
         public const string Ubicaciones = "Ubicaciones";
         public const string Estadisticas = "Estadisticas";
+        public const string Elaboracion = "Elaboracion";
 
         public const string GrupoGerente = "Gerente";
         public const string GrupoSubgerente = "Subgerente";
@@ -26,6 +27,7 @@ namespace CapaComun
         public const string GrupoJefeCocina = "Jefe de Cocina";
         public const string GrupoPropietario = "Propietario";
         public const string GrupoRecursosHumanos = "Recursos Humanos";
+        public const string GrupoJefeSalon = "Jefe de Salon";
 
         public static bool EsAdministrador()
         {
@@ -105,7 +107,9 @@ namespace CapaComun
                 case Menu:
                     return grupo != GrupoJefeCocina;
                 case Pedidos:
-                    return grupo != GrupoCajero;
+                    return grupo != GrupoCajero && grupo != GrupoJefeSalon;
+                case Elaboracion:
+                    return grupo != GrupoJefeCocina;
                 case Personal:
                     return grupo != GrupoRecursosHumanos;
                 case Bitacora:

@@ -44,6 +44,8 @@
     <Compile Include="clsForm.cs" />
     <Compile Include="clsSeguridad.cs" />
     <Compile Include="Idioma.cs" />
+    <Compile Include="ItemPedido.cs" />
+    <Compile Include="StockInsuficienteException.cs" />
     <Compile Include="PermisosSistema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VerificCache.cs" />

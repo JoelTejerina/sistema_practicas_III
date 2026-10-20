@@ -9,6 +9,7 @@ namespace CapaAccesoDatos.Administrador
         public string Apellido { get; set; }
         public string Nombres { get; set; }
         public int IdTipoDoc { get; set; }
+        public DateTime FechaNacimiento { get; set; }
         public int NroDoc { get; set; }
         public string Telefono { get; set; }
         public string Correo { get; set; }
@@ -72,10 +73,10 @@ namespace CapaAccesoDatos.Administrador
                     int idLocalidad = IdLocalidad > 0 ? IdLocalidad : 1;
 
                     string sqlPersonal = "INSERT INTO Personal " +
-                        "(Apellido, Nombres, IdTDoc, NroDoc, Telefono, Correo, Calle, Nro, Piso, Dto, IdLocalidad, IdCargo) " +
+                        "(Apellido, Nombres, IdTDoc, NroDoc, Telefono, Correo, Calle, Nro, Piso, Dto, IdLocalidad, IdCargo, FechaNacimiento) " +
                         "VALUES ('" + SqlTxt(Apellido) + "','" + SqlTxt(Nombres) + "'," + IdTipoDoc + "," + NroDoc +
                         ",'" + SqlTxt(Telefono) + "','" + SqlTxt(Correo) + "','','0','',''," +
-                        idLocalidad + "," + idCargo + ")";
+                        idLocalidad + "," + idCargo + ",'" + FechaNacimiento.ToString("yyyyMMdd") + "')";
                     idPersona = InsertarYObtenerId(ejecutar, sqlPersonal);
                     if (idPersona <= 0)
                     {

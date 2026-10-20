@@ -24,6 +24,7 @@ namespace CapaLogicaNegocio.Administrador
         private string dto;
         private string idlocalidad;
         private string idprovincia;
+        private DateTime fechanacimiento;
         #endregion
 
         #region PROPERTIES
@@ -100,6 +101,12 @@ namespace CapaLogicaNegocio.Administrador
             set { idlocalidad = value; }
         }
 
+        public DateTime FechaNacimiento
+        {
+            get => fechanacimiento;
+            set { fechanacimiento = value; }
+        }
+
         public string IdProvincia
         {
             get => idprovincia;
@@ -155,6 +162,7 @@ namespace CapaLogicaNegocio.Administrador
             personas.Piso = this.piso;
             personas.Dto = this.dto;
             personas.IdLocalidad = Convert.ToInt32(this.idlocalidad);
+            personas.FechaNacimiento = this.fechanacimiento;
             personas.IdProvincia = Convert.ToInt32(this.idprovincia);
         }
 

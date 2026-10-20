@@ -18,7 +18,7 @@ namespace CapaAccesoDatos.Compras
         #region METODOS
         public DataTable Mostrar()
         {
-            string sSql = "SELECT * FROM Producto ORDER BY Nombre";
+            string sSql = "SELECT * FROM Producto WHERE Activo = 1 ORDER BY Nombre";
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             return Ejecutar.Ejecutar(sSql);
         }
@@ -45,7 +45,7 @@ namespace CapaAccesoDatos.Compras
 
         public void EliminarProducto()
         {
-            string sSql = "DELETE FROM Producto WHERE IdProducto=" + IdProducto;
+            string sSql = "UPDATE Producto SET Activo = 0 WHERE IdProducto=" + IdProducto;
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);
         }

@@ -27,6 +27,7 @@ namespace CapaAccesoDatos.Administrador
         private string dto;
         private int idlocalidad;
         private int idprovincia;
+        private DateTime fechanacimiento;
         #endregion
 
         #region PROPERTIES
@@ -103,6 +104,12 @@ namespace CapaAccesoDatos.Administrador
             set {idlocalidad = value;}
         }
 
+        public DateTime FechaNacimiento
+        {
+            get => fechanacimiento;
+            set { fechanacimiento = value; }
+        }
+
         public int IdProvincia
         {
             get => idprovincia;
@@ -124,11 +131,11 @@ namespace CapaAccesoDatos.Administrador
             public void InsertarPersona()
         {
             string sSql = "INSERT INTO Personal " +
-               "(Apellido, Nombres, IdTDoc, NroDoc, Telefono, Correo, Calle, Nro, Piso, Dto, IdLocalidad, IdCargo) " +
+               "(Apellido, Nombres, IdTDoc, NroDoc, Telefono, Correo, Calle, Nro, Piso, Dto, IdLocalidad, IdCargo, FechaNacimiento) " +
                 "values" +
                 " ('" + apellido + "','" + nombre + "'," + tipodoc + "," + nrodoc +
                 ",'" +telefono + "','" + correo + "','" + calle + "','" + nro +
-                "','" + piso + "','" + dto + "'," + idlocalidad + ", 6 )";
+                "','" + piso + "','" + dto + "'," + idlocalidad + ", 6, '" + fechanacimiento.ToString("yyyyMMdd") + "')";
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);
         }
@@ -139,7 +146,7 @@ namespace CapaAccesoDatos.Administrador
                 "Apellido='" + apellido + "', Nombres='" + nombre  + "', IdTDoc =" + tipodoc  +
                 ", NroDoc = " + nrodoc  + ", Telefono = '" + telefono + "', Correo = '" + correo  +
                 "', Calle = '" + calle + "', Nro = '" + nro + "', Piso = '" + piso + "', Dto = '" + dto +
-                "', IdLocalidad = " + idlocalidad  +
+                "', IdLocalidad = " + idlocalidad + ", FechaNacimiento = '" + fechanacimiento.ToString("yyyyMMdd") + "'" +
                 " WHERE IdPersona =" + idpersona;
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             Ejecutar.Ejecutar(sSql);

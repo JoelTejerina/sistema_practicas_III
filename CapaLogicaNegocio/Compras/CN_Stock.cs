@@ -15,6 +15,8 @@ namespace CapaLogicaNegocio.Compras
         public int Cantidad { get; set; }
         public DateTime FechaVencimiento { get; set; }
         public decimal Precio { get; set; }
+        public int StockMinimo { get; set; }
+        public int StockMaximo { get; set; }
         #endregion
 
         #region METODOS
@@ -25,12 +27,14 @@ namespace CapaLogicaNegocio.Compras
 
         public void InsertarStock()
         {
+            Validar();
             PasarDatos();
             stock.InsertarStock();
         }
 
         public void ModificarStock()
         {
+            Validar();
             PasarDatos();
             stock.ModificarStock();
         }
@@ -41,6 +45,31 @@ namespace CapaLogicaNegocio.Compras
             stock.EliminarStock();
         }
 
+        /// <summary>Lotes cuya existencia llego al minimo configurado (alerta de stock bajo).</summary>
+        public DataTable LotesBajoMinimo()
+        {
+            return stock.LotesBajoMinimo();
+        }
+
+        /// <summary>Historial de movimientos (trazabilidad) de un producto; 0 trae todos.</summary>
+        public DataTable Historial(int idProducto)
+        {
+            return stock.Historial(idProducto);
+        }
+
+        // El maximo, si se configura, no puede ser menor que el minimo.
+        private void Validar()
+        {
+            if (StockMinimo < 0 || StockMaximo < 0)
+            {
+                throw new InvalidOperationException("El stock minimo y maximo no pueden ser negativos.");
+            }
+            if (StockMaximo > 0 && StockMaximo < StockMinimo)
+            {
+                throw new InvalidOperationException("El stock maximo no puede ser menor que el minimo.");
+            }
+        }
+
         private void PasarDatos()
         {
             stock.IdStock = IdStock;
@@ -49,6 +78,8 @@ namespace CapaLogicaNegocio.Compras
             stock.Cantidad = Cantidad;
             stock.FechaVencimiento = FechaVencimiento;
             stock.Precio = Precio;
+            stock.StockMinimo = StockMinimo;
+            stock.StockMaximo = StockMaximo;
         }
         #endregion
     }
