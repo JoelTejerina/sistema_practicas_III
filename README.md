@@ -19,15 +19,17 @@ instalacion base, los demas se cargan al instalar con `-Demo`
 
 | Rol | Usuario | Contraseña | Que puede hacer |
 |---|---|---|---|
-| Gerente | `Edu` | `123` | Todo el sistema, incluida Elaboracion y la copia de respaldo |
-| Subgerente | `subgerente` | `123` | Compras: Proveedores, Productos y Stock |
+| Gerente | `Edu` | `123` | Todo el sistema: Compras (Proveedores, Productos, Stock), Elaboracion, usuarios y copia de respaldo |
 | Cajero | `titor` (tambien `lgomez`) | `123` | Pedidos / Facturacion |
 | Jefe de Cocina | `mfernandez` | `123` | Menu (recetas) y Elaboracion |
-| Propietario | `propietario` | `123` | Consulta: Estadisticas y Bitacora |
-| Recursos Humanos | `srios` | `123` | Registrar usuario, Asignar rol y Gestion de Personal |
+| Propietario | `propietario` | `123` | Estadisticas, Bitacora y administracion de usuarios (Registrar usuario, Asignar rol, Gestion de Personal) |
 | Jefe de Salon | `jefesalon` | `123` | Menu (consulta) y Pedidos |
 
 Todos pueden cambiar su contraseña desde **Usuarios > Cambio de Password**.
+
+Los roles **Subgerente** y **Recursos Humanos** ya no existen (migracion `003`): las compras las hace el
+Gerente y la administracion de usuarios, roles y personal la hacen el Gerente y el Propietario. Los
+usuarios que tenian esos roles quedan **dados de baja** (desactivados, sin borrarse).
 
 Detalle completo (como cambiar la estructura sin pisarnos, conexion a otro servidor, etc.) en
 [`Database/README.md`](Database/README.md).

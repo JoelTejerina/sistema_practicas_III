@@ -42,11 +42,9 @@ SET IDENTITY_INSERT dbo.Grupos ON;
 MERGE dbo.Grupos AS t
 USING (VALUES
     (1, N'Gerente'),
-    (2, N'Subgerente'),
     (3, N'Cajero'),
     (4, N'Jefe de Cocina'),
     (5, N'Propietario'),
-    (6, N'Recursos Humanos'),
     (7, N'Jefe de Salon')
 ) AS s (IdGrupo, Grupo)
    ON t.IdGrupo = s.IdGrupo
@@ -95,22 +93,17 @@ USING (VALUES
     (13, 1),
     (14, 1),
     (15, 1),
-    (5, 2),
-    (7, 2),
-    (8, 2),
-    (9, 2),
     (5, 3),
     (11, 3),
     (5, 4),
     (10, 4),
+    (1, 5),
+    (2, 5),
+    (3, 5),
     (5, 5),
+    (13, 5),
     (12, 5),
     (15, 5),
-    (1, 6),
-    (2, 6),
-    (3, 6),
-    (5, 6),
-    (13, 6),
     (16, 1),
     (16, 4),
     (5, 7),

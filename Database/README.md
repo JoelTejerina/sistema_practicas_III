@@ -70,16 +70,17 @@ GO
   | Rol | Usuario |
   |---|---|
   | Gerente | `Edu` |
-  | Subgerente | `subgerente` |
   | Cajero | `titor` (también `lgomez`) |
   | Jefe de Cocina | `mfernandez` |
-  | Propietario | `propietario` |
-  | Recursos Humanos | `srios` |
+  | Propietario | `propietario` (tambien administra usuarios) |
   | Jefe de Salon | `jefesalon` |
 - `migraciones/002_ajustes_alcance.sql` agrega lo que pide el documento de alcance: recetas por
   platillo, detalle de pedidos (varios platillos), movimientos de stock (trazabilidad), stock
   minimo/maximo, baja logica de Producto/Proveedor/Menu, fecha de nacimiento e idioma por usuario.
   Con eso el pedido verifica el stock, descuenta los insumos y los devuelve al cancelar.
+- `migraciones/003_roles_simplificados.sql` elimina los roles Subgerente y Recursos Humanos: Compras pasa al
+  Gerente y la administracion de usuarios, roles y personal al Gerente y al Propietario. Los usuarios que
+  tenian esos roles **se dan de baja** (desactivados con fecha de baja; no se borran para conservar su historial).
 - Las claves foraneas ahora se **hacen cumplir**: no se puede borrar, por ejemplo, un proveedor
   con productos. Antes Access lo permitia en las tablas sin relacion.
 - `Loguin.accdb` y `Loguin - Copia.accdb` quedan solo como respaldo historico; la app ya no los usa.

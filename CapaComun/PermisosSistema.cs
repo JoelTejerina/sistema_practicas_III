@@ -22,11 +22,9 @@ namespace CapaComun
         public const string Elaboracion = "Elaboracion";
 
         public const string GrupoGerente = "Gerente";
-        public const string GrupoSubgerente = "Subgerente";
         public const string GrupoCajero = "Cajero";
         public const string GrupoJefeCocina = "Jefe de Cocina";
         public const string GrupoPropietario = "Propietario";
-        public const string GrupoRecursosHumanos = "Recursos Humanos";
         public const string GrupoJefeSalon = "Jefe de Salon";
 
         public static bool EsAdministrador()
@@ -69,15 +67,17 @@ namespace CapaComun
             return false;
         }
 
+        // La administracion de usuarios, roles y personal la hacen el Gerente y el Propietario
+        // (el "Administrador" de los casos de uso del documento de alcance).
         public static bool PuedeGestionarUsuarios()
         {
             return EsAdministrador() || TieneAlguno(AltaUsuarios, BajaUsuarios, ModificacionUsuarios)
-                || EsGrupo(GrupoGerente, GrupoRecursosHumanos);
+                || EsGrupo(GrupoGerente, GrupoPropietario);
         }
 
         public static bool PuedeAsignarRoles()
         {
-            return EsAdministrador() || EsGrupo(GrupoGerente, GrupoRecursosHumanos);
+            return EsAdministrador() || EsGrupo(GrupoGerente, GrupoPropietario);
         }
 
         public static bool PuedeVerEstadisticas()
@@ -103,7 +103,8 @@ namespace CapaComun
                 case Proveedores:
                 case Productos:
                 case Stock:
-                    return grupo != GrupoSubgerente;
+                    // Compras es del Gerente (ya retornado arriba): el resto, solo lectura.
+                    return true;
                 case Menu:
                     return grupo != GrupoJefeCocina;
                 case Pedidos:
@@ -111,7 +112,7 @@ namespace CapaComun
                 case Elaboracion:
                     return grupo != GrupoJefeCocina;
                 case Personal:
-                    return grupo != GrupoRecursosHumanos;
+                    return grupo != GrupoPropietario;
                 case Bitacora:
                 case Estadisticas:
                     return grupo == GrupoPropietario;

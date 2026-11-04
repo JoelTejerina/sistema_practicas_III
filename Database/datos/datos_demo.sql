@@ -34,8 +34,6 @@ MERGE dbo.Usuarios AS t
 USING (VALUES
     (4, N'lgomez',     N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 3, CAST('2024-03-01' AS DATE), 0),
     (5, N'mfernandez', N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 4, CAST('2024-03-01' AS DATE), 0),
-    (6, N'srios',      N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 5, CAST('2024-03-01' AS DATE), 0),
-    (7, N'subgerente', N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 6, CAST('2024-03-01' AS DATE), 0),
     (8, N'propietario', N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 7, CAST('2024-03-01' AS DATE), 0),
     (9, N'jefesalon',  N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 8, CAST('2024-03-01' AS DATE), 0)
 ) AS s (IdUsuario, Usuario, [Password], IdPersona, FechaAlta, CambiaCada)
@@ -50,8 +48,6 @@ MERGE dbo.UsuariosGrupos AS t
 USING (VALUES
     (4, 3),   -- lgomez     -> Cajero
     (5, 4),   -- mfernandez -> Jefe de Cocina
-    (6, 6),   -- srios      -> Recursos Humanos
-    (7, 2),   -- subgerente  -> Subgerente
     (8, 5),   -- propietario -> Propietario
     (9, 7)    -- jefesalon   -> Jefe de Salon
 ) AS s (IdUsuario, IdGrupo)
