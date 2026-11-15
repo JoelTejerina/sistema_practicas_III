@@ -94,6 +94,26 @@
     <Compile Include="Administrador\CV_Botonera.cs" />
     <Compile Include="Administrador\CV_Utiles.cs" />
     <Compile Include="BuscadorGrilla.cs" />
+    <Compile Include="CV_Ticket.cs" />
+    <Compile Include="CV_Ayuda.cs" />
+    <Compile Include="frmAyuda.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\frmCaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\frmBuscarReceta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Loguin\frmRecuperarPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\frmGestionUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\frmRolesPermisos.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Ventas\frmReceta.cs">
       <SubType>Form</SubType>
     </Compile>

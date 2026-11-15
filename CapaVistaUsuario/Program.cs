@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,11 +19,24 @@ namespace CapaVistaUsuario
             CV_ExcepcionBitacora.ConfigurarManejadoresGlobales();
            // Application.Run(new CapaVistaUsuario.frmLoguin());
 
-            CapaVistaUsuario.frmLoguin frm = new CapaVistaUsuario.frmLoguin();
-            frm.ShowDialog();
+            // Ingreso -> sistema. Si el usuario elige "Cerrar sesion" se vuelve a la pantalla de ingreso.
+            while (true)
+            {
+                CapaVistaUsuario.frmLoguin frm = new CapaVistaUsuario.frmLoguin();
+                frm.ShowDialog();
+                if (frm.DialogResult != DialogResult.OK)
+                {
+                    break;
+                }
 
-            if (frm.DialogResult == DialogResult.OK)
-                Application.Run(new frmPrincipal());
+                frmPrincipal principal = new frmPrincipal();
+                Application.Run(principal);
+                if (!principal.CerrarSesionSolicitada)
+                {
+                    break;
+                }
+                CapaComun.UserCache.Limpiar();
+            }
 
         }
     }

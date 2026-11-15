@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +16,9 @@ namespace CapaVistaUsuario.Loguin
 {
     public partial class frmCambioPassword : Form
     {
+        /// <summary>true cuando se abre desde el ingreso por una contraseña temporal: el cambio es obligatorio.</summary>
+        public bool Forzado { get; set; }
+
         public frmCambioPassword()
         {
             InitializeComponent();
@@ -28,6 +31,12 @@ namespace CapaVistaUsuario.Loguin
 
             lblUsuario.Text = UserCache.Usuario;
 
+            if (Forzado)
+            {
+                Text = Idioma.Texto("CambioObligatorio");
+                Shown += (origen, args) => MessageBox.Show(Idioma.Texto("Msg_CambioObligatorio"), Text);
+            }
+
         }
 
         private void btnCambiar_Click(object sender, EventArgs e)
@@ -36,6 +45,13 @@ namespace CapaVistaUsuario.Loguin
             try
             {
                 CP.CambioPass(UserCache.Usuario, txtPassActual.Text, txtPassNueva.Text, txtPassNueva1.Text);
+                if (Forzado)
+                {
+                    MessageBox.Show(Idioma.Texto("Msg_CambioObligatorioOk"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    DialogResult = DialogResult.OK;
+                    Close();
+                    return;
+                }
                 MessageBox.Show("Cambio de contraseña exitoso!! \n" +
                     "EL SISTEMA SE CERRARA, VUELVA A INGRESAR CON LA NUEVA CONTRASEÑA. \n \n" +
                     "MAntenga la nueva contraseña en privado \n" +

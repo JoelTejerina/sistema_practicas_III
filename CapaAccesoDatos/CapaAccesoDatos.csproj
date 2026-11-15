@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -58,6 +58,7 @@
     <Compile Include="Ventas\CD_Estadisticas.cs" />
     <Compile Include="Ventas\CD_Pedido.cs" />
     <Compile Include="Ventas\CD_Receta.cs" />
+    <Compile Include="Ventas\CD_Caja.cs" />
     <Compile Include="CD_clsBitacora.cs" />
     <Compile Include="clsEjecutarComando.cs" />
     <Compile Include="LlenarCombos\CD_LlenarCombos.cs" />
@@ -65,6 +66,9 @@
     <Compile Include="Loguin\CD_BloqueoUser.cs" />
     <Compile Include="Loguin\CD_ModificaPass.cs" />
     <Compile Include="Loguin\CD_IdiomaUsuario.cs" />
+    <Compile Include="Loguin\CD_Seguridad.cs" />
+    <Compile Include="Administrador\CD_GestionUsuarios.cs" />
+    <Compile Include="Administrador\CD_RolesPermisos.cs" />
     <Compile Include="Loguin\clsConectarUsuario.cs" />
     <Compile Include="Loguin\clsPermisos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +14,7 @@ namespace CapaAccesoDatos.Loguin
         {
             string SSql = "UPDATE Usuarios SET Usuarios.UsuarioDesactivado = 1 WHERE Usuarios.Usuario ='" + (User ?? "").Replace("'", "''") + "'";
             Ejecutar.EjecucionDirecta(SSql);
+            new CD_Seguridad().RecalcularDigitos();
         }
     }
 }

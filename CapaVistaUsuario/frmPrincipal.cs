@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,14 +20,58 @@ namespace CapaVistaUsuario
         // Entradas de menu del alcance: Elaboracion (cocina) y Copia de respaldo (backup).
         private readonly ToolStripMenuItem elaboracionToolStripMenuItem = new ToolStripMenuItem { Name = "elaboracionToolStripMenuItem" };
         private readonly ToolStripMenuItem backupToolStripMenuItem = new ToolStripMenuItem { Name = "backupToolStripMenuItem" };
+        private readonly ToolStripMenuItem cajaToolStripMenuItem = new ToolStripMenuItem { Name = "cajaToolStripMenuItem" };
+        private readonly ToolStripMenuItem buscarRecetaToolStripMenuItem = new ToolStripMenuItem { Name = "buscarRecetaToolStripMenuItem" };
+
+        private readonly ToolStripMenuItem ayudaToolStripMenuItem = new ToolStripMenuItem { Name = "ayudaToolStripMenuItem", ShortcutKeys = Keys.F1 };
+
+        private readonly ToolStripMenuItem cerrarSesionToolStripMenuItem = new ToolStripMenuItem { Name = "cerrarSesionToolStripMenuItem" };
+        private readonly ToolStripMenuItem rolesPermisosToolStripMenuItem = new ToolStripMenuItem { Name = "rolesPermisosToolStripMenuItem" };
+        private readonly Timer tmrSesion = new Timer { Interval = 60000 };
+
+        /// <summary>true si el usuario eligio "Cerrar sesion": al cerrarse vuelve a la pantalla de ingreso.</summary>
+        public bool CerrarSesionSolicitada { get; private set; }
 
         public frmPrincipal()
         {
             InitializeComponent();
+
+            // Cierre de sesion, mantenimiento de usuarios y roles/permisos (menu Mantenimiento > Usuarios).
+            cerrarSesionToolStripMenuItem.Click += cerrarSesionToolStripMenuItem_Click;
+            rolesPermisosToolStripMenuItem.Click += rolesPermisosToolStripMenuItem_Click;
+            mantenimientoDeUsuariosToolStripMenuItem.Click += mantenimientoDeUsuariosToolStripMenuItem_Click;
+            usuariosToolStripMenuItem.DropDownItems.Add(rolesPermisosToolStripMenuItem);
+            usuariosToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
+            usuariosToolStripMenuItem.DropDownItems.Add(cerrarSesionToolStripMenuItem);
+
+            // Cada minuto se marca actividad: asi la sesion de otra PC no se considera abandonada.
+            tmrSesion.Tick += (s, e) =>
+            {
+                try { new CN_Seguridad().Latido(); } catch (Exception) { }
+            };
+            tmrSesion.Start();
+            FormClosed += frmPrincipal_FormClosed;
+
             elaboracionToolStripMenuItem.Click += elaboracionToolStripMenuItem_Click;
             backupToolStripMenuItem.Click += backupToolStripMenuItem_Click;
             facturacionToolStripMenuItem.DropDownItems.Add(elaboracionToolStripMenuItem);
+            cajaToolStripMenuItem.Click += cajaToolStripMenuItem_Click;
+            buscarRecetaToolStripMenuItem.Click += buscarRecetaToolStripMenuItem_Click;
+            facturacionToolStripMenuItem.DropDownItems.Add(cajaToolStripMenuItem);
+            facturacionToolStripMenuItem.DropDownItems.Add(buscarRecetaToolStripMenuItem);
             administracionToolStripMenuItem.DropDownItems.Add(backupToolStripMenuItem);
+
+            // Ayuda en linea (menu Ayuda o tecla F1).
+            ayudaToolStripMenuItem.Click += ayudaToolStripMenuItem_Click;
+            menuStrip1.Items.Add(ayudaToolStripMenuItem);
+        }
+
+        private void ayudaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmAyuda f = new frmAyuda())
+            {
+                f.ShowDialog(this);
+            }
         }
 
         private void frmPrincipal_Load(object sender, EventArgs e)
@@ -45,6 +89,57 @@ namespace CapaVistaUsuario
             AplicarPermisos();
         }
 
+        private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(Idioma.Texto("Msg_ConfirmCerrarSesion"), Idioma.Texto("CerrarSesion"),
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
+            {
+                return;
+            }
+            CerrarSesionSolicitada = true;
+            Close();
+        }
+
+        // Al cerrarse (por "Cerrar sesion", "Salir" o la X) la sesion se libera y queda en la bitacora.
+        private void frmPrincipal_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            tmrSesion.Stop();
+            try
+            {
+                new CL_clsBitacora("Cierre de sesión",
+                    CerrarSesionSolicitada ? "El usuario cerró su sesión" : "El usuario salió del sistema", "frmPrincipal");
+                new CN_Seguridad().CerrarSesion();
+            }
+            catch (Exception)
+            {
+                // Si no se pudo avisar a la base, la sesion vence sola por inactividad.
+            }
+        }
+
+        private void mantenimientoDeUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!PermisosSistema.PuedeGestionarUsuarios())
+            {
+                MessageBox.Show(Idioma.Texto("Msg_SinPermiso"));
+                return;
+            }
+            Administrador.frmGestionUsuarios fAux = new Administrador.frmGestionUsuarios();
+            fAux.MdiParent = this;
+            fAux.Show();
+        }
+
+        private void rolesPermisosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!PermisosSistema.PuedeAsignarRoles())
+            {
+                MessageBox.Show(Idioma.Texto("Msg_SinPermiso"));
+                return;
+            }
+            Administrador.frmRolesPermisos fAux = new Administrador.frmRolesPermisos();
+            fAux.MdiParent = this;
+            fAux.Show();
+        }
+
         private void GuardarIdiomaElegido(string idioma)
         {
             try
@@ -55,6 +150,22 @@ namespace CapaVistaUsuario
             {
                 // No poder guardar la preferencia no debe impedir cambiar el idioma.
             }
+        }
+
+        private void cajaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!VerificarPermiso(PermisosSistema.Caja)) return;
+            Ventas.frmCaja fAux = new Ventas.frmCaja();
+            fAux.MdiParent = this;
+            fAux.Show();
+        }
+
+        private void buscarRecetaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!VerificarPermiso(PermisosSistema.Menu)) return;
+            Ventas.frmBuscarReceta fAux = new Ventas.frmBuscarReceta();
+            fAux.MdiParent = this;
+            fAux.Show();
         }
 
         private void elaboracionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -117,10 +228,12 @@ namespace CapaVistaUsuario
             stockComprasToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Stock);
 
             facturacionToolStripMenuItem.Visible = admin || PermisosSistema.TieneAlguno(
-                PermisosSistema.Menu, PermisosSistema.Pedidos, PermisosSistema.Elaboracion);
+                PermisosSistema.Menu, PermisosSistema.Pedidos, PermisosSistema.Elaboracion, PermisosSistema.Caja);
             menuToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Menu);
             pedidosToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Pedidos);
             elaboracionToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Elaboracion);
+            cajaToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Caja);
+            buscarRecetaToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Menu);
 
             administracionToolStripMenuItem.Visible = admin || PermisosSistema.TieneAlguno(
                 PermisosSistema.AltaUsuarios, PermisosSistema.BajaUsuarios,
@@ -131,7 +244,10 @@ namespace CapaVistaUsuario
             registroToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Bitacora);
             bitacoraToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Bitacora);
 
-            mantenimientoToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Ubicaciones);
+            // El menu Mantenimiento tambien contiene "Usuarios" (cambio de password, cierre de sesion): lo ve todo el mundo.
+            mantenimientoToolStripMenuItem.Visible = true;
+            mantenimientoDeUsuariosToolStripMenuItem.Visible = PermisosSistema.PuedeGestionarUsuarios();
+            rolesPermisosToolStripMenuItem.Visible = PermisosSistema.PuedeAsignarRoles();
             ubicacionesToolStripMenuItem.Visible = admin || PermisosSistema.Tiene(PermisosSistema.Ubicaciones);
 
             usuariosToolStripMenuItem.Visible = true;
@@ -187,6 +303,11 @@ namespace CapaVistaUsuario
             menuToolStripMenuItem.Text = Idioma.Texto("Menu");
             pedidosToolStripMenuItem.Text = Idioma.Texto("Pedidos");
             elaboracionToolStripMenuItem.Text = Idioma.Texto("Elaboracion");
+            cajaToolStripMenuItem.Text = Idioma.Texto("Caja_Titulo");
+            ayudaToolStripMenuItem.Text = Idioma.Texto("Ayuda_Titulo");
+            buscarRecetaToolStripMenuItem.Text = Idioma.Texto("BuscarReceta_Titulo");
+            cerrarSesionToolStripMenuItem.Text = Idioma.Texto("CerrarSesion");
+            rolesPermisosToolStripMenuItem.Text = Idioma.Texto("RolesPermisos_Titulo");
             backupToolStripMenuItem.Text = Idioma.Texto("Backup");
             estadisticasToolStripMenuItem.Text = Idioma.Texto("Estadisticas");
             asignarRolToolStripMenuItem.Text = Idioma.Texto("AsignarRol");
@@ -308,6 +429,8 @@ namespace CapaVistaUsuario
          * del formulario, es donde colocamos lo que queremos que suceda al cerrar
          * */
         {
+            if (CerrarSesionSolicitada) return;   // ya se confirmo en "Cerrar sesion"
+
             //pregunto si desea cerrar, dando la opción de cancelar la operación
             DialogResult resultado = MessageBox.Show("Esta seguro de CERRAR el sistema?",
                                 "FINALIZAR SISTEMA",

@@ -25,6 +25,8 @@ namespace CapaLogicaNegocio.Loguin
                 {
                     CD_ModificaPass MP = new CD_ModificaPass();
                     MP.ModificaPass(IdUser: UserCache.IdUsuario, Pass: clsSeguridad.SHA256(PassNueva));
+                    UserCache.DebeCambiarPassword = false;
+                    new CL_clsBitacora("Cambio de contraseña", "El usuario " + UserCache.Usuario + " cambió su contraseña", "frmCambioPassword");
                 }
                 else
                 {

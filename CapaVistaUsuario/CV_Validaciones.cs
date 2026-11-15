@@ -262,6 +262,22 @@ namespace CapaVistaUsuario
         public const int Minima = 16;
         public const int Maxima = 100;
 
+        /// <summary>Deja la fecha sin elegir (o la fija) y refresca la edad que se muestra al lado.</summary>
+        public static void Establecer(System.Windows.Forms.DateTimePicker selector, System.DateTime? fecha)
+        {
+            if (fecha.HasValue)
+            {
+                selector.Value = fecha.Value;
+                selector.Checked = true;
+            }
+            else
+            {
+                selector.Checked = false;
+            }
+            System.Action actualizar = selector.Tag as System.Action;
+            if (actualizar != null) actualizar();
+        }
+
         public static int Calcular(System.DateTime nacimiento)
         {
             System.DateTime hoy = System.DateTime.Today;
@@ -293,10 +309,11 @@ namespace CapaVistaUsuario
             System.Windows.Forms.Label edad = new System.Windows.Forms.Label();
             edad.AutoSize = true;
             edad.Location = new System.Drawing.Point(ubicacion.X + ancho + 8, ubicacion.Y + 3);
-            selector.ValueChanged += (s, e) =>
-            {
-                edad.Text = selector.Checked ? "(" + Calcular(selector.Value) + ")" : "";
-            };
+            Action actualizar = () => edad.Text = selector.Checked ? "(" + Calcular(selector.Value) + ")" : "";
+            selector.Tag = actualizar;   // permite refrescar la edad cuando se cambia el estado por programa
+            selector.ValueChanged += (s, e) => actualizar();
+            selector.MouseUp += (s, e) => actualizar();
+            selector.KeyUp += (s, e) => actualizar();
 
             etiqueta.AutoSize = true;
             etiqueta.Location = new System.Drawing.Point(etiqueta.Left, ubicacion.Y + 3);

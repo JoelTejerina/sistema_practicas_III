@@ -66,7 +66,7 @@ namespace CapaVistaUsuario
             DateTimePicker fecha = c as DateTimePicker;
             if (fecha != null && fecha.ShowCheckBox)
             {
-                fecha.Checked = false;
+                CV_Edad.Establecer(fecha, null);
             }
         }
     }

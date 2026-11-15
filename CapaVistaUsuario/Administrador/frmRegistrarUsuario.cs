@@ -16,20 +16,36 @@ namespace CapaVistaUsuario.Administrador
 
         private readonly Label lblNacimiento = new Label();
         private DateTimePicker dtpNacimiento;
+        private readonly Label lblCalle = new Label();
+        private readonly TextBox txtCalle = new TextBox();
+        private readonly Label lblNroCalle = new Label();
+        private readonly TextBox txtNroCalle = new TextBox();
 
         public frmRegistrarUsuario()
         {
             InitializeComponent();
 
             // Fecha de nacimiento (la edad es dato obligatorio del alta): una fila mas en datos personales.
-            grpPersonal.Height += 30;
-            grpAcceso.Top += 30;
-            btnRegistrar.Top += 30;
-            btnLimpiar.Top += 30;
-            btnSalir.Top += 30;
-            ClientSize = new System.Drawing.Size(ClientSize.Width, ClientSize.Height + 30);
+            grpPersonal.Height += 60;
+            grpAcceso.Top += 60;
+            btnRegistrar.Top += 60;
+            btnLimpiar.Top += 60;
+            btnSalir.Top += 60;
+            ClientSize = new System.Drawing.Size(ClientSize.Width, ClientSize.Height + 60);
             lblNacimiento.Left = 15;
             dtpNacimiento = CV_Edad.CrearSelector(grpPersonal, lblNacimiento, new System.Drawing.Point(120, 194), 200);
+
+            // Direccion (calle y numero): dato obligatorio del alta segun el documento de alcance.
+            lblCalle.Name = "lblCalle"; txtCalle.Name = "txtCalle"; lblNroCalle.Name = "lblNroCalle"; txtNroCalle.Name = "txtNroCalle";
+            lblCalle.AutoSize = true;
+            lblCalle.Location = new System.Drawing.Point(15, 228);
+            txtCalle.Location = new System.Drawing.Point(120, 224);
+            txtCalle.Size = new System.Drawing.Size(300, 20);
+            lblNroCalle.AutoSize = true;
+            lblNroCalle.Location = new System.Drawing.Point(435, 228);
+            txtNroCalle.Location = new System.Drawing.Point(470, 224);
+            txtNroCalle.Size = new System.Drawing.Size(70, 20);
+            grpPersonal.Controls.AddRange(new Control[] { lblCalle, txtCalle, lblNroCalle, txtNroCalle });
         }
 
         private void frmRegistrarUsuario_Load(object sender, EventArgs e)
@@ -66,6 +82,8 @@ namespace CapaVistaUsuario.Administrador
             lblGrupo.Text = Idioma.Texto("RolUsuario");
             lblCargo.Text = Idioma.Texto("Cargo");
             lblNacimiento.Text = Idioma.Texto("FechaNacimiento");
+            lblCalle.Text = Idioma.Texto("Calle");
+            lblNroCalle.Text = Idioma.Texto("NroCalle");
             btnRegistrar.Text = Idioma.Texto("Btn_Registrar");
             btnLimpiar.Text = Idioma.Texto("Btn_Limpiar");
             btnSalir.Text = Idioma.Texto("Btn_Salir");
@@ -74,6 +92,13 @@ namespace CapaVistaUsuario.Administrador
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
             if (!ValidarCampos())
+            {
+                return;
+            }
+
+            // El alta se confirma antes de crear el usuario (CU-USU-001).
+            if (MessageBox.Show(string.Format(Idioma.Texto("Msg_ConfirmAltaUsuario"), txtUsuario.Text.Trim(), cmbGrupo.Text),
+                Idioma.Texto("RegistrarUsuario_Titulo"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
                 return;
             }
@@ -101,13 +126,22 @@ namespace CapaVistaUsuario.Administrador
 
             // Todo es obligatorio salvo la localidad (si no se elige se usa la 1).
             if (!obligatorios.Validar(txtApellido, txtNombres, cmbTipoDoc, txtNroDoc, dtpNacimiento, txtTelefono,
-                txtCorreo, cmbCargo, txtUsuario, txtPassword, txtConfirmar, cmbGrupo))
+                txtCalle, txtNroCalle, txtCorreo, cmbCargo, txtUsuario, txtPassword, txtConfirmar, cmbGrupo))
             {
                 return false;
             }
 
             if (!obligatorios.ValidarEdad(dtpNacimiento))
             {
+                return false;
+            }
+
+            int numeroCalle;
+            if (!int.TryParse(txtNroCalle.Text.Trim(), out numeroCalle) || numeroCalle < 0)
+            {
+                obligatorios.Marcar(txtNroCalle);
+                MessageBox.Show(Idioma.Texto("Msg_NroCalleInvalido"));
+                txtNroCalle.Select();
                 return false;
             }
 
@@ -175,6 +209,8 @@ namespace CapaVistaUsuario.Administrador
             registro.Nombres = txtNombres.Text.Trim();
             registro.IdTipoDoc = Convert.ToInt32(cmbTipoDoc.SelectedValue);
             registro.FechaNacimiento = dtpNacimiento.Value.Date;
+            registro.Calle = txtCalle.Text.Trim();
+            registro.NroCalle = Convert.ToInt32(txtNroCalle.Text.Trim());
             registro.NroDoc = Convert.ToInt32(txtNroDoc.Text);
             registro.Telefono = txtTelefono.Text.Trim();
             registro.Correo = txtCorreo.Text.Trim();
@@ -199,6 +235,8 @@ namespace CapaVistaUsuario.Administrador
             txtNroDoc.Text = "0";
             txtTelefono.Clear();
             txtCorreo.Clear();
+            txtCalle.Clear();
+            txtNroCalle.Clear();
             txtUsuario.Clear();
             txtPassword.Clear();
             txtConfirmar.Clear();
@@ -206,7 +244,7 @@ namespace CapaVistaUsuario.Administrador
             if (cmbLocalidad.Items.Count > 0) cmbLocalidad.SelectedIndex = 0;
             cmbCargo.SelectedIndex = -1;
             cmbGrupo.SelectedIndex = -1;
-            dtpNacimiento.Checked = false;
+            CV_Edad.Establecer(dtpNacimiento, null);
             obligatorios.LimpiarMarcas();
             idPersonaExistente = 0;
             txtApellido.Focus();

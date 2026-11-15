@@ -20,6 +20,7 @@ namespace CapaComun
         public const string Ubicaciones = "Ubicaciones";
         public const string Estadisticas = "Estadisticas";
         public const string Elaboracion = "Elaboracion";
+        public const string Caja = "Caja";
 
         public const string GrupoGerente = "Gerente";
         public const string GrupoCajero = "Cajero";
@@ -111,6 +112,8 @@ namespace CapaComun
                     return grupo != GrupoCajero && grupo != GrupoJefeSalon;
                 case Elaboracion:
                     return grupo != GrupoJefeCocina;
+                case Caja:
+                    return grupo != GrupoCajero;
                 case Personal:
                     return grupo != GrupoPropietario;
                 case Bitacora:

@@ -10,6 +10,8 @@ namespace CapaLogicaNegocio.Administrador
         public string Apellido { get; set; }
         public string Nombres { get; set; }
         public int IdTipoDoc { get; set; }
+        public string Calle { get; set; }
+        public int NroCalle { get; set; }
         public System.DateTime FechaNacimiento { get; set; }
         public int NroDoc { get; set; }
         public string Telefono { get; set; }
@@ -45,6 +47,8 @@ namespace CapaLogicaNegocio.Administrador
             datos.Apellido = Apellido;
             datos.Nombres = Nombres;
             datos.IdTipoDoc = IdTipoDoc;
+            datos.Calle = Calle ?? "";
+            datos.NroCalle = NroCalle;
             datos.FechaNacimiento = FechaNacimiento;
             datos.NroDoc = NroDoc;
             datos.Telefono = Telefono ?? "";

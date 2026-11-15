@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +13,7 @@ namespace CapaAccesoDatos
     {
         public bool Login(string user, string pass)
         {
-            string sSql = "SELECT Usuarios.IdUsuario, Usuarios.Usuario, Usuarios.Password, Usuarios.IdPersona, Usuarios.FechaAlta, Usuarios.FechaBaja, Usuarios.CambiaCada, Usuarios.FechaUltimoCambio, Usuarios.UsuarioDesactivado, Usuarios.FechaDesactivacion, Personal.Apellido, Personal.Nombres, Cargos.Cargo " +
+            string sSql = "SELECT Usuarios.IdUsuario, Usuarios.Usuario, Usuarios.Password, Usuarios.IdPersona, Usuarios.FechaAlta, Usuarios.FechaBaja, Usuarios.CambiaCada, Usuarios.FechaUltimoCambio, Usuarios.UsuarioDesactivado, Usuarios.FechaDesactivacion, Personal.Apellido, Personal.Nombres, Cargos.Cargo, Usuarios.DebeCambiarPassword " +
            "FROM Cargos INNER JOIN Personal ON Cargos.[IdCargo] = Personal.[IdCargo] " +
            "INNER JOIN Usuarios ON Personal.[IdPersona] = Usuarios.[IdPersona]" +
            " where Usuarios.usuario= '" + (user ?? "").Replace("'", "''") + "' and Usuarios.Password= '" + (pass ?? "").Replace("'", "''") + "'";
@@ -38,6 +38,7 @@ namespace CapaAccesoDatos
                     UserCache.Apellido = row[10].ToString();
                     UserCache.Nombres = row[11].ToString();
                     UserCache.Cargo = row[12].ToString();
+                    UserCache.DebeCambiarPassword = Convert.ToBoolean(row[13]);
                 }
                 return true;
             }

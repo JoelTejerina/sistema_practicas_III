@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +24,17 @@ namespace CapaComun
         public static string Cargo { get; set; }
         public static int IdGrupo { get; set; }
         public static string NombreGrupo { get; set; }
+        public static bool DebeCambiarPassword { get; set; }
+
+        /// <summary>Deja la sesion en blanco (cierre de sesion): el siguiente usuario empieza de cero.</summary>
+        public static void Limpiar()
+        {
+            IdUsuario = 0; Usuario = null; Password = null; IdPersona = 0;
+            FechaAlta = default(DateTime); FechaBaja = default(DateTime); CambiaCada = 0;
+            FechaUltimoCambio = default(DateTime); UsuarioDesactivado = false; FechaDesactivacion = default(DateTime);
+            Apellido = null; Nombres = null; Cargo = null; IdGrupo = 0; NombreGrupo = null; DebeCambiarPassword = false;
+            PermisosUsuario.Clear();
+        }
 
         public static Hashtable PermisosUsuario = new Hashtable();
 

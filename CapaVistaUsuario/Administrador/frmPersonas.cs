@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using CapaLogicaNegocio; // se deve instanciar la capa inferior luego de agregarla como referencia
@@ -76,12 +76,11 @@ namespace CapaVistaUsuario
                 object nacimiento = dgvPersonas.Rows[dgvPersonas.SelectedRows[0].Index].Cells["FechaNacimiento"].Value;
                 if (nacimiento != null && nacimiento != DBNull.Value)
                 {
-                    dtpNacimiento.Value = Convert.ToDateTime(nacimiento);
-                    dtpNacimiento.Checked = true;
+                    CV_Edad.Establecer(dtpNacimiento, Convert.ToDateTime(nacimiento));
                 }
                 else
                 {
-                    dtpNacimiento.Checked = false;
+                    CV_Edad.Establecer(dtpNacimiento, null);
                 }
             }
         }
