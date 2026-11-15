@@ -70,7 +70,8 @@ USING (VALUES
     (13, N'Personal'),
     (14, N'Ubicaciones'),
     (15, N'Estadisticas'),
-    (16, N'Elaboracion')
+    (16, N'Elaboracion'),
+    (17, N'Caja')
 ) AS s (IdPermiso, Funcionalidad)
    ON t.IdPermiso = s.IdPermiso
 WHEN NOT MATCHED BY TARGET THEN
@@ -105,6 +106,8 @@ USING (VALUES
     (12, 5),
     (15, 5),
     (16, 1),
+    (17, 1),
+    (17, 3),
     (16, 4),
     (5, 7),
     (10, 7),
@@ -224,4 +227,8 @@ USING (VALUES
    ON t.IdUsuario = s.IdUsuario
 WHEN NOT MATCHED BY TARGET THEN
     INSERT (IdUsuario, IdGrupo) VALUES (s.IdUsuario, s.IdGrupo);
+GO
+
+/* Los digitos verificadores de Usuarios quedan al dia con los datos cargados. */
+EXEC dbo.usp_RecalcularDigitosUsuarios;
 GO

@@ -60,9 +60,9 @@ GO
 SET IDENTITY_INSERT dbo.Proveedor ON;
 MERGE dbo.Proveedor AS t
 USING (VALUES
-    (1, N'Distribuidora Sur', N'Distribuidora Sur SA', N'Bebidas',  N'20-11111111-1', N'CAI-1001', N'Av. Italia 123', N'ventas@dsur.com',     N'1144440001'),
-    (2, N'Carnes Premium',    N'Carnes Premium SRL',    N'Carnicos', N'20-22222222-2', N'CAI-1002', N'Espana 456',     N'compras@cpremium.com', N'1144440002'),
-    (3, N'Verduleria Central', N'Verduleria Central SA', N'Verduras', N'30-33333333-3', N'CAI-1003', N'Mercado 789',    N'pedidos@vcentral.com', N'1144440003')
+    (1, N'Distribuidora Sur', N'Distribuidora Sur SA', N'Bebidas',  N'30-11111111-8', N'CAI-1001', N'Av. Italia 123', N'ventas@dsur.com',     N'1144440001'),
+    (2, N'Carnes Premium',    N'Carnes Premium SRL',    N'Carnicos', N'30-22222222-9', N'CAI-1002', N'Espana 456',     N'compras@cpremium.com', N'1144440002'),
+    (3, N'Verduleria Central', N'Verduleria Central SA', N'Verduras', N'30-44444444-0', N'CAI-1003', N'Mercado 789',    N'pedidos@vcentral.com', N'1144440003')
 ) AS s (IdProveedor, Nombre, RazonSocial, Categoria, CUIT, CertificadoAfip, Direccion, Email, Telefono)
    ON t.IdProveedor = s.IdProveedor
 WHEN NOT MATCHED BY TARGET THEN
@@ -189,4 +189,21 @@ INSERT INTO dbo.MovimientoStock (Tipo, IdStock, IdProducto, NumeroLote, Cantidad
 SELECT N'Ingreso', s.IdStock, s.IdProducto, s.NumeroLote, s.Cantidad, s.Cantidad, 1, N'Carga inicial (demo)'
 FROM dbo.Stock s
 WHERE NOT EXISTS (SELECT 1 FROM dbo.MovimientoStock m WHERE m.IdStock = s.IdStock);
+GO
+
+/* CUIT de los proveedores de ejemplo: el sistema valida el digito verificador del CUIT.
+   (Esto tambien corrige bases que ya tenian los CUIT de ejemplo anteriores.) */
+UPDATE dbo.Proveedor SET CUIT = N'30-11111111-8' WHERE CUIT = N'20-11111111-1';
+UPDATE dbo.Proveedor SET CUIT = N'30-22222222-9' WHERE CUIT = N'20-22222222-2';
+UPDATE dbo.Proveedor SET CUIT = N'30-44444444-0' WHERE CUIT = N'30-33333333-3';
+GO
+
+/* Historial de una caja ya cerrada (ayer), para ver el resumen de cierre. */
+IF NOT EXISTS (SELECT 1 FROM dbo.Caja)
+    INSERT INTO dbo.Caja (Apertura, IdUsuarioApertura, MontoInicial, Cierre, IdUsuarioCierre, TotalCobrado, MontoContado, Observaciones)
+    VALUES (DATEADD(DAY, -1, DATEADD(HOUR, 9, CAST(CAST(GETDATE() AS DATE) AS DATETIME2(0)))), 3, 5000,
+            DATEADD(DAY, -1, DATEADD(HOUR, 23, CAST(CAST(GETDATE() AS DATE) AS DATETIME2(0)))), 3, 3000, 8000, N'Caja de ejemplo');
+GO
+
+EXEC dbo.usp_RecalcularDigitosUsuarios;
 GO

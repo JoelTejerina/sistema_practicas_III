@@ -81,6 +81,14 @@ GO
 - `migraciones/003_roles_simplificados.sql` elimina los roles Subgerente y Recursos Humanos: Compras pasa al
   Gerente y la administracion de usuarios, roles y personal al Gerente y al Propietario. Los usuarios que
   tenian esos roles **se dan de baja** (desactivados con fecha de baja; no se borran para conservar su historial).
+- `migraciones/004_seguridad_y_ventas.sql` agrega la seguridad y las ventas del alcance: digito verificador de
+  `Usuarios` (`DVH` por fila + `DigitoVerificador`, con `usp_RecalcularDigitosUsuarios` / `usp_VerificarDigitosUsuarios`),
+  bloqueo de terminal (`BloqueoTerminal`), sesion unica (`SesionActiva`), cambio de clave obligatorio
+  (`Usuarios.DebeCambiarPassword`), cantidad inicial del producto, proveedor y lote en `Stock`, disponibilidad del
+  platillo (`Menu.Disponible`), `Caja` (una sola abierta a la vez) y canal, mesa, caja y fecha de cobro en `Pedido`.
+  **Todo codigo o script que escriba en `Usuarios` debe terminar con `EXEC usp_RecalcularDigitosUsuarios`**
+  (la aplicacion lo hace sola; los seeds tambien).
+- La demo trae una caja cerrada de ejemplo y ninguna abierta: para cobrar hay que abrirla desde la aplicacion.
 - Las claves foraneas ahora se **hacen cumplir**: no se puede borrar, por ejemplo, un proveedor
   con productos. Antes Access lo permitia en las tablas sin relacion.
 - `Loguin.accdb` y `Loguin - Copia.accdb` quedan solo como respaldo historico; la app ya no los usa.
