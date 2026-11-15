@@ -20,16 +20,39 @@ instalacion base, los demas se cargan al instalar con `-Demo`
 | Rol | Usuario | Contraseña | Que puede hacer |
 |---|---|---|---|
 | Gerente | `Edu` | `123` | Todo el sistema: Compras (Proveedores, Productos, Stock), Elaboracion, usuarios y copia de respaldo |
-| Cajero | `titor` (tambien `lgomez`) | `123` | Pedidos / Facturacion |
+| Cajero | `titor` (tambien `lgomez`) | `123` | Pedidos, cobro, ticket y Caja (apertura y cierre) |
 | Jefe de Cocina | `mfernandez` | `123` | Menu (recetas) y Elaboracion |
 | Propietario | `propietario` | `123` | Estadisticas, Bitacora y administracion de usuarios (Registrar usuario, Asignar rol, Gestion de Personal) |
 | Jefe de Salon | `jefesalon` | `123` | Menu (consulta) y Pedidos |
 
 Todos pueden cambiar su contraseña desde **Usuarios > Cambio de Password**.
 
+### Cosas a saber al probar
+
+- **Caja:** el cobro de un pedido exige una caja abierta. La demo trae solo una caja *cerrada* de ejemplo:
+  el Cajero (`titor`) debe abrir una en **Ventas > Caja** antes de cobrar, y cerrarla al terminar (arqueo).
+- **Sesion unica:** un usuario solo puede tener una sesion abierta a la vez. Si la app se cierra de golpe,
+  la sesion se libera sola (misma PC) o vence a los 15 minutos (otra PC).
+- **Integridad de usuarios:** la tabla `Usuarios` tiene digito verificador. Si se modifica por fuera de la
+  aplicacion, el siguiente ingreso bloquea la terminal 10 minutos. Si cargas usuarios a mano con SQL, cerra con
+  `EXEC usp_RecalcularDigitosUsuarios`.
+- **Claves temporales:** al restablecer la clave de un usuario (Mantenimiento de usuarios) se le pide cambiarla al
+  ingresar. "¿Olvidó su contraseña?" en el login envia una clave temporal por correo; para eso hay que configurar el
+  SMTP en `CapaVistaUsuario/App.config` (`SmtpHost`, `SmtpPuerto`, `SmtpSsl`, `SmtpUsuario`, `SmtpClave`,
+  `SmtpRemitente`) o con las variables de entorno `SISTEMA_SMTP_HOST`, `SISTEMA_SMTP_PORT`, `SISTEMA_SMTP_SSL`,
+  `SISTEMA_SMTP_USUARIO`, `SISTEMA_SMTP_CLAVE` y `SISTEMA_SMTP_REMITENTE` (tienen prioridad sobre App.config). Sin SMTP la app avisa que no pudo enviar el correo.
+- **Ticket:** el comprobante que se imprime desde Pedidos es **no fiscal**; el sistema no emite facturas.
+
 Los roles **Subgerente** y **Recursos Humanos** ya no existen (migracion `003`): las compras las hace el
 Gerente y la administracion de usuarios, roles y personal la hacen el Gerente y el Propietario. Los
 usuarios que tenian esos roles quedan **dados de baja** (desactivados, sin borrarse).
+
+## Pruebas automaticas y ayuda en linea
+
+- **Pruebas unitarias:** `Pruebas\Ejecutar-Pruebas.ps1 -Servidor localhost` compila, crea una base descartable
+  (`SistemaPracticas_Prueba`, nunca toca la real), ejecuta las 45 pruebas de la capa de negocio y la borra.
+  Con `-SinBd` corre solo las 20 que no usan base. Devuelve 0 si todo pasa.
+- **Ayuda en linea:** menu **Ayuda** o tecla **F1** dentro de la aplicacion (contenido en `CapaVistaUsuario/CV_Ayuda.cs`).
 
 Detalle completo (como cambiar la estructura sin pisarnos, conexion a otro servidor, etc.) en
 [`Database/README.md`](Database/README.md).

@@ -12,6 +12,8 @@ CapaComun/bin/
 CapaComun/obj/
 CapaLogicaNegocio/bin/
 CapaLogicaNegocio/obj/
+Pruebas/bin/
+Pruebas/obj/
 CapaVistaUsuario/obj/
 
 # bin de la app: ignorar todo excepto la BD compartida
