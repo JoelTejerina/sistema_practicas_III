@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.Text;
 using System.Windows.Forms;
 using CapaComun;
 using CapaLogicaNegocio;
@@ -31,6 +32,7 @@ namespace CapaVistaUsuario.Ventas
         private readonly CheckBox chkPrincipal = new CheckBox();
         private readonly Button btnGuardar = new Button();
         private readonly Button btnQuitar = new Button();
+        private readonly Button btnFinalizar = new Button();
         private readonly Button btnCerrar = new Button();
 
         public frmReceta(int idMenu, string platillo, bool soloLectura)
@@ -92,6 +94,10 @@ namespace CapaVistaUsuario.Ventas
             btnQuitar.Location = new Point(160, 400);
             btnQuitar.Size = new Size(140, 30);
             btnQuitar.Click += btnQuitar_Click;
+            btnFinalizar.Name = "btnFinalizarReceta";
+            btnFinalizar.Location = new Point(308, 400);
+            btnFinalizar.Size = new Size(140, 30);
+            btnFinalizar.Click += btnFinalizar_Click;
             btnCerrar.Location = new Point(528, 400);
             btnCerrar.Size = new Size(120, 30);
             btnCerrar.Click += (s, e) => Close();
@@ -99,7 +105,7 @@ namespace CapaVistaUsuario.Ventas
             Controls.AddRange(new Control[]
             {
                 lblPlatillo, lblCapacidad, dgvReceta, lblIngrediente, cmbIngrediente, lblCantidad,
-                txtCantidad, chkPrincipal, btnGuardar, btnQuitar, btnCerrar
+                txtCantidad, chkPrincipal, btnGuardar, btnQuitar, btnFinalizar, btnCerrar
             });
 
             AplicarIdioma();
@@ -107,7 +113,7 @@ namespace CapaVistaUsuario.Ventas
             if (soloLectura)
             {
                 lblIngrediente.Visible = cmbIngrediente.Visible = lblCantidad.Visible = txtCantidad.Visible = false;
-                chkPrincipal.Visible = btnGuardar.Visible = btnQuitar.Visible = false;
+                chkPrincipal.Visible = btnGuardar.Visible = btnQuitar.Visible = btnFinalizar.Visible = false;
             }
         }
 
@@ -118,7 +124,46 @@ namespace CapaVistaUsuario.Ventas
             chkPrincipal.Text = Idioma.Texto("Receta_Principal");
             btnGuardar.Text = Idioma.Texto("Btn_AgregarIngrediente");
             btnQuitar.Text = Idioma.Texto("Btn_QuitarIngrediente");
+            btnFinalizar.Text = Idioma.Texto("Btn_FinalizarReceta");
             btnCerrar.Text = Idioma.Texto("Btn_Cerrar");
+        }
+
+        // Finalizar la receta (CU-006): exige al menos un ingrediente y uno principal; muestra el resumen y confirma.
+        private void btnFinalizar_Click(object sender, EventArgs e)
+        {
+            DataTable tabla = receta.Listar(idMenu);
+            if (tabla.Rows.Count == 0)
+            {
+                MessageBox.Show(Idioma.Texto("Receta_FinalizarSinIngredientes"), Idioma.Texto("Receta_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (tabla.Select("Tipo = 'Principal'").Length == 0)
+            {
+                MessageBox.Show(Idioma.Texto("Receta_FinalizarSinPrincipal"), Idioma.Texto("Receta_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            StringBuilder resumen = new StringBuilder();
+            foreach (DataRow fila in tabla.Rows)
+            {
+                resumen.AppendLine("- " + fila["Ingrediente"] + ": " + Convert.ToDecimal(fila["Cantidad"]).ToString("0.###") + " " + fila["Medida"]
+                    + (Convert.ToString(fila["Tipo"]) == "Principal" ? " *" : ""));
+            }
+            if (MessageBox.Show(string.Format(Idioma.Texto("Receta_ConfirmFinalizar"), platillo, tabla.Rows.Count, resumen),
+                Idioma.Texto("Receta_Titulo"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
+            {
+                return;
+            }
+            try
+            {
+                new CL_clsBitacora("Receta finalizada", platillo + ": " + tabla.Rows.Count + " ingrediente(s)", "frmReceta");
+                MessageBox.Show(Idioma.Texto("Receta_FinalizadaOk"), Idioma.Texto("Receta_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Close();
+            }
+            catch (Exception ex)
+            {
+                CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
+            }
         }
 
         private void Cargar()

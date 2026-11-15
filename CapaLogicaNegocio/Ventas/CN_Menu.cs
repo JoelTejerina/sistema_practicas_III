@@ -1,3 +1,5 @@
+using CapaComun;
+using System;
 using System.Data;
 using CapaAccesoDatos.Ventas;
 
@@ -38,6 +40,31 @@ namespace CapaLogicaNegocio.Ventas
         {
             PasarDatos();
             menu.ModificarMenu();
+        }
+
+        public void CambiarDisponibilidad(int idMenu, bool disponible)
+        {
+            menu.CambiarDisponibilidad(idMenu, disponible);
+        }
+
+        public DataTable Categorias()
+        {
+            return menu.Categorias();
+        }
+
+        public int CantidadAfectados(string categoria)
+        {
+            return menu.CantidadAfectados(categoria);
+        }
+
+        /// <summary>Actualizacion masiva de precios: de -90% a +300%.</summary>
+        public int ActualizarPrecios(decimal porcentaje, string categoria)
+        {
+            if (porcentaje == 0 || porcentaje < -90 || porcentaje > 300)
+            {
+                throw new InvalidOperationException(Idioma.Texto("Msg_PorcentajeInvalido"));
+            }
+            return menu.ActualizarPrecios(porcentaje, categoria);
         }
 
         public void EliminarMenu()

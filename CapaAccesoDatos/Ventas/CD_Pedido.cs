@@ -25,13 +25,20 @@ namespace CapaAccesoDatos.Ventas
         public string InstruccionesEspeciales { get; set; }
         public string Estado { get; set; }
         public DateTime Fecha { get; set; }
+
+        /// <summary>Salon, Barra o Delivery.</summary>
+        public string Canal { get; set; }
+
+        /// <summary>Mesa (solo para el salon).</summary>
+        public string Mesa { get; set; }
         #endregion
 
         #region CONSULTAS
         public DataTable Mostrar()
         {
             string sSql = "SELECT p.IdPedido, p.NombreCliente, p.IdMenu, p.Cantidad, p.FormaPago, " +
-                "p.InstruccionesEspeciales, p.Estado, p.PrecioTotal, p.Fecha, ISNULL(u.Usuario, '') AS Empleado " +
+                "p.InstruccionesEspeciales, p.Estado, p.PrecioTotal, p.Fecha, ISNULL(u.Usuario, '') AS Empleado, " +
+                "p.Canal, ISNULL(p.Mesa, '') AS Mesa " +
                 "FROM Pedido p LEFT JOIN Usuarios u ON u.IdUsuario = p.IdUsuario ORDER BY p.IdPedido DESC";
             clsEjecutarComando Ejecutar = new clsEjecutarComando();
             return Ejecutar.Ejecutar(sSql);
@@ -72,10 +79,11 @@ namespace CapaAccesoDatos.Ventas
                 {
                     try
                     {
+                        VerificarDisponibles(cn, tx, items, new List<ItemPedido>());
                         int id;
                         using (SqlCommand cmd = new SqlCommand(
-                            "INSERT INTO Pedido (NombreCliente, IdMenu, Cantidad, FormaPago, InstruccionesEspeciales, Estado, PrecioTotal, Fecha, IdUsuario) " +
-                            "VALUES (@cli, @menu, @cant, @pago, @instr, @estado, @total, @fecha, @usr); SELECT CAST(SCOPE_IDENTITY() AS INT);", cn, tx))
+                            "INSERT INTO Pedido (NombreCliente, IdMenu, Cantidad, FormaPago, InstruccionesEspeciales, Estado, PrecioTotal, Fecha, IdUsuario, Canal, Mesa) " +
+                            "VALUES (@cli, @menu, @cant, @pago, @instr, @estado, @total, @fecha, @usr, @canal, @mesa); SELECT CAST(SCOPE_IDENTITY() AS INT);", cn, tx))
                         {
                             ParametrosPedido(cmd, items);
                             cmd.Parameters.AddWithValue("@usr", UserCache.IdUsuario > 0 ? (object)UserCache.IdUsuario : DBNull.Value);
@@ -115,10 +123,11 @@ namespace CapaAccesoDatos.Ventas
                     {
                         string estadoAnterior = LeerEstado(cn, tx, IdPedido);
                         List<ItemPedido> anteriores = LeerDetalle(cn, tx, IdPedido);
+                        VerificarDisponibles(cn, tx, items, anteriores);
 
                         using (SqlCommand cmd = new SqlCommand(
                             "UPDATE Pedido SET NombreCliente=@cli, IdMenu=@menu, Cantidad=@cant, FormaPago=@pago, " +
-                            "InstruccionesEspeciales=@instr, Estado=@estado, PrecioTotal=@total, Fecha=@fecha WHERE IdPedido=@id", cn, tx))
+                            "InstruccionesEspeciales=@instr, Estado=@estado, PrecioTotal=@total, Fecha=@fecha, Canal=@canal, Mesa=@mesa WHERE IdPedido=@id", cn, tx))
                         {
                             ParametrosPedido(cmd, items);
                             cmd.Parameters.AddWithValue("@id", IdPedido);
@@ -220,12 +229,41 @@ namespace CapaAccesoDatos.Ventas
             }
         }
 
-        // Cobrar pedido: marca el pedido como Cobrado
-        public void CobrarPedido()
+        /// <summary>Cobra el pedido en la caja indicada. Un pedido cancelado o ya cobrado no se puede cobrar.</summary>
+        public void CobrarPedido(int idCaja)
         {
-            string sSql = "UPDATE Pedido SET Estado='Cobrado' WHERE IdPedido=" + IdPedido;
-            clsEjecutarComando Ejecutar = new clsEjecutarComando();
-            Ejecutar.Ejecutar(sSql);
+            using (SqlConnection cn = GetConexion())
+            {
+                cn.Open();
+                using (SqlCommand cmd = new SqlCommand(
+                    "UPDATE Pedido SET Estado = N'Cobrado', IdCaja = @caja, FechaCobro = SYSDATETIME() " +
+                    "WHERE IdPedido = @id AND Estado NOT IN (N'Cancelado', N'Cobrado')", cn))
+                {
+                    cmd.Parameters.AddWithValue("@caja", idCaja);
+                    cmd.Parameters.AddWithValue("@id", IdPedido);
+                    if (cmd.ExecuteNonQuery() == 0)
+                    {
+                        throw new InvalidOperationException(Idioma.Texto("Msg_PedidoNoCobrable"));
+                    }
+                }
+            }
+        }
+
+        /// <summary>Estado actual del pedido (vacio si no existe).</summary>
+        public string EstadoDe(int idPedido)
+        {
+            DataTable dt = new clsEjecutarComando().Ejecutar("SELECT Estado FROM Pedido WHERE IdPedido = " + idPedido);
+            return dt.Rows.Count == 0 ? "" : Convert.ToString(dt.Rows[0][0]);
+        }
+
+        /// <summary>Datos de cabecera del pedido para el ticket.</summary>
+        public DataRow Cabecera(int idPedido)
+        {
+            DataTable dt = new clsEjecutarComando().Ejecutar(
+                "SELECT p.IdPedido, p.NombreCliente, p.Fecha, p.FormaPago, p.Estado, p.PrecioTotal, p.Canal, ISNULL(p.Mesa, N'') AS Mesa, " +
+                "ISNULL(p.InstruccionesEspeciales, N'') AS Instrucciones, ISNULL(u.Usuario, N'') AS Empleado " +
+                "FROM Pedido p LEFT JOIN Usuarios u ON u.IdUsuario = p.IdUsuario WHERE p.IdPedido = " + idPedido);
+            return dt.Rows.Count == 0 ? null : dt.Rows[0];
         }
         #endregion
 
@@ -401,6 +439,33 @@ namespace CapaAccesoDatos.Ventas
         #endregion
 
         #region AUXILIARES
+        // No se pueden pedir platillos dados de baja o marcados como no disponibles
+        // (los que el pedido ya tenia antes de esta modificacion se respetan).
+        private void VerificarDisponibles(SqlConnection cn, SqlTransaction tx, List<ItemPedido> items, List<ItemPedido> anteriores)
+        {
+            HashSet<int> previos = new HashSet<int>(anteriores.Select(i => i.IdMenu));
+            List<int> aVerificar = items.Select(i => i.IdMenu).Where(id => !previos.Contains(id)).Distinct().ToList();
+            if (aVerificar.Count == 0)
+            {
+                return;
+            }
+
+            List<string> noDisponibles = new List<string>();
+            using (SqlCommand cmd = new SqlCommand(
+                "SELECT Nombre FROM Menu WHERE IdMenu IN (" + string.Join(",", aVerificar) + ") AND (Activo = 0 OR Disponible = 0)", cn, tx))
+            using (SqlDataReader dr = cmd.ExecuteReader())
+            {
+                while (dr.Read())
+                {
+                    noDisponibles.Add(dr.GetString(0));
+                }
+            }
+            if (noDisponibles.Count > 0)
+            {
+                throw new InvalidOperationException(string.Format(Idioma.Texto("Msg_PlatilloNoDisponible"), string.Join(", ", noDisponibles)));
+            }
+        }
+
         private static bool EsCancelado(string estado)
         {
             return string.Equals((estado ?? "").Trim(), EstadoCancelado, StringComparison.OrdinalIgnoreCase);
@@ -426,6 +491,8 @@ namespace CapaAccesoDatos.Ventas
             cmd.Parameters.AddWithValue("@pago", FormaPago ?? "");
             cmd.Parameters.AddWithValue("@instr", InstruccionesEspeciales ?? "");
             cmd.Parameters.AddWithValue("@estado", Estado ?? "Pendiente");
+            cmd.Parameters.AddWithValue("@canal", string.IsNullOrWhiteSpace(Canal) ? "Salon" : Canal);
+            cmd.Parameters.AddWithValue("@mesa", string.IsNullOrWhiteSpace(Mesa) ? (object)DBNull.Value : Mesa.Trim());
             SqlParameter total = cmd.Parameters.Add("@total", SqlDbType.Decimal);
             total.Precision = 18;
             total.Scale = 2;

@@ -26,6 +26,34 @@ namespace CapaLogicaNegocio.Ventas
             return receta.Capacidad();
         }
 
+        /// <summary>
+        /// Busca platillos (CU-007-001). Agrega la columna Capacidad (unidades que se pueden preparar ahora;
+        /// vacia si el platillo no tiene receta) y, si se pide, deja solo los que se pueden preparar.
+        /// </summary>
+        public DataTable Buscar(int idProducto, string region, string categoria, string popularidad, string temporada,
+            string tipoEvento, decimal? precioMin, decimal? precioMax, int? tiempoMax, bool soloPreparables)
+        {
+            if (precioMin.HasValue && precioMax.HasValue && precioMin > precioMax)
+            {
+                throw new InvalidOperationException(Idioma.Texto("Msg_RangoPrecioInvalido"));
+            }
+
+            DataTable resultado = receta.Buscar(idProducto, region, categoria, popularidad, temporada, tipoEvento, precioMin, precioMax, tiempoMax);
+            DataTable capacidad = receta.Capacidad();
+            resultado.Columns.Add("Capacidad", typeof(int));
+            for (int i = resultado.Rows.Count - 1; i >= 0; i--)
+            {
+                DataRow[] cap = capacidad.Select("IdMenu = " + resultado.Rows[i]["IdMenu"]);
+                object valor = cap.Length == 0 ? DBNull.Value : cap[0]["Capacidad"];
+                resultado.Rows[i]["Capacidad"] = valor;
+                if (soloPreparables && (valor == DBNull.Value || Convert.ToInt32(valor) <= 0))
+                {
+                    resultado.Rows.RemoveAt(i);
+                }
+            }
+            return resultado;
+        }
+
         public void Guardar(int idMenu, int idProducto, decimal cantidad, bool principal)
         {
             if (cantidad <= 0)

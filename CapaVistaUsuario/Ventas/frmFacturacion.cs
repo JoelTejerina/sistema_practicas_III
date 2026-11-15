@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -24,6 +25,12 @@ namespace CapaVistaUsuario.Ventas
         private Button btnAgregarItem;
         private Button btnQuitarItem;
         private DataGridView dgvItems;
+        private Label lblCanal;
+        private ComboBox cmbCanal;
+        private Label lblMesa;
+        private TextBox txtMesa;
+        private Button btnCancelarPedido;
+        private Button btnTicket;
 
         public frmFacturacion()
         {
@@ -53,26 +60,50 @@ namespace CapaVistaUsuario.Ventas
             HabilitarDetalle(false);
             CV_Botonera.btnFormularios(this, btnCancelar);
             CV_ABM_Permisos.AplicarModoLectura(this, PermisosSistema.Pedidos);
+            btnCancelarPedido.Visible = !PermisosSistema.SoloLectura(PermisosSistema.Pedidos);
         }
 
         #region DETALLE DEL PEDIDO
         // Arma, debajo de los campos, la lista de platillos del pedido.
         private void CrearDetalle()
         {
-            const int extra = 125;
+            const int extra = 155;
             ClientSize = new Size(ClientSize.Width, ClientSize.Height + extra);
             pnlBotones.Top += extra;
 
-            lblDetalle = new Label { AutoSize = true, Location = new Point(12, 349), Font = new Font(Font, FontStyle.Bold) };
-            btnAgregarItem = new Button { Name = "btnAgregarItem", Location = new Point(150, 343), Size = new Size(120, 26) };
-            btnQuitarItem = new Button { Name = "btnQuitarItem", Location = new Point(276, 343), Size = new Size(120, 26) };
+            // Canal (salon, barra o delivery) y mesa, justo debajo de los datos del pedido.
+            lblCanal = new Label { Name = "lblCanal", AutoSize = true, Location = new Point(12, 351) };
+            cmbCanal = new ComboBox
+            {
+                Name = "cmbCanal",
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Location = new Point(130, 348),
+                Size = new Size(180, 21)
+            };
+            lblMesa = new Label { Name = "lblMesa", AutoSize = true, Location = new Point(360, 351) };
+            txtMesa = new TextBox { Name = "txtMesa", Location = new Point(480, 348), Size = new Size(180, 20), MaxLength = 20 };
+            cmbCanal.SelectedIndexChanged += (origen, args) =>
+            {
+                // La mesa solo se pide en el salon.
+                txtMesa.Enabled = cmbCanal.Enabled && Convert.ToString(cmbCanal.SelectedValue) == "Salon";
+                if (!txtMesa.Enabled && cmbCanal.Enabled) txtMesa.Clear();
+            };
+            Controls.AddRange(new Control[] { lblCanal, cmbCanal, lblMesa, txtMesa });
+
+            lblDetalle = new Label { AutoSize = true, Location = new Point(12, 379), Font = new Font(Font, FontStyle.Bold) };
+            btnAgregarItem = new Button { Name = "btnAgregarItem", Location = new Point(150, 373), Size = new Size(120, 26) };
+            btnQuitarItem = new Button { Name = "btnQuitarItem", Location = new Point(276, 373), Size = new Size(120, 26) };
+            btnCancelarPedido = new Button { Name = "btnCancelarPedido", Location = new Point(420, 373), Size = new Size(130, 26) };
+            btnTicket = new Button { Name = "btnTicket", Location = new Point(556, 373), Size = new Size(110, 26) };
             btnAgregarItem.Click += btnAgregarItem_Click;
             btnQuitarItem.Click += btnQuitarItem_Click;
+            btnCancelarPedido.Click += btnCancelarPedido_Click;
+            btnTicket.Click += btnTicket_Click;
 
             dgvItems = new DataGridView
             {
                 Name = "dgvItems",
-                Location = new Point(12, 374),
+                Location = new Point(12, 404),
                 Size = new Size(760, 100),
                 ReadOnly = true,
                 AllowUserToAddRows = false,
@@ -89,6 +120,8 @@ namespace CapaVistaUsuario.Ventas
             Controls.Add(lblDetalle);
             Controls.Add(btnAgregarItem);
             Controls.Add(btnQuitarItem);
+            Controls.Add(btnCancelarPedido);
+            Controls.Add(btnTicket);
             Controls.Add(dgvItems);
         }
 
@@ -108,6 +141,11 @@ namespace CapaVistaUsuario.Ventas
         {
             btnAgregarItem.Enabled = habilitado;
             btnQuitarItem.Enabled = habilitado;
+            cmbCanal.Enabled = habilitado;
+            txtMesa.Enabled = habilitado && Convert.ToString(cmbCanal.SelectedValue) == "Salon";
+            // Cancelar el pedido y sacar el ticket se hacen sobre un pedido ya guardado (fuera de la edicion).
+            btnCancelarPedido.Enabled = !habilitado;
+            btnTicket.Enabled = !habilitado;
         }
 
         private void LimpiarItems()
@@ -204,6 +242,10 @@ namespace CapaVistaUsuario.Ventas
             lblDetalle.Text = Idioma.Texto("DetallePedido");
             btnAgregarItem.Text = Idioma.Texto("Btn_AgregarItem");
             btnQuitarItem.Text = Idioma.Texto("Btn_QuitarItem");
+            lblCanal.Text = Idioma.Texto("Canal");
+            lblMesa.Text = Idioma.Texto("Mesa");
+            btnCancelarPedido.Text = Idioma.Texto("Btn_CancelarPedido");
+            btnTicket.Text = Idioma.Texto("Btn_Ticket");
             btnAgregar.Text = Idioma.Texto("Btn_Agregar");
             btnModificar.Text = Idioma.Texto("Btn_Modificar");
             btnGuardar.Text = Idioma.Texto("Btn_Guardar");
@@ -217,7 +259,16 @@ namespace CapaVistaUsuario.Ventas
 
         private void CargarCombos()
         {
-            new CN_LlenarCombos(cmbMenu, "Menu", "IdMenu", "Nombre", "Activo = 1");
+            new CN_LlenarCombos(cmbMenu, "Menu", "IdMenu", "Nombre", "Activo = 1 AND Disponible = 1");
+            cmbCanal.DataSource = new[]
+            {
+                new KeyValuePair<string, string>("Salon", Idioma.Texto("Canal_Salon")),
+                new KeyValuePair<string, string>("Barra", Idioma.Texto("Canal_Barra")),
+                new KeyValuePair<string, string>("Delivery", Idioma.Texto("Canal_Delivery"))
+            };
+            cmbCanal.DisplayMember = "Value";
+            cmbCanal.ValueMember = "Key";
+            cmbCanal.SelectedValue = "Salon";
             preciosMenu = new CN_Menu().MostrarMenu();
         }
 
@@ -230,8 +281,15 @@ namespace CapaVistaUsuario.Ventas
         {
             // Obligatorios todos menos las instrucciones especiales. El pedido necesita al menos un
             // platillo: si el detalle esta vacio se toma el que esta elegido en Menu y Cantidad.
-            if (!obligatorios.Validar(txtCliente, cmbFormaPago, cmbEstado, dtpFecha))
+            if (!obligatorios.Validar(txtCliente, cmbFormaPago, cmbEstado, dtpFecha, cmbCanal))
             {
+                return false;
+            }
+            if (Convert.ToString(cmbCanal.SelectedValue) == "Salon" && txtMesa.Text.Trim().Length == 0)
+            {
+                obligatorios.Marcar(txtMesa);
+                MessageBox.Show(Idioma.Texto("Msg_MesaObligatoria"));
+                txtMesa.Select();
                 return false;
             }
             if (items.Count == 0 && !AgregarItemElegido())
@@ -250,7 +308,17 @@ namespace CapaVistaUsuario.Ventas
             Ped.Estado = cmbEstado.Text.Length == 0 ? "Pendiente" : cmbEstado.Text;
             Ped.EstadoAnterior = estadoAnterior;
             Ped.Fecha = dtpFecha.Value;
+            Ped.Canal = Convert.ToString(cmbCanal.SelectedValue);
+            Ped.Mesa = txtMesa.Text.Trim();
             Ped.Items = items.ToList();
+        }
+
+        // El pedido se confirma antes de darlo de alta o modificarlo (CU-PED-001).
+        private bool Confirmar()
+        {
+            return MessageBox.Show(
+                string.Format(Idioma.Texto("Msg_ConfirmPedido"), txtCliente.Text.Trim(), items.Count, txtPrecioTotal.Text),
+                Idioma.Texto("Fact_Titulo"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
         }
 
         // El stock no alcanza: no es un error del sistema, se le explica al usuario que falta.
@@ -270,6 +338,8 @@ namespace CapaVistaUsuario.Ventas
             cmbMenu.SelectedIndex = -1;
             cmbFormaPago.SelectedIndex = -1;
             cmbEstado.SelectedIndex = 0;
+            cmbCanal.SelectedValue = "Salon";
+            txtMesa.Clear();
             txtCantidad.Text = "1";
             estadoAnterior = "";
             lblID.Text = "0";
@@ -279,12 +349,13 @@ namespace CapaVistaUsuario.Ventas
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (!DatosValidos()) return;
+            if (!DatosValidos() || !Confirmar()) return;
             try
             {
                 PasarDatos(false);
                 int numero = Ped.InsertarPedido();
                 new CL_clsBitacora("Alta de Pedido", "Pedido " + numero + ", cliente: " + txtCliente.Text.Trim(), "frmFacturacion");
+                MessageBox.Show(string.Format(Idioma.Texto("Msg_PedidoGuardado"), numero), Idioma.Texto("Fact_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarPedidos();
                 CV_Botonera.btnFormularios(this, btnGuardar);
                 CV_Utiles.BloquearControles(this);
@@ -318,12 +389,13 @@ namespace CapaVistaUsuario.Ventas
 
         private void btnGuardaCambios_Click(object sender, EventArgs e)
         {
-            if (!DatosValidos()) return;
+            if (!DatosValidos() || !Confirmar()) return;
             try
             {
                 PasarDatos(true);
                 Ped.ModificarPedido();
                 new CL_clsBitacora("Modificación de Pedido", "Modifica id " + lblID.Text, "frmFacturacion");
+                MessageBox.Show(Idioma.Texto("Msg_GuardadoOk"), Idioma.Texto("Fact_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarPedidos();
                 CV_Botonera.btnFormularios(this, btnGuardaCambios);
                 CV_Utiles.BloquearControles(this);
@@ -363,6 +435,7 @@ namespace CapaVistaUsuario.Ventas
                     Ped.IdPedido = Convert.ToInt32(lblID.Text);
                     Ped.EliminarPedido();
                     new CL_clsBitacora("Baja de Pedido", "Baja id " + lblID.Text, "frmFacturacion");
+                    MessageBox.Show(Idioma.Texto("Msg_BajaOk"), Idioma.Texto("Fact_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     MostrarPedidos();
                     CV_Utiles.LimpiarControles(this);
                     LimpiarItems();
@@ -387,10 +460,74 @@ namespace CapaVistaUsuario.Ventas
                 Idioma.Texto("Btn_Cobrar"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (r == DialogResult.OK)
             {
-                Ped.IdPedido = Convert.ToInt32(lblID.Text);
-                Ped.CobrarPedido();
-                new CL_clsBitacora("Cobro de Pedido", "Cobra id " + lblID.Text, "frmFacturacion");
+                try
+                {
+                    Ped.IdPedido = Convert.ToInt32(lblID.Text);
+                    Ped.CobrarPedido();
+                    new CL_clsBitacora("Cobro de Pedido", "Cobra id " + lblID.Text, "frmFacturacion");
+                    MessageBox.Show(Idioma.Texto("Msg_CobroOk"), Idioma.Texto("Fact_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MostrarPedidos();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    // Sin caja abierta, o pedido ya cobrado / cancelado.
+                    MessageBox.Show(ex.Message, Idioma.Texto("Fact_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                catch (Exception ex)
+                {
+                    CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
+                }
+            }
+        }
+
+        // Cancelar el pedido seleccionado (CU-PED-003): solo si esta pendiente; los insumos vuelven al stock.
+        private void btnCancelarPedido_Click(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(lblID.Text) == 0)
+            {
+                MessageBox.Show(Idioma.Texto("Msg_SeleccioneRegistro"));
+                return;
+            }
+            if (MessageBox.Show(string.Format(Idioma.Texto("Msg_ConfirmCancelarPedido"), lblID.Text), Idioma.Texto("Btn_CancelarPedido"),
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
+            {
+                return;
+            }
+            try
+            {
+                Ped.CancelarPedido(Convert.ToInt32(lblID.Text));
+                new CL_clsBitacora("Cancelación de Pedido", "Pedido " + lblID.Text, "frmFacturacion");
+                MessageBox.Show(Idioma.Texto("Msg_PedidoCancelado"), Idioma.Texto("Fact_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarPedidos();
+                CV_Utiles.LimpiarControles(this);
+                LimpiarItems();
+                lblID.Text = "0";
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, Idioma.Texto("Fact_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
+            }
+        }
+
+        // Ticket: comprobante de venta NO fiscal del pedido seleccionado (vista previa e impresion).
+        private void btnTicket_Click(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(lblID.Text) == 0)
+            {
+                MessageBox.Show(Idioma.Texto("Msg_SeleccioneRegistro"));
+                return;
+            }
+            try
+            {
+                CV_Ticket.MostrarVistaPrevia(this, Ped.ArmarTicket(Convert.ToInt32(lblID.Text)), Idioma.Texto("Btn_Ticket") + " " + lblID.Text);
+            }
+            catch (Exception ex)
+            {
+                CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
             }
         }
 
@@ -427,6 +564,8 @@ namespace CapaVistaUsuario.Ventas
             cmbEstado.Text = f.Cells["Estado"].Value.ToString();
             estadoAnterior = cmbEstado.Text;
             txtInstrucciones.Text = f.Cells["InstruccionesEspeciales"].Value.ToString();
+            cmbCanal.SelectedValue = Convert.ToString(f.Cells["Canal"].Value);
+            txtMesa.Text = Convert.ToString(f.Cells["Mesa"].Value);
             if (f.Cells["Fecha"].Value != DBNull.Value && f.Cells["Fecha"].Value != null)
             {
                 dtpFecha.Value = Convert.ToDateTime(f.Cells["Fecha"].Value);

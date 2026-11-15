@@ -13,6 +13,9 @@ namespace CapaVistaUsuario.Ventas
         private readonly CV_Obligatorios obligatorios = new CV_Obligatorios();
 
         private Button btnReceta;
+        private Button btnDisponibilidad;
+        private Button btnPrecios;
+        private Button btnBuscarReceta;
 
         public frmMenu()
         {
@@ -23,6 +26,142 @@ namespace CapaVistaUsuario.Ventas
             btnReceta = new Button { Name = "btnReceta", Location = new System.Drawing.Point(562, 303), Size = new System.Drawing.Size(82, 26) };
             btnReceta.Click += btnReceta_Click;
             Controls.Add(btnReceta);
+
+            // Fila extra: disponibilidad del platillo, ajuste masivo de precios y busqueda de recetas.
+            const int extra = 40;
+            ClientSize = new System.Drawing.Size(ClientSize.Width, ClientSize.Height + extra);
+            pnlBotones.Top += extra;
+            btnDisponibilidad = new Button { Name = "btnDisponibilidad", Location = new System.Drawing.Point(120, 340), Size = new System.Drawing.Size(210, 26) };
+            btnPrecios = new Button { Name = "btnActualizarPrecios", Location = new System.Drawing.Point(340, 340), Size = new System.Drawing.Size(190, 26) };
+            btnBuscarReceta = new Button { Name = "btnBuscarReceta", Location = new System.Drawing.Point(540, 340), Size = new System.Drawing.Size(140, 26) };
+            btnDisponibilidad.Click += btnDisponibilidad_Click;
+            btnPrecios.Click += btnPrecios_Click;
+            btnBuscarReceta.Click += btnBuscarReceta_Click;
+            Controls.AddRange(new Control[] { btnDisponibilidad, btnPrecios, btnBuscarReceta });
+            dgvMenu.RowPrePaint += dgvMenu_RowPrePaint;
+        }
+
+        // Los platillos no disponibles se ven en gris en la grilla.
+        private void dgvMenu_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            DataGridViewRow fila = dgvMenu.Rows[e.RowIndex];
+            if (dgvMenu.Columns.Contains("Disponible") && fila.Cells["Disponible"].Value is bool && !(bool)fila.Cells["Disponible"].Value)
+            {
+                fila.DefaultCellStyle.ForeColor = System.Drawing.Color.Gray;
+                fila.DefaultCellStyle.Font = new System.Drawing.Font(dgvMenu.Font, System.Drawing.FontStyle.Italic);
+            }
+            else
+            {
+                fila.DefaultCellStyle.ForeColor = System.Drawing.Color.Empty;
+                fila.DefaultCellStyle.Font = null;
+            }
+        }
+
+        // Marca el platillo seleccionado como disponible / no disponible (se agoto un insumo, por ejemplo).
+        private void btnDisponibilidad_Click(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(lblID.Text) == 0 || dgvMenu.CurrentRow == null)
+            {
+                MessageBox.Show(Idioma.Texto("Msg_SeleccioneRegistro"));
+                return;
+            }
+            int id = Convert.ToInt32(lblID.Text);
+            object actual = dgvMenu.CurrentRow.Cells["Disponible"].Value;
+            bool disponible = actual is bool && (bool)actual;
+            try
+            {
+                Men.CambiarDisponibilidad(id, !disponible);
+                new CL_clsBitacora("Disponibilidad de platillo", "Menu " + id + (disponible ? ": no disponible" : ": disponible"), "frmMenu");
+                MessageBox.Show(Idioma.Texto(disponible ? "Menu_MarcadoNoDisponible" : "Menu_MarcadoDisponible"),
+                    Idioma.Texto("Menu_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MostrarMenu();
+                CV_Utiles.LimpiarControles(this);
+                lblID.Text = "0";
+            }
+            catch (Exception ex)
+            {
+                CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
+            }
+        }
+
+        // Ajuste masivo de precios: un porcentaje (positivo o negativo) sobre toda la carta o una categoria.
+        private void btnPrecios_Click(object sender, EventArgs e)
+        {
+            using (Form dlg = new Form())
+            using (Label lblPct = new Label { AutoSize = true, Location = new System.Drawing.Point(12, 18), Text = Idioma.Texto("Menu_Porcentaje") })
+            using (TextBox txtPct = new TextBox { Name = "txtPorcentaje", Location = new System.Drawing.Point(150, 15), Width = 90 })
+            using (Label lblCat = new Label { AutoSize = true, Location = new System.Drawing.Point(12, 52), Text = Idioma.Texto("Categoria") + ":" })
+            using (ComboBox cmbCat = new ComboBox { Name = "cmbCategoriaPrecios", DropDownStyle = ComboBoxStyle.DropDownList, Location = new System.Drawing.Point(150, 49), Width = 180 })
+            using (Button ok = new Button { Text = Idioma.Texto("Btn_Aceptar"), DialogResult = DialogResult.OK, Location = new System.Drawing.Point(150, 90), Size = new System.Drawing.Size(85, 28) })
+            using (Button cancel = new Button { Text = Idioma.Texto("Btn_Cancelar"), DialogResult = DialogResult.Cancel, Location = new System.Drawing.Point(245, 90), Size = new System.Drawing.Size(85, 28) })
+            {
+                dlg.Text = Idioma.Texto("Menu_ActualizarPrecios");
+                dlg.ClientSize = new System.Drawing.Size(350, 135);
+                dlg.StartPosition = FormStartPosition.CenterParent;
+                dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dlg.MaximizeBox = false;
+                dlg.MinimizeBox = false;
+                dlg.AcceptButton = ok;
+                dlg.CancelButton = cancel;
+
+                System.Collections.Generic.List<string> categorias = new System.Collections.Generic.List<string> { Idioma.Texto("Todos") };
+                foreach (System.Data.DataRow fila in Men.Categorias().Rows)
+                {
+                    categorias.Add(Convert.ToString(fila[0]));
+                }
+                cmbCat.DataSource = categorias;
+                dlg.Controls.AddRange(new Control[] { lblPct, txtPct, lblCat, cmbCat, ok, cancel });
+
+                while (dlg.ShowDialog(this) == DialogResult.OK)
+                {
+                    decimal pct;
+                    if (!decimal.TryParse(txtPct.Text.Trim().Replace(',', '.'), System.Globalization.NumberStyles.Number,
+                        System.Globalization.CultureInfo.InvariantCulture, out pct) || pct == 0 || pct < -90 || pct > 300)
+                    {
+                        MessageBox.Show(Idioma.Texto("Msg_PorcentajeInvalido"));
+                        continue;
+                    }
+                    string categoria = cmbCat.SelectedIndex <= 0 ? null : Convert.ToString(cmbCat.SelectedItem);
+                    try
+                    {
+                        int cantidad = Men.CantidadAfectados(categoria);
+                        if (cantidad == 0)
+                        {
+                            MessageBox.Show(Idioma.Texto("Menu_SinPlatillos"));
+                            return;
+                        }
+                        if (MessageBox.Show(string.Format(Idioma.Texto("Menu_ConfirmPrecios"), pct.ToString("0.##"), cantidad),
+                            Idioma.Texto("Menu_ActualizarPrecios"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
+                        {
+                            return;
+                        }
+                        int cambiados = Men.ActualizarPrecios(pct, categoria);
+                        new CL_clsBitacora("Actualización de precios", pct.ToString("0.##") + "% a " + cambiados + " platillo(s)" +
+                            (categoria == null ? "" : " de " + categoria), "frmMenu");
+                        MessageBox.Show(string.Format(Idioma.Texto("Menu_PreciosActualizados"), cambiados),
+                            Idioma.Texto("Menu_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MostrarMenu();
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        continue;
+                    }
+                    catch (Exception ex)
+                    {
+                        CV_ExcepcionBitacora.RegistrarYMostrar(ex, Name);
+                    }
+                    return;
+                }
+            }
+        }
+
+        private void btnBuscarReceta_Click(object sender, EventArgs e)
+        {
+            using (frmBuscarReceta f = new frmBuscarReceta())
+            {
+                f.ShowDialog(this);
+            }
         }
 
         private void btnReceta_Click(object sender, EventArgs e)
@@ -48,11 +187,19 @@ namespace CapaVistaUsuario.Ventas
 
             AplicarIdioma();
             btnReceta.Text = Idioma.Texto("Btn_Receta");
+            btnDisponibilidad.Text = Idioma.Texto("Menu_CambiarDisponibilidad");
+            btnPrecios.Text = Idioma.Texto("Menu_ActualizarPrecios");
+            btnBuscarReceta.Text = Idioma.Texto("BuscarReceta_Titulo");
             CargarCombos();
             MostrarMenu();
             CV_Utiles.BloquearControles(this);
             CV_Botonera.btnFormularios(this, btnCancelar);
             CV_ABM_Permisos.AplicarModoLectura(this, PermisosSistema.Menu);
+            if (PermisosSistema.SoloLectura(PermisosSistema.Menu))
+            {
+                btnDisponibilidad.Enabled = false;
+                btnPrecios.Enabled = false;
+            }
         }
 
         #region METODOS
@@ -154,6 +301,7 @@ namespace CapaVistaUsuario.Ventas
                 PasarDatos(false);
                 Men.InsertarMenu();
                 new CL_clsBitacora("Alta de Menú", "Alta: " + txtNombre.Text.Trim(), "frmMenu");
+                MessageBox.Show(Idioma.Texto("Msg_GuardadoOk"), Idioma.Texto("Menu_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarMenu();
                 CV_Botonera.btnFormularios(this, btnGuardar);
                 CV_Utiles.BloquearControles(this);
@@ -186,6 +334,7 @@ namespace CapaVistaUsuario.Ventas
                 PasarDatos(true);
                 Men.ModificarMenu();
                 new CL_clsBitacora("Modificación de Menú", "Modifica id " + lblID.Text, "frmMenu");
+                MessageBox.Show(Idioma.Texto("Msg_GuardadoOk"), Idioma.Texto("Menu_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarMenu();
                 CV_Botonera.btnFormularios(this, btnGuardaCambios);
                 CV_Utiles.BloquearControles(this);
@@ -220,6 +369,7 @@ namespace CapaVistaUsuario.Ventas
                 Men.IdMenu = Convert.ToInt32(lblID.Text);
                 Men.EliminarMenu();
                 new CL_clsBitacora("Baja de Menú", "Baja id " + lblID.Text, "frmMenu");
+                MessageBox.Show(Idioma.Texto("Msg_BajaOk"), Idioma.Texto("Menu_Titulo"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarMenu();
                 CV_Utiles.LimpiarControles(this);
                 lblID.Text = "0";
