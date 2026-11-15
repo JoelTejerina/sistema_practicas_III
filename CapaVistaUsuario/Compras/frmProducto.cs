@@ -12,9 +12,22 @@ namespace CapaVistaUsuario.Compras
         CN_Producto Prod = new CN_Producto();
         private readonly CV_Obligatorios obligatorios = new CV_Obligatorios();
 
+        private readonly Label lblCantidadInicial = new Label();
+        private readonly TextBox txtCantidadInicial = new TextBox();
+
         public frmProducto()
         {
             InitializeComponent();
+
+            // Cantidad inicial: al dar de alta el producto se crea su primer lote de stock con esa cantidad.
+            lblCantidadInicial.Name = "lblCantidadInicial";
+            lblCantidadInicial.AutoSize = true;
+            lblCantidadInicial.Location = new System.Drawing.Point(12, 321);
+            txtCantidadInicial.Name = "txtCantidadInicial";
+            txtCantidadInicial.Location = new System.Drawing.Point(120, 318);
+            txtCantidadInicial.Size = new System.Drawing.Size(200, 20);
+            Controls.Add(lblCantidadInicial);
+            Controls.Add(txtCantidadInicial);
             BuscadorGrilla.Agregar(dgvProducto, "Nombre", "Marca", "Categoria");
         }
 
@@ -26,6 +39,7 @@ namespace CapaVistaUsuario.Compras
             dgvProducto.AllowUserToAddRows = false;
 
             AplicarIdioma();
+            lblCantidadInicial.Text = Idioma.Texto("CantidadInicial");
             CargarCombos();
             MostrarProductos();
             CV_Utiles.BloquearControles(this);
@@ -65,7 +79,28 @@ namespace CapaVistaUsuario.Compras
         private bool DatosValidos()
         {
             // Obligatorios todos menos la descripcion.
-            return obligatorios.Validar(txtNombre, txtMarca, txtCategoria, txtMedida, cmbProveedor);
+            if (!obligatorios.Validar(txtNombre, txtMarca, txtCategoria, cmbMedida, cmbProveedor, txtCantidadInicial))
+            {
+                return false;
+            }
+            int cantidad;
+            if (!int.TryParse(txtCantidadInicial.Text.Trim(), out cantidad) || cantidad < 0)
+            {
+                obligatorios.Marcar(txtCantidadInicial);
+                MessageBox.Show(Idioma.Texto("Msg_CantidadInvalida"));
+                txtCantidadInicial.Select();
+                return false;
+            }
+            return true;
+        }
+
+        // Caracteres no permitidos, cantidad invalida o producto repetido: se marca el campo y se explica.
+        private void MarcarProductoInvalido(string mensaje)
+        {
+            Control campo = mensaje == Idioma.Texto("Msg_CantidadInvalida") ? (Control)txtCantidadInicial : txtNombre;
+            obligatorios.Marcar(campo);
+            MessageBox.Show(mensaje, Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            campo.Select();
         }
 
         private void PasarDatos(bool modificar)
@@ -75,8 +110,9 @@ namespace CapaVistaUsuario.Compras
             Prod.Descripcion = txtDescripcion.Text.Trim();
             Prod.Marca = txtMarca.Text.Trim();
             Prod.Categoria = txtCategoria.Text.Trim();
-            Prod.Medida = txtMedida.Text.Trim();
+            Prod.Medida = cmbMedida.Text.Trim();
             Prod.IdProveedor = Convert.ToInt32(cmbProveedor.SelectedValue);
+            Prod.CantidadInicial = Convert.ToInt32(txtCantidadInicial.Text.Trim());
         }
         #endregion
 
@@ -86,6 +122,8 @@ namespace CapaVistaUsuario.Compras
             CV_Utiles.DesbloquearControles(this);
             CV_Utiles.LimpiarControles(this);
             cmbProveedor.SelectedIndex = -1;
+            txtCantidadInicial.Text = "0";
+            txtCantidadInicial.ReadOnly = false;
             lblID.Text = "0";
             CV_Botonera.btnFormularios(this, btnAgregar);
             txtNombre.Select();
@@ -99,10 +137,15 @@ namespace CapaVistaUsuario.Compras
                 PasarDatos(false);
                 Prod.InsertarProducto();
                 new CL_clsBitacora("Alta de Producto", "Alta: " + txtNombre.Text.Trim(), "frmProducto");
+                MessageBox.Show(Idioma.Texto("Msg_GuardadoOk"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarProductos();
                 CV_Botonera.btnFormularios(this, btnGuardar);
                 CV_Utiles.BloquearControles(this);
                 CV_Utiles.LimpiarControles(this);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MarcarProductoInvalido(ex.Message);
             }
             catch (Exception ex)
             {
@@ -119,6 +162,7 @@ namespace CapaVistaUsuario.Compras
             }
             CargarSeleccion();
             CV_Utiles.DesbloquearControles(this);
+            txtCantidadInicial.ReadOnly = true;   // el stock del producto se maneja desde Stock
             CV_Botonera.btnFormularios(this, btnModificar);
             txtNombre.Select();
         }
@@ -131,11 +175,16 @@ namespace CapaVistaUsuario.Compras
                 PasarDatos(true);
                 Prod.ModificarProducto();
                 new CL_clsBitacora("Modificación de Producto", "Modifica id " + lblID.Text, "frmProducto");
+                MessageBox.Show(Idioma.Texto("Msg_GuardadoOk"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarProductos();
                 CV_Botonera.btnFormularios(this, btnGuardaCambios);
                 CV_Utiles.BloquearControles(this);
                 CV_Utiles.LimpiarControles(this);
                 lblID.Text = "0";
+            }
+            catch (InvalidOperationException ex)
+            {
+                MarcarProductoInvalido(ex.Message);
             }
             catch (Exception ex)
             {
@@ -165,6 +214,7 @@ namespace CapaVistaUsuario.Compras
                 Prod.IdProducto = Convert.ToInt32(lblID.Text);
                 Prod.EliminarProducto();
                 new CL_clsBitacora("Baja de Producto", "Baja id " + lblID.Text, "frmProducto");
+                MessageBox.Show(Idioma.Texto("Msg_BajaOk"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarProductos();
                 CV_Utiles.LimpiarControles(this);
                 lblID.Text = "0";
@@ -193,7 +243,8 @@ namespace CapaVistaUsuario.Compras
             txtDescripcion.Text = f.Cells["Descripcion"].Value.ToString();
             txtMarca.Text = f.Cells["Marca"].Value.ToString();
             txtCategoria.Text = f.Cells["Categoria"].Value.ToString();
-            txtMedida.Text = f.Cells["Medida"].Value.ToString();
+            cmbMedida.Text = f.Cells["Medida"].Value.ToString();
+            txtCantidadInicial.Text = f.Cells["CantidadInicial"].Value.ToString();
             if (f.Cells["IdProveedor"].Value != DBNull.Value && f.Cells["IdProveedor"].Value != null)
             {
                 cmbProveedor.SelectedValue = Convert.ToInt32(f.Cells["IdProveedor"].Value);

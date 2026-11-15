@@ -17,6 +17,7 @@ namespace CapaLogicaNegocio.Compras
         public decimal Precio { get; set; }
         public int StockMinimo { get; set; }
         public int StockMaximo { get; set; }
+        public int IdProveedor { get; set; }
         #endregion
 
         #region METODOS
@@ -80,6 +81,7 @@ namespace CapaLogicaNegocio.Compras
             stock.Precio = Precio;
             stock.StockMinimo = StockMinimo;
             stock.StockMaximo = StockMaximo;
+            stock.IdProveedor = IdProveedor;
         }
         #endregion
     }

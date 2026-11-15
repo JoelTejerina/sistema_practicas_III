@@ -18,6 +18,9 @@ namespace CapaVistaUsuario.Compras
         private TextBox txtMinimo;
         private TextBox txtMaximo;
         private Button btnHistorial;
+        private Label lblProveedorLote;
+        private ComboBox cmbProveedorLote;
+        private System.Data.DataTable productos;
 
         public frmStock()
         {
@@ -34,7 +37,23 @@ namespace CapaVistaUsuario.Compras
             txtMaximo = new TextBox { Name = "txtStockMaximo", Location = new System.Drawing.Point(610, 288), Size = new System.Drawing.Size(70, 20) };
             btnHistorial = new Button { Name = "btnHistorial", Location = new System.Drawing.Point(120, 320), Size = new System.Drawing.Size(150, 26) };
             btnHistorial.Click += btnHistorial_Click;
-            Controls.AddRange(new Control[] { lblMinimo, txtMinimo, lblMaximo, txtMaximo, btnHistorial });
+            lblProveedorLote = new Label { Name = "lblProveedorLote", AutoSize = true, Location = new System.Drawing.Point(360, 323) };
+            cmbProveedorLote = new ComboBox
+            {
+                Name = "cmbProveedorLote",
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Location = new System.Drawing.Point(470, 320),
+                Size = new System.Drawing.Size(200, 21)
+            };
+            Controls.AddRange(new Control[] { lblMinimo, txtMinimo, lblMaximo, txtMaximo, btnHistorial, lblProveedorLote, cmbProveedorLote });
+
+            // Al elegir el producto se propone su proveedor, que se puede cambiar (el lote puede venir de otro).
+            cmbProducto.SelectedIndexChanged += (origen, args) =>
+            {
+                if (!cmbProducto.Enabled || cmbProducto.SelectedValue == null || productos == null) return;
+                System.Data.DataRow[] filas = productos.Select("IdProducto = " + Convert.ToInt32(cmbProducto.SelectedValue));
+                if (filas.Length > 0) cmbProveedorLote.SelectedValue = Convert.ToInt32(filas[0]["IdProveedor"]);
+            };
         }
 
         // Muestra el historial de movimientos del producto del lote elegido (o de todos).
@@ -118,6 +137,7 @@ namespace CapaVistaUsuario.Compras
             lblPrecio.Text = Idioma.Texto("Precio");
             lblMinimo.Text = Idioma.Texto("StockMinimo");
             lblMaximo.Text = Idioma.Texto("StockMaximo");
+            lblProveedorLote.Text = Idioma.Texto("Proveedor");
             btnHistorial.Text = Idioma.Texto("Btn_Historial");
             btnAgregar.Text = Idioma.Texto("Btn_Agregar");
             btnModificar.Text = Idioma.Texto("Btn_Modificar");
@@ -131,6 +151,8 @@ namespace CapaVistaUsuario.Compras
         private void CargarCombos()
         {
             new CN_LlenarCombos(cmbProducto, "Producto", "IdProducto", "Nombre", "Activo = 1");
+            new CN_LlenarCombos(cmbProveedorLote, "Proveedor", "IdProveedor", "Nombre", "Activo = 1");
+            productos = new CapaLogicaNegocio.Compras.CN_Producto().MostrarProducto();
         }
 
         private void MostrarStock()
@@ -141,7 +163,7 @@ namespace CapaVistaUsuario.Compras
         private bool DatosValidos()
         {
             // Todos los campos son obligatorios.
-            if (!obligatorios.Validar(cmbProducto, txtNumeroLote, txtCantidad, dtpVencimiento, txtPrecio))
+            if (!obligatorios.Validar(cmbProducto, txtNumeroLote, txtCantidad, dtpVencimiento, txtPrecio, cmbProveedorLote))
             {
                 return false;
             }
@@ -185,6 +207,7 @@ namespace CapaVistaUsuario.Compras
             Stk.Cantidad = Convert.ToInt32(txtCantidad.Text.Trim());
             Stk.FechaVencimiento = dtpVencimiento.Value;
             Stk.Precio = Convert.ToDecimal(txtPrecio.Text.Trim());
+            Stk.IdProveedor = Convert.ToInt32(cmbProveedorLote.SelectedValue);
             Stk.StockMinimo = txtMinimo.Text.Trim().Length == 0 ? 0 : Convert.ToInt32(txtMinimo.Text.Trim());
             Stk.StockMaximo = txtMaximo.Text.Trim().Length == 0 ? 0 : Convert.ToInt32(txtMaximo.Text.Trim());
         }
@@ -196,6 +219,7 @@ namespace CapaVistaUsuario.Compras
             CV_Utiles.DesbloquearControles(this);
             CV_Utiles.LimpiarControles(this);
             cmbProducto.SelectedIndex = -1;
+            cmbProveedorLote.SelectedIndex = -1;
             txtCantidad.Text = "0";
             txtPrecio.Text = "0";
             txtMinimo.Text = "0";
@@ -213,6 +237,7 @@ namespace CapaVistaUsuario.Compras
                 PasarDatos(false);
                 Stk.InsertarStock();
                 new CL_clsBitacora("Ingreso de Stock", "Lote: " + txtNumeroLote.Text.Trim(), "frmStock");
+                MessageBox.Show(Idioma.Texto("Msg_GuardadoOk"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarStock();
                 CV_Botonera.btnFormularios(this, btnGuardar);
                 CV_Utiles.BloquearControles(this);
@@ -245,6 +270,7 @@ namespace CapaVistaUsuario.Compras
                 PasarDatos(true);
                 Stk.ModificarStock();
                 new CL_clsBitacora("Modificación de Stock", "Modifica id " + lblID.Text, "frmStock");
+                MessageBox.Show(Idioma.Texto("Msg_GuardadoOk"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarStock();
                 CV_Botonera.btnFormularios(this, btnGuardaCambios);
                 CV_Utiles.BloquearControles(this);
@@ -279,6 +305,7 @@ namespace CapaVistaUsuario.Compras
                 Stk.IdStock = Convert.ToInt32(lblID.Text);
                 Stk.EliminarStock();
                 new CL_clsBitacora("Baja de Stock", "Baja id " + lblID.Text, "frmStock");
+                MessageBox.Show(Idioma.Texto("Msg_BajaOk"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarStock();
                 CV_Utiles.LimpiarControles(this);
                 lblID.Text = "0";
@@ -314,6 +341,14 @@ namespace CapaVistaUsuario.Compras
                 dtpVencimiento.Value = Convert.ToDateTime(f.Cells["FechaVencimiento"].Value);
             }
             txtPrecio.Text = f.Cells["Precio"].Value.ToString();
+            if (f.Cells["IdProveedor"].Value != DBNull.Value && f.Cells["IdProveedor"].Value != null)
+            {
+                cmbProveedorLote.SelectedValue = Convert.ToInt32(f.Cells["IdProveedor"].Value);
+            }
+            else
+            {
+                cmbProveedorLote.SelectedIndex = -1;
+            }
             txtMinimo.Text = f.Cells["StockMinimo"].Value.ToString();
             txtMaximo.Text = f.Cells["StockMaximo"].Value.ToString();
         }

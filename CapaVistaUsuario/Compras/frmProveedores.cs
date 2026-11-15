@@ -66,6 +66,15 @@ namespace CapaVistaUsuario.Compras
                 && obligatorios.ValidarCorreo(txtEmail);
         }
 
+        // CUIT invalido o repetido, nombre repetido: se marca el campo y se explica.
+        private void MarcarProveedorInvalido(string mensaje)
+        {
+            Control campo = mensaje == Idioma.Texto("Msg_ProveedorNombreDuplicado") ? (Control)txtNombre : txtCUIT;
+            obligatorios.Marcar(campo);
+            MessageBox.Show(mensaje, Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            campo.Select();
+        }
+
         private void PasarDatos(bool modificar)
         {
             Prov.IdProveedor = modificar ? Convert.ToInt32(lblID.Text) : 0;
@@ -98,10 +107,15 @@ namespace CapaVistaUsuario.Compras
                 PasarDatos(false);
                 Prov.InsertarProveedor();
                 new CL_clsBitacora("Alta de Proveedor", "Alta: " + txtNombre.Text.Trim(), "frmProveedores");
+                MessageBox.Show(Idioma.Texto("Msg_GuardadoOk"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarProveedores();
                 CV_Botonera.btnFormularios(this, btnGuardar);
                 CV_Utiles.BloquearControles(this);
                 CV_Utiles.LimpiarControles(this);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MarcarProveedorInvalido(ex.Message);
             }
             catch (Exception ex)
             {
@@ -130,11 +144,16 @@ namespace CapaVistaUsuario.Compras
                 PasarDatos(true);
                 Prov.ModificarProveedor();
                 new CL_clsBitacora("Modificación de Proveedor", "Modifica id " + lblID.Text, "frmProveedores");
+                MessageBox.Show(Idioma.Texto("Msg_GuardadoOk"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarProveedores();
                 CV_Botonera.btnFormularios(this, btnGuardaCambios);
                 CV_Utiles.BloquearControles(this);
                 CV_Utiles.LimpiarControles(this);
                 lblID.Text = "0";
+            }
+            catch (InvalidOperationException ex)
+            {
+                MarcarProveedorInvalido(ex.Message);
             }
             catch (Exception ex)
             {
@@ -164,6 +183,7 @@ namespace CapaVistaUsuario.Compras
                 Prov.IdProveedor = Convert.ToInt32(lblID.Text);
                 Prov.EliminarProveedor();
                 new CL_clsBitacora("Baja de Proveedor", "Baja id " + lblID.Text, "frmProveedores");
+                MessageBox.Show(Idioma.Texto("Msg_BajaOk"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarProveedores();
                 CV_Utiles.LimpiarControles(this);
                 lblID.Text = "0";

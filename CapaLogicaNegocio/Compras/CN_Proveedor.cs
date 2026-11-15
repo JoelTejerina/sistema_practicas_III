@@ -1,4 +1,6 @@
+using System;
 using System.Data;
+using CapaComun;
 using CapaAccesoDatos.Compras;
 
 namespace CapaLogicaNegocio.Compras
@@ -25,14 +27,33 @@ namespace CapaLogicaNegocio.Compras
             return proveedor.Mostrar();
         }
 
+        // CUIT valido (digito verificador) y sin duplicados: lo que el sistema puede controlar de las "normas legales".
+        private void Validar()
+        {
+            if (!ValidadorCuit.EsValido(CUIT))
+            {
+                throw new InvalidOperationException(Idioma.Texto("Msg_CuitInvalido"));
+            }
+            switch (proveedor.Duplicado(CUIT, Nombre, IdProveedor))
+            {
+                case 1:
+                    throw new InvalidOperationException(Idioma.Texto("Msg_ProveedorCuitDuplicado"));
+                case 2:
+                    throw new InvalidOperationException(Idioma.Texto("Msg_ProveedorNombreDuplicado"));
+            }
+        }
+
         public void InsertarProveedor()
         {
+            IdProveedor = 0;
+            Validar();
             PasarDatos();
             proveedor.InsertarProveedor();
         }
 
         public void ModificarProveedor()
         {
+            Validar();
             PasarDatos();
             proveedor.ModificarProveedor();
         }

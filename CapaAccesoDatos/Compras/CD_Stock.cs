@@ -17,6 +17,13 @@ namespace CapaAccesoDatos.Compras
         public decimal Precio { get; set; }
         public int StockMinimo { get; set; }
         public int StockMaximo { get; set; }
+        /// <summary>Proveedor del lote (0 = sin proveedor).</summary>
+        public int IdProveedor { get; set; }
+
+        private string Proveedor()
+        {
+            return IdProveedor > 0 ? IdProveedor.ToString() : "NULL";
+        }
         #endregion
 
         #region METODOS
@@ -31,9 +38,9 @@ namespace CapaAccesoDatos.Compras
         public void InsertarStock()
         {
             string sSql = "SET XACT_ABORT ON; BEGIN TRAN; " +
-                "INSERT INTO Stock (IdProducto, NumeroLote, Cantidad, FechaVencimiento, Precio, StockMinimo, StockMaximo) VALUES (" +
+                "INSERT INTO Stock (IdProducto, NumeroLote, Cantidad, FechaVencimiento, Precio, StockMinimo, StockMaximo, IdProveedor) VALUES (" +
                 IdProducto + ",'" + T(NumeroLote) + "'," + Cantidad + ",'" + Fecha() + "'," + Num(Precio) + "," +
-                StockMinimo + "," + StockMaximo + "); " +
+                StockMinimo + "," + StockMaximo + "," + Proveedor() + "); " +
                 "DECLARE @id INT = SCOPE_IDENTITY(); " +
                 "INSERT INTO MovimientoStock (Tipo, IdStock, IdProducto, NumeroLote, Cantidad, CantidadResultante, IdUsuario, Detalle) VALUES (" +
                 "N'Ingreso', @id, " + IdProducto + ",'" + T(NumeroLote) + "'," + Cantidad + "," + Cantidad + "," +
@@ -50,7 +57,7 @@ namespace CapaAccesoDatos.Compras
                 "UPDATE Stock SET " +
                 "IdProducto=" + IdProducto + ", NumeroLote='" + T(NumeroLote) + "', Cantidad=" + Cantidad +
                 ", FechaVencimiento='" + Fecha() + "', Precio=" + Num(Precio) +
-                ", StockMinimo=" + StockMinimo + ", StockMaximo=" + StockMaximo + " " +
+                ", StockMinimo=" + StockMinimo + ", StockMaximo=" + StockMaximo + ", IdProveedor=" + Proveedor() + " " +
                 "WHERE IdStock=" + IdStock + "; " +
                 "IF @ant IS NOT NULL AND @ant <> " + Cantidad + " " +
                 "INSERT INTO MovimientoStock (Tipo, IdStock, IdProducto, NumeroLote, Cantidad, CantidadResultante, IdUsuario, Detalle) VALUES (" +

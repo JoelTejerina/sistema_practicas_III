@@ -27,7 +27,7 @@ namespace CapaVistaUsuario.Compras
             this.lblCategoria = new System.Windows.Forms.Label();
             this.txtCategoria = new System.Windows.Forms.TextBox();
             this.lblMedida = new System.Windows.Forms.Label();
-            this.txtMedida = new System.Windows.Forms.TextBox();
+            this.cmbMedida = new System.Windows.Forms.ComboBox();
             this.lblProveedor = new System.Windows.Forms.Label();
             this.cmbProveedor = new System.Windows.Forms.ComboBox();
             this.lblID = new System.Windows.Forms.Label();
@@ -125,12 +125,14 @@ namespace CapaVistaUsuario.Compras
             this.lblMedida.TabIndex = 9;
             this.lblMedida.Text = "Medida";
             // 
-            // txtMedida
+            // cmbMedida
             // 
-            this.txtMedida.Location = new System.Drawing.Point(470, 258);
-            this.txtMedida.Name = "txtMedida";
-            this.txtMedida.Size = new System.Drawing.Size(200, 20);
-            this.txtMedida.TabIndex = 10;
+            this.cmbMedida.Location = new System.Drawing.Point(470, 258);
+            this.cmbMedida.Name = "cmbMedida";
+            this.cmbMedida.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMedida.Items.AddRange(new object[] { "gr", "kg", "ml", "l", "unidad", "porciones", "pack", "bulto", "pedazos" });
+            this.cmbMedida.Size = new System.Drawing.Size(200, 20);
+            this.cmbMedida.TabIndex = 10;
             // 
             // lblProveedor
             // 
@@ -253,7 +255,7 @@ namespace CapaVistaUsuario.Compras
             this.Controls.Add(this.lblID);
             this.Controls.Add(this.cmbProveedor);
             this.Controls.Add(this.lblProveedor);
-            this.Controls.Add(this.txtMedida);
+            this.Controls.Add(this.cmbMedida);
             this.Controls.Add(this.lblMedida);
             this.Controls.Add(this.txtCategoria);
             this.Controls.Add(this.lblCategoria);
@@ -285,7 +287,7 @@ namespace CapaVistaUsuario.Compras
         private System.Windows.Forms.Label lblCategoria;
         private System.Windows.Forms.TextBox txtCategoria;
         private System.Windows.Forms.Label lblMedida;
-        private System.Windows.Forms.TextBox txtMedida;
+        private System.Windows.Forms.ComboBox cmbMedida;
         private System.Windows.Forms.Label lblProveedor;
         private System.Windows.Forms.ComboBox cmbProveedor;
         private System.Windows.Forms.Label lblID;
