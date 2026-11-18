@@ -18,6 +18,7 @@ namespace CapaAccesoDatos.Ventas
         /// <summary>Ventas cobradas agrupadas por dia, semana o mes entre dos fechas.</summary>
         public DataTable VentasPorPeriodo(DateTime desde, DateTime hasta, string agrupar)
         {
+            // Segun como se agrupe cambia la expresion que arma el "periodo"; el GROUP BY usa esa misma expresion.
             string periodo;
             string orden;
             switch (agrupar)
@@ -38,6 +39,7 @@ namespace CapaAccesoDatos.Ventas
             }
             string d = desde.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
             string h = hasta.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
+            // Solo cuentan los pedidos Cobrados; las fechas van en formato yyyyMMdd para que no dependan de la configuracion regional.
             string sSql = "SELECT " + periodo + " AS Periodo, COUNT(*) AS Pedidos, SUM(PrecioTotal) AS Total " +
                 "FROM Pedido WHERE Estado = N'Cobrado' AND Fecha >= '" + d + "' AND Fecha <= '" + h + "' " +
                 "GROUP BY " + periodo + " ORDER BY " + orden;
@@ -49,6 +51,7 @@ namespace CapaAccesoDatos.Ventas
         {
             string d = desde.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
             string h = hasta.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
+            // Se suma por platillo desde el detalle (un pedido puede tener varios); los cancelados no cuentan.
             string sSql = "SELECT TOP (" + cuantos + ") m.Nombre AS Platillo, SUM(d.Cantidad) AS Unidades, SUM(d.Cantidad * d.PrecioUnitario) AS Importe " +
                 "FROM PedidoDetalle d INNER JOIN Pedido p ON p.IdPedido = d.IdPedido INNER JOIN Menu m ON m.IdMenu = d.IdMenu " +
                 "WHERE p.Estado <> N'Cancelado' AND p.Fecha >= '" + d + "' AND p.Fecha <= '" + h + "' " +

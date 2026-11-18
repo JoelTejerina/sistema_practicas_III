@@ -58,6 +58,7 @@ namespace CapaAccesoDatos.Ventas
             return r == null ? 0 : Convert.ToDecimal(r);
         }
 
+        // El total cobrado se calcula en la base con los pedidos Cobrados de esa caja, no con lo que diga la pantalla.
         public void Cerrar(int idCaja, decimal montoContado, string observaciones, int idUsuario)
         {
             new clsEjecutarComando().EjecucionDirecta(

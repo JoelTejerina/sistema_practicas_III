@@ -107,6 +107,7 @@ namespace CapaVistaUsuario.Ventas
             Consultar();
         }
 
+        // Consulta por rango de fechas; agrupa por dia, semana o mes y calcula tambien los platos mas vendidos.
         private void btnConsultar_Click(object sender, EventArgs e)
         {
             Consultar();

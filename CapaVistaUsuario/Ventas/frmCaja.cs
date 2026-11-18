@@ -152,6 +152,7 @@ namespace CapaVistaUsuario.Ventas
             g.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
+        // Acepta coma o punto decimal; un monto negativo no es valido.
         private static bool LeerMonto(TextBox caja, out decimal monto)
         {
             return decimal.TryParse(caja.Text.Trim().Replace(',', '.'), NumberStyles.Number, CultureInfo.InvariantCulture, out monto) && monto >= 0;
@@ -208,6 +209,7 @@ namespace CapaVistaUsuario.Ventas
             }
         }
 
+        // Resumen de lo cobrado en la caja abierta, agrupado por forma de pago.
         private void CargarResumen()
         {
             dgvCobros.DataSource = caja.CobrosPorFormaPago(idCaja);
@@ -262,6 +264,7 @@ namespace CapaVistaUsuario.Ventas
             }
         }
 
+        // Arqueo: se compara lo contado con lo que deberia haber (inicial + cobros en efectivo) y se avisa la diferencia antes de cerrar.
         private void btnCerrarCaja_Click(object sender, EventArgs e)
         {
             if (!obligatorios.Validar(txtContado))

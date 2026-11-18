@@ -99,6 +99,7 @@ namespace CapaVistaUsuario.Compras
             txtNombre.Select();
         }
 
+        // Alta: valida en pantalla; el CUIT y los duplicados los valida la capa de negocio.
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             if (!DatosValidos()) return;
@@ -169,6 +170,7 @@ namespace CapaVistaUsuario.Compras
             lblID.Text = "0";
         }
 
+        // La baja es logica: el proveedor queda inactivo porque puede tener productos y lotes asociados.
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (Convert.ToInt32(lblID.Text) == 0)

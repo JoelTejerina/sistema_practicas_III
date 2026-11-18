@@ -126,6 +126,7 @@ namespace CapaVistaUsuario.Administrador
             }
         }
 
+        // Los usuarios dados de baja se ven en gris y los bloqueados con fondo rosado.
         private void dgvUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || !dgvUsuarios.Columns.Contains("Estado")) return;
@@ -166,6 +167,7 @@ namespace CapaVistaUsuario.Administrador
             return Convert.ToString(dgvUsuarios.CurrentRow.Cells["Usuario"].Value);
         }
 
+        // Ejecuta una accion sobre el usuario y se ocupa de lo que se repite en todas: bitacora, aviso y recarga de la grilla.
         private void Ejecutar(Action accion, string evento, string detalle, string exito)
         {
             try
@@ -201,6 +203,7 @@ namespace CapaVistaUsuario.Administrador
                 Idioma.Texto("Msg_DatosActualizados"));
         }
 
+        // La baja es logica (queda la fecha de baja); no se borra el usuario ni su historial.
         private void btnBaja_Click(object sender, EventArgs e)
         {
             if (!HaySeleccion()) return;
@@ -219,6 +222,7 @@ namespace CapaVistaUsuario.Administrador
                 string.Format(Idioma.Texto("Msg_UsuarioReactivado"), nombre));
         }
 
+        // Genera una clave temporal: el usuario tiene que cambiarla en su proximo ingreso.
         private void btnClave_Click(object sender, EventArgs e)
         {
             if (!HaySeleccion()) return;

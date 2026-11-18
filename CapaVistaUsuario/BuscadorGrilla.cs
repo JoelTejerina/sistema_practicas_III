@@ -92,6 +92,7 @@ namespace CapaVistaUsuario
             }
 
             string texto = txtBuscar.Text.Trim();
+            // Se ignoran las columnas que la grilla no tiene (por ejemplo, si cambia la consulta).
             string[] existentes = columnas.Where(c => vista.Table.Columns.Contains(c)).ToArray();
             if (texto.Length == 0 || existentes.Length == 0)
             {
@@ -105,6 +106,7 @@ namespace CapaVistaUsuario
                 existentes.Select(c => "Convert([" + c + "], 'System.String') LIKE " + patron));
         }
 
+        // Escapa los caracteres que tienen significado especial en el filtro de un DataView para buscar el texto literal.
         private static string EscaparLike(string texto)
         {
             StringBuilder sb = new StringBuilder();

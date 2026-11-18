@@ -129,6 +129,7 @@ namespace CapaVistaUsuario.Compras
             txtNombre.Select();
         }
 
+        // Alta: valida en pantalla y despues la capa de negocio vuelve a validar (duplicados, caracteres permitidos).
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             if (!DatosValidos()) return;

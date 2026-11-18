@@ -131,6 +131,7 @@ namespace CapaVistaUsuario.Administrador
             }
         }
 
+        // Tilda en la lista los permisos que el rol elegido tiene asignados.
         private void MostrarPermisosDelRol()
         {
             int id = IdRolElegido();
@@ -146,6 +147,7 @@ namespace CapaVistaUsuario.Administrador
             btnEliminar.Enabled = !CN_RolesPermisos.EsRolBase(NombreRolElegido());
         }
 
+        // Guarda los permisos tildados; los del Gerente no se pueden tocar y eso lo controla la capa de negocio.
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             int id = IdRolElegido();
@@ -188,6 +190,7 @@ namespace CapaVistaUsuario.Administrador
             }
         }
 
+        // No se eliminan los roles base ni los que todavia tienen usuarios asignados.
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             int id = IdRolElegido();

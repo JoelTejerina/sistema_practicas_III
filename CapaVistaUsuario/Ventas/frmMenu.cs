@@ -164,6 +164,7 @@ namespace CapaVistaUsuario.Ventas
             }
         }
 
+        // La receta se carga en una ventana aparte, que se abre para el platillo elegido.
         private void btnReceta_Click(object sender, EventArgs e)
         {
             if (Convert.ToInt32(lblID.Text) == 0)
@@ -236,6 +237,7 @@ namespace CapaVistaUsuario.Ventas
             dgvMenu.DataSource = Men.MostrarMenu();
         }
 
+        // Obligatorios en rojo y precio / tiempo numericos (0 o mas).
         private bool DatosValidos()
         {
             // Opcionales: Popularidad, Region, Temporada y Tipo de evento.

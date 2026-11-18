@@ -120,6 +120,7 @@ namespace CapaVistaUsuario.Administrador
             }
         }
 
+        // Todas las validaciones juntas (obligatorios, documento, correo con @, claves iguales); corta en la primera que falla.
         private bool ValidarCampos()
         {
             idPersonaExistente = 0;

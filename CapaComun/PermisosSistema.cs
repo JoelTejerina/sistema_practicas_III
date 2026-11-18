@@ -99,6 +99,8 @@ namespace CapaComun
 
             string grupo = UserCache.NombreGrupo ?? "";
 
+            // Cada modulo tiene un rol que lo edita y el resto puede abrirlo en solo lectura.
+            // El Gerente y el administrador ya salieron arriba: nunca son solo lectura.
             switch (funcionalidad)
             {
                 case Proveedores:

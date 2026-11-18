@@ -56,6 +56,7 @@ namespace CapaAccesoDatos.Ventas
         public DataTable Buscar(int idProducto, string region, string categoria, string popularidad, string temporada,
             string tipoEvento, decimal? precioMin, decimal? precioMax, int? tiempoMax)
         {
+            // Escapa las comillas y los comodines de LIKE ([ y %) para que lo que escribe el usuario se busque tal cual.
             System.Func<string, string> t = v => (v ?? "").Trim().Replace("'", "''").Replace("[", "[[]").Replace("%", "[%]");
             string sSql =
                 "SELECT m.IdMenu, m.Nombre, ISNULL(m.Categoria, N'') AS Categoria, ISNULL(m.Region, N'') AS Region, " +
@@ -64,6 +65,7 @@ namespace CapaAccesoDatos.Ventas
                 "ISNULL((SELECT STRING_AGG(CAST(p.Nombre AS NVARCHAR(MAX)), N', ') WITHIN GROUP (ORDER BY r.EsPrincipal DESC, p.Nombre) " +
                 "FROM RecetaIngrediente r INNER JOIN Producto p ON p.IdProducto = r.IdProducto WHERE r.IdMenu = m.IdMenu), N'') AS Ingredientes " +
                 "FROM Menu m WHERE m.Activo = 1";
+            // Cada filtro es opcional: si esta vacio no agrega condicion; si esta cargado se suma con AND.
             if (idProducto > 0)
                 sSql += " AND EXISTS (SELECT 1 FROM RecetaIngrediente r WHERE r.IdMenu = m.IdMenu AND r.IdProducto = " + idProducto + ")";
             if (!string.IsNullOrWhiteSpace(region)) sSql += " AND m.Region LIKE N'%" + t(region) + "%'";
@@ -83,6 +85,8 @@ namespace CapaAccesoDatos.Ventas
         {
             // El stock se calcula en una tabla derivada: SQL Server no permite MIN() sobre una subconsulta.
             string sSql = "SELECT m.IdMenu, m.Nombre AS Platillo, " +
+                // Capacidad = el ingrediente que mas limita: MIN(stock disponible / cantidad por plato), redondeado hacia abajo.
+                // Un platillo sin receta da NULL porque no se puede calcular.
                 "CASE WHEN COUNT(x.IdProducto) = 0 THEN NULL " +
                 "ELSE CAST(MIN(FLOOR(x.Disp / x.Cantidad)) AS INT) END AS Capacidad " +
                 "FROM Menu m LEFT JOIN (" +

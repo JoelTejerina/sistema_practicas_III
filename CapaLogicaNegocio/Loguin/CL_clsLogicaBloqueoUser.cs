@@ -23,12 +23,15 @@ namespace CapaLogicaNegocio.Loguin
             
             for (int i = 0; i < lista; i++)
                 {
+                    // Los intentos fallidos se cuentan en memoria (una lista de usuario + intentos) mientras la aplicacion esta abierta.
+                    // Ojo: Contains busca coincidencia parcial; con usuarios de nombres parecidos habria que comparar por igualdad exacta.
                     if (clsVerificCache.ListVerifCache[i].Usuario.Contains(User))
                     {
                         encontrado = true;
                         clsVerificCache.ListVerifCache[i].intentos++; //suma 1
                         result = "Contraseña Erronea";
 
+                        // Al tercer intento fallido se desactiva el usuario en la base; solo un administrador puede reactivarlo.
                         if(clsVerificCache.ListVerifCache[i].intentos == 3)
                         {
                             //Bloquear usuario [Usuario.UsuarioDesactivado = true]

@@ -145,6 +145,7 @@ namespace CapaVistaUsuario.Ventas
             return true;
         }
 
+        // Solo se puede iniciar un pedido Pendiente y terminar uno En curso; el resto de los cambios se rechaza.
         private void CambiarEstado(string nuevoEstado, string evento)
         {
             int id;

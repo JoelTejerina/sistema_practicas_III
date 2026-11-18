@@ -66,14 +66,19 @@ namespace CapaLogicaNegocio.Loguin
                 string terminal = Convert.ToString(sesion["Terminal"]);
                 int proceso = Convert.ToInt32(sesion["IdProceso"]);
                 int inactiva = Convert.ToInt32(sesion["MinutosInactiva"]);
+                // Misma PC: la sesion sigue viva solo si el programa que la abrio todavia existe (por si se cerro de golpe).
+                // Otra PC: no podemos saber si el proceso existe, asi que se mira hace cuanto no marca actividad.
                 bool mismaTerminal = string.Equals(terminal, Terminal, StringComparison.OrdinalIgnoreCase);
                 bool vigente = mismaTerminal ? ProcesoVivo(proceso) : inactiva < MinutosSesionInactiva;
+                // Si es nuestra propia sesion (mismo proceso) se permite reabrirla; si no, "vigente" quiere decir
+                // que el usuario ya esta conectado en otro lado y no lo dejamos entrar.
                 if (vigente && !(mismaTerminal && proceso == ProcesoActual))
                 {
                     terminalAjena = terminal;
                     return false;
                 }
             }
+            // Llegamos aca si no tenia sesion o la que tenia estaba abandonada: la pisamos con la nueva.
             datos.AbrirSesion(idUsuario, Terminal, ProcesoActual);
             return true;
         }
@@ -95,6 +100,7 @@ namespace CapaLogicaNegocio.Loguin
             }
         }
 
+        // GetProcessById tira ArgumentException cuando no existe un proceso con ese numero.
         private static bool ProcesoVivo(int idProceso)
         {
             try

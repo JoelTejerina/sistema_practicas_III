@@ -38,6 +38,8 @@ namespace CapaAccesoDatos.Loguin
             return dt.Rows.Count == 0 ? (DateTime?)null : Convert.ToDateTime(dt.Rows[0][0]);
         }
 
+        // MERGE: si la terminal ya tenia un bloqueo se extiende, si no se crea. Los minutos se suman a la hora
+        // del servidor (SYSDATETIME), no a la de la PC, para que no se pueda esquivar cambiando el reloj.
         public void BloquearTerminal(string terminal, int minutos, string motivo)
         {
             string sSql =

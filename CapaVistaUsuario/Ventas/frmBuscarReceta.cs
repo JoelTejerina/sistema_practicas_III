@@ -158,6 +158,7 @@ namespace CapaVistaUsuario.Ventas
             return true;
         }
 
+        // Valida los numeros del filtro antes de consultar; todos los filtros son opcionales y se combinan.
         private void Buscar()
         {
             decimal? precioMin, precioMax;

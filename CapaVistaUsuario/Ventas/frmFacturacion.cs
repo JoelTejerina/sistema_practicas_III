@@ -125,6 +125,7 @@ namespace CapaVistaUsuario.Ventas
             Controls.Add(dgvItems);
         }
 
+        // Textos y formato de la grilla del detalle (el Id del platillo queda oculto).
         private void FormatearItems()
         {
             if (dgvItems.Columns.Count == 0) return;
@@ -137,6 +138,7 @@ namespace CapaVistaUsuario.Ventas
             dgvItems.Columns["Subtotal"].DefaultCellStyle.Format = "N2";
         }
 
+        // Los controles del detalle solo se pueden tocar mientras se agrega o modifica un pedido.
         private void HabilitarDetalle(bool habilitado)
         {
             btnAgregarItem.Enabled = habilitado;
@@ -154,6 +156,7 @@ namespace CapaVistaUsuario.Ventas
             RecalcularTotal();
         }
 
+        // El total se calcula siempre desde los items, nunca se escribe a mano.
         private void RecalcularTotal()
         {
             txtPrecioTotal.Text = items.Sum(i => i.Subtotal).ToString("0.00");
@@ -299,6 +302,7 @@ namespace CapaVistaUsuario.Ventas
             return true;
         }
 
+        // Copia lo que hay en pantalla a la capa de negocio antes de guardar.
         private void PasarDatos(bool modificar)
         {
             Ped.IdPedido = modificar ? Convert.ToInt32(lblID.Text) : 0;
@@ -531,6 +535,7 @@ namespace CapaVistaUsuario.Ventas
             }
         }
 
+        // Cancelar la edicion: vuelve al estado inicial sin guardar nada.
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             CV_Botonera.btnFormularios(this, btnCancelar);
@@ -547,6 +552,7 @@ namespace CapaVistaUsuario.Ventas
         }
         #endregion
 
+        // Al elegir un pedido se carga su detalle para poder modificarlo, cobrarlo o imprimir el ticket.
         private void dgvPedido_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;

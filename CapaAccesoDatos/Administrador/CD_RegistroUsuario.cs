@@ -21,6 +21,7 @@ namespace CapaAccesoDatos.Administrador
         public string PasswordHash { get; set; }
         public int IdGrupo { get; set; }
 
+        // Duplica las comillas simples para que un texto con apostrofe no rompa la consulta.
         private static string SqlTxt(string valor)
         {
             return (valor ?? "").Replace("'", "''");

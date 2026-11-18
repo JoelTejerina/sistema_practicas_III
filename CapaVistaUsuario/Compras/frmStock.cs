@@ -160,6 +160,7 @@ namespace CapaVistaUsuario.Compras
             dgvStock.DataSource = Stk.MostrarStock();
         }
 
+        // Ademas de los obligatorios: cantidad positiva y el minimo no puede superar al maximo.
         private bool DatosValidos()
         {
             // Todos los campos son obligatorios.

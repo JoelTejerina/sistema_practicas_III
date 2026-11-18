@@ -104,6 +104,7 @@ namespace CapaAccesoDatos.Compras
             return Ejecutar.Ejecutar(sSql);
         }
 
+        // Escapa las comillas simples de los textos que van dentro de la consulta.
         private string T(string valor)
         {
             return (valor ?? "").Replace("'", "''");

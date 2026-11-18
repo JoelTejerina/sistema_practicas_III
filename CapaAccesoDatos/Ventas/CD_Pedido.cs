@@ -79,6 +79,7 @@ namespace CapaAccesoDatos.Ventas
                 {
                     try
                     {
+                        // Se valida antes de insertar nada: si algun platillo no se puede pedir, ni se toca la tabla.
                         VerificarDisponibles(cn, tx, items, new List<ItemPedido>());
                         int id;
                         using (SqlCommand cmd = new SqlCommand(
@@ -136,6 +137,11 @@ namespace CapaAccesoDatos.Ventas
 
                         GuardarDetalle(cn, tx, IdPedido, items);
 
+                        // Que pasa con el stock segun como cambio el pedido:
+                        // - pasa a Cancelado: se devuelve todo lo descontado
+                        // - estaba Cancelado y vuelve a estar activo: se descuenta de nuevo
+                        // - sigue activo pero cambio el detalle: se devuelve todo y se descuenta con el detalle nuevo
+                        // - sigue activo con el mismo detalle: no se toca el stock (por ejemplo, solo cambio la forma de pago)
                         bool eraCancelado = EsCancelado(estadoAnterior);
                         bool esCancelado = EsCancelado(Estado);
                         if (!eraCancelado && esCancelado)
@@ -306,6 +312,7 @@ namespace CapaAccesoDatos.Ventas
                 return;
             }
 
+            // Primero se junta todo lo que falta y recien despues se descuenta: asi un pedido nunca queda descontado a medias.
             Dictionary<int, List<Lote>> lotes = new Dictionary<int, List<Lote>>();
             Dictionary<int, int> disponible = new Dictionary<int, int>();
             List<string> faltantes = new List<string>();
@@ -315,6 +322,7 @@ namespace CapaAccesoDatos.Ventas
                 lotes[n.Key] = lista;
                 int hay = lista.Sum(l => l.Cantidad);
                 disponible[n.Key] = hay;
+                // El stock se maneja en enteros: si la receta pide fracciones (0,5 de lechuga) la necesidad se redondea hacia arriba.
                 int necesita = (int)Math.Ceiling(n.Value);
                 if (hay < necesita)
                 {
@@ -330,6 +338,7 @@ namespace CapaAccesoDatos.Ventas
             foreach (KeyValuePair<int, decimal> n in necesidad)
             {
                 int restante = (int)Math.Ceiling(n.Value);
+                // LeerLotes ya los trae ordenados por vencimiento, o sea que se gasta primero lo que vence antes (FIFO).
                 foreach (Lote lote in lotes[n.Key])
                 {
                     if (restante <= 0)
@@ -363,7 +372,9 @@ namespace CapaAccesoDatos.Ventas
             List<int[]> aDevolver = new List<int[]>();   // {IdStock, IdProducto, cantidad}
             List<string> nombres = new List<string>();
             using (SqlCommand cmd = new SqlCommand(
+                // Se devuelve exactamente lo que dejaron registrado los movimientos del pedido, lote por lote.
                 "SELECT IdStock, IdProducto, MAX(NumeroLote), -SUM(Cantidad) FROM MovimientoStock " +
+                // Egresos (negativos) mas devoluciones anteriores (positivas): si ya se devolvio, la suma da 0 y no se repone dos veces.
                 "WHERE IdPedido = @p AND IdStock IS NOT NULL GROUP BY IdStock, IdProducto HAVING SUM(Cantidad) < 0", cn, tx))
             {
                 cmd.Parameters.AddWithValue("@p", idPedido);
@@ -430,6 +441,7 @@ namespace CapaAccesoDatos.Ventas
                 {
                     continue;
                 }
+                // Cuantos platos se pueden hacer con lo que hay: manda el insumo mas escaso.
                 int capacidad = recetas[item.IdMenu]
                     .Min(ing => (int)Math.Floor(disponible[ing.IdProducto] / ing.Cantidad));
                 sb.AppendLine("- " + string.Format(Idioma.Texto("Stock_PuedeLinea"), item.Platillo, capacidad));
@@ -444,6 +456,7 @@ namespace CapaAccesoDatos.Ventas
         private void VerificarDisponibles(SqlConnection cn, SqlTransaction tx, List<ItemPedido> items, List<ItemPedido> anteriores)
         {
             HashSet<int> previos = new HashSet<int>(anteriores.Select(i => i.IdMenu));
+            // Solo se verifican los platillos nuevos: si el pedido ya tenia uno, no se lo rechaza aunque despues lo hayan marcado como no disponible.
             List<int> aVerificar = items.Select(i => i.IdMenu).Where(id => !previos.Contains(id)).Distinct().ToList();
             if (aVerificar.Count == 0)
             {
@@ -595,8 +608,11 @@ namespace CapaAccesoDatos.Ventas
         {
             List<Lote> lista = new List<Lote>();
             using (SqlCommand cmd = new SqlCommand(
+                // UPDLOCK + ROWLOCK: dentro de la transaccion reservan los lotes que se leen, asi un pedido simultaneo espera
+                // en lugar de gastar el mismo stock.
                 "SELECT IdStock, NumeroLote, Cantidad FROM Stock WITH (UPDLOCK, ROWLOCK) " +
                 "WHERE IdProducto = @p AND Cantidad > 0 AND (FechaVencimiento IS NULL OR FechaVencimiento >= CAST(GETDATE() AS DATE)) " +
+                // Orden FIFO: primero los que vencen antes; los que no tienen vencimiento van al final.
                 "ORDER BY CASE WHEN FechaVencimiento IS NULL THEN 1 ELSE 0 END, FechaVencimiento, IdStock", cn, tx))
             {
                 cmd.Parameters.AddWithValue("@p", idProducto);
