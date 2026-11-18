@@ -54,7 +54,10 @@ GO
 - `datos/datos_iniciales.sql`: catalogos (provincias, partidos, localidades, tipos de documento,
   cargos), grupos, permisos y usuarios por defecto. Es **idempotente**: se corre siempre y solo
   inserta lo que falta, nunca pisa lo que cargaste.
-- `datos/datos_demo.sql`: ejemplos de proveedores, productos, stock y carta (solo con `-Demo`).
+- `datos/datos_demo.sql`: datos de ejemplo (solo con `-Demo`, idempotente): 10 proveedores con CUIT validos, 35 productos,
+  37 lotes de stock, 21 platillos con sus recetas (69 ingredientes), 36 pedidos (historicos y de hoy), 4 cajas cerradas y
+  movimientos de stock. Incluye casos para probar: lotes bajo el minimo (mozzarella, lechuga), sobre el maximo (huevos),
+  leche con dos lotes (FIFO), un lote de salmon vencido y un platillo no disponible (Costillas BBQ).
 - Si se agrega un permiso/rol nuevo que todos necesitan, va en una migracion o en `datos_iniciales.sql`.
 
 ## Empezar de cero
